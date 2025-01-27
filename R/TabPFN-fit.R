@@ -154,3 +154,5 @@ TabPFN_impl <- function(x, y) {
 # how to get python module versions
 # print and predict methods
 # flag for local versus server-side
+
+# $`__version__` for version of library

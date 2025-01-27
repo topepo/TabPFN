@@ -12,13 +12,15 @@ License: Apache License (>= 2)
 Imports: 
     cli,
     hardhat,
-    reticulate,
+    reticulate (>= 1.40.0.9000),
     rlang (>= 1.1.0),
     tibble
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Suggests: 
     modeldata,
     spelling,
     testthat
+Remotes:
+    rstudio/reticulate
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
