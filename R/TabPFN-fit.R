@@ -47,13 +47,13 @@
 #'
 #' @export
 TabPFN <- function(x, ...) {
- UseMethod("TabPFN")
+	UseMethod("TabPFN")
 }
 
 #' @export
 #' @rdname TabPFN
 TabPFN.default <- function(x, ...) {
- cli::cli_abort("{.fn TabPFN} is not defined for {obj_type_friendly(x)}.")
+	cli::cli_abort("{.fn TabPFN} is not defined for {obj_type_friendly(x)}.")
 }
 
 # XY method - data frame
@@ -61,8 +61,8 @@ TabPFN.default <- function(x, ...) {
 #' @export
 #' @rdname TabPFN
 TabPFN.data.frame <- function(x, y, ...) {
- processed <- hardhat::mold(x, y)
- TabPFN_bridge(processed, ...)
+	processed <- hardhat::mold(x, y)
+	TabPFN_bridge(processed, ...)
 }
 
 # XY method - matrix
@@ -70,8 +70,8 @@ TabPFN.data.frame <- function(x, y, ...) {
 #' @export
 #' @rdname TabPFN
 TabPFN.matrix <- function(x, y, ...) {
- processed <- hardhat::mold(x, y)
- TabPFN_bridge(processed, ...)
+	processed <- hardhat::mold(x, y)
+	TabPFN_bridge(processed, ...)
 }
 
 # Formula method
@@ -79,15 +79,15 @@ TabPFN.matrix <- function(x, y, ...) {
 #' @export
 #' @rdname TabPFN
 TabPFN.formula <- function(formula, data, ...) {
- # No not convert factors to indicators:
- bp <- hardhat::default_formula_blueprint(
-  intercept = FALSE,
-  allow_novel_levels = FALSE,
-  indicators = "none",
-  composition = "tibble"
- )
- processed <- hardhat::mold(formula, data, blueprint = bp)
- TabPFN_bridge(processed, ...)
+	# No not convert factors to indicators:
+	bp <- hardhat::default_formula_blueprint(
+		intercept = FALSE,
+		allow_novel_levels = FALSE,
+		indicators = "none",
+		composition = "tibble"
+	)
+	processed <- hardhat::mold(formula, data, blueprint = bp)
+	TabPFN_bridge(processed, ...)
 }
 
 # Recipe method
@@ -95,77 +95,81 @@ TabPFN.formula <- function(formula, data, ...) {
 #' @export
 #' @rdname TabPFN
 TabPFN.recipe <- function(x, data, ...) {
- processed <- hardhat::mold(x, data)
- TabPFN_bridge(processed, ...)
+	processed <- hardhat::mold(x, data)
+	TabPFN_bridge(processed, ...)
 }
 
 # ------------------------------------------------------------------------------
 # Bridge
 
 TabPFN_bridge <- function(processed, ...) {
- predictors <- processed$predictors
- outcome <- processed$outcomes[[1]]
- res <- TabPFN_impl(predictors, outcome)
+ rlang::check_dots_empty()
 
- new_TabPFN(
-  fit = res$fit,
-  levels = res$lvls,
-  training = res$train,
-  versions = res$versions,
-  logging = res$logging,
-  blueprint = processed$blueprint
- )
+	predictors <- processed$predictors
+	outcome <- processed$outcomes[[1]]
+	res <- TabPFN_impl(predictors, outcome)
+
+	new_TabPFN(
+		fit = res$fit,
+		levels = res$lvls,
+		training = res$train,
+		versions = res$versions,
+		logging = res$logging,
+		blueprint = processed$blueprint
+	)
 }
 
 # ------------------------------------------------------------------------------
 # Implementation
 
 TabPFN_impl <- function(x, y) {
- tabpfn <- reticulate::import("tabpfn")
+	tabpfn <- reticulate::import("tabpfn")
 
- if (is.factor(y)) {
-  py_msg <- reticulate::py_capture_output(
-   model_fit <- try(tabpfn$TabPFNClassifier()$fit(x, y), silent = TRUE)
-  )
- } else if (is.numeric(y)) {
-  py_msg <- reticulate::py_capture_output(
-   model_fit <- try(tabpfn$TabPFNRegressor()$fit(x, y), silent = TRUE)
-  )
- }
+	if (is.factor(y)) {
+		py_msg <- reticulate::py_capture_output(
+			model_fit <- try(tabpfn$TabPFNClassifier()$fit(x, y), silent = TRUE)
+		)
+	} else if (is.numeric(y)) {
+		py_msg <- reticulate::py_capture_output(
+			model_fit <- try(tabpfn$TabPFNRegressor()$fit(x, y), silent = TRUE)
+		)
+	}
 
- if (inherits(model_fit, "try-error")) {
-  msgs <- as.character(model_fit)
-  cli::cli_abort("Model failed: {msgs}")
- } else {
-  msgs <- character(0)
- }
+	if (inherits(model_fit, "try-error")) {
+		msgs <- as.character(model_fit)
+		cli::cli_abort("Model failed: {msgs}")
+	} else {
+		msgs <- character(0)
+	}
 
- # check for failures
- res <- list(
-  fit = model_fit$fit,
-  lvls = levels(y),
-  train = dim(x),
-  versions = get_versions(),
-  logging = c(r = msgs, py = py_msg)
- )
- class(res) <- c("tab_pfn")
- res
+	# check for failures
+	res <- list(
+		fit = model_fit,
+		lvls = levels(y),
+		train = dim(x),
+		versions = get_versions(),
+		logging = c(r = msgs, py = py_msg)
+	)
+	class(res) <- c("tab_pfn")
+	res
 }
 
 # TODO:
 # predict methods
 # flag for local versus server-side
 
-
 #' @export
 print.TabPFN <- function(x, ...) {
- type <- ifelse(is.null(x$levels), "Regression", "Classification")
- cli::cli_inform("TabPFN {type} Model")
- cat("\n")
- cli::cli_inform("Training set")
- cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))
- cli::cli_inform(c(i = "{x$training[2]} predictor{?s}"))
+	type <- ifelse(is.null(x$levels), "Regression", "Classification")
+	cli::cli_inform("TabPFN {type} Model")
+	cat("\n")
+	cli::cli_inform("Training set")
+	cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))
+	cli::cli_inform(c(i = "{x$training[2]} predictor{?s}"))
 
- invisible(x)
+	if (!is.null(x$levels)) {
+	 cli::cli_inform(c(i = "class levels: {.val {x$levels}}"))
+	}
+
+	invisible(x)
 }
-

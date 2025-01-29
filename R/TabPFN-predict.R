@@ -4,11 +4,6 @@
 #'
 #' @param new_data A data frame or matrix of new predictors.
 #'
-#' @param type A single character. The type of predictions to generate.
-#' Valid options are:
-#'
-#' - `"numeric"` for numeric predictions.
-#'
 #' @param ... Not used, but required for extensibility.
 #'
 #' @return
@@ -28,31 +23,56 @@
 #'
 #' @export
 predict.TabPFN <- function(object, new_data, ...) {
-	forged <- hardhat::forge(new_data, object$blueprint)
-	predict_TabPFN_bridge(object, forged$predictors)
-}
-
-valid_TabPFN_predict_types <- function() {
-	c("numeric")
-}
-
-# ------------------------------------------------------------------------------
-# Bridge
-
-predict_TabPFN_bridge <- function(model, predictors) {
-	predictors <- as.matrix(predictors)
-
-	predictions <- predict_function(model, predictors)
-
-	hardhat::validate_prediction_size(predictions, predictors)
-
-	predictions
+ rlang::check_dots_empty()
+	forged <- hardhat::forge(new_data, object$blueprint)$predictors
+	res <- predict(object$fit, forged, object$levels)
+	res
 }
 
 # ------------------------------------------------------------------------------
 # Implementation
 
-predict_TabPFN_numeric <- function(model, predictors) {
-	predictions <- rep(1L, times = nrow(predictors))
-	hardhat::spruce_numeric(predictions)
+#' @export
+predict.tabpfn.regressor.TabPFNRegressor <- function(
+	object,
+	new_data,
+	levels,
+	...
+) {
+	py_msg <- reticulate::py_capture_output(
+		res <- try(object$predict(new_data), silent = TRUE)
+	)
+
+	if (inherits(res, "try-error")) {
+		msgs <- as.character(res)
+		cli::cli_abort("Prediction failed: {msgs}")
+	} else {
+		res <- tibble::tibble(.pred = as.vector(res))
+	}
+
+	res
+}
+
+#' @export
+predict.tabpfn.classifier.TabPFNClassifier <- function(
+	object,
+	new_data,
+	levels,
+	...
+) {
+	py_msg <- reticulate::py_capture_output(
+		res <- try(object$predict_proba(new_data), silent = TRUE)
+	)
+
+	if (inherits(res, "try-error")) {
+		msgs <- as.character(res)
+		cli::cli_abort("Prediction failed: {msgs}")
+	} else {
+		colnames(res) <- paste0(".pred_", levels)
+		cls_ind <- apply(res, 1, which.max)
+		res <- tibble::as_tibble(res)
+		res$.pred_class <- levels[cls_ind]
+	}
+
+	res
 }

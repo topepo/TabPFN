@@ -7,15 +7,20 @@ new_TabPFN <- function(
 	blueprint,
 	call = NULL
 ) {
-	if (!inherits(fit, "python.builtin.method")) {
+	cls <- c(
+		"tabpfn.regressor.TabPFNRegressor",
+		"tabpfn.classifier.TabPFNClassifier"
+	)
+
+	if (!inherits(fit, cls)) {
 		cli::cli_abort(
-			"The model fit object should have class
-                 {.cls python.builtin.method}, not {.cls {class(fit)}}.",
+			"The model fit object should have class {.cls {.or {cls}}}, not
+			{.cls {class(fit)}}.",
 			call = call
 		)
 	}
 
- check_character(levels, allow_null = TRUE)
+	check_character(levels, allow_null = TRUE)
 
 	hardhat::new_model(
 		fit = fit,
