@@ -7,7 +7,7 @@
 \alias{TabPFN.matrix}
 \alias{TabPFN.formula}
 \alias{TabPFN.recipe}
-\title{Fit a \code{TabPFN}}
+\title{Fit a \code{TabPFN} model.}
 \usage{
 TabPFN(x, ...)
 
@@ -49,7 +49,7 @@ and the predictor terms on the right-hand side.}
 }}
 }
 \value{
-A \code{TabPFN} object.
+A \code{TabPFN} object with elements:
 }
 \description{
 \code{TabPFN()} fits a model.

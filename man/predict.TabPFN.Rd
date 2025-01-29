@@ -4,20 +4,20 @@
 \alias{predict.TabPFN}
 \title{Predict from a \code{TabPFN}}
 \usage{
-\method{predict}{TabPFN}(object, new_data, type = "numeric", ...)
+\method{predict}{TabPFN}(object, new_data, ...)
 }
 \arguments{
 \item{object}{A \code{TabPFN} object.}
 
 \item{new_data}{A data frame or matrix of new predictors.}
 
+\item{...}{Not used, but required for extensibility.}
+
 \item{type}{A single character. The type of predictions to generate.
 Valid options are:
 \itemize{
 \item \code{"numeric"} for numeric predictions.
 }}
-
-\item{...}{Not used, but required for extensibility.}
 }
 \value{
 A tibble of predictions. The number of rows in the tibble is guaranteed
