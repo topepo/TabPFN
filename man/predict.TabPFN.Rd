@@ -12,12 +12,6 @@
 \item{new_data}{A data frame or matrix of new predictors.}
 
 \item{...}{Not used, but required for extensibility.}
-
-\item{type}{A single character. The type of predictions to generate.
-Valid options are:
-\itemize{
-\item \code{"numeric"} for numeric predictions.
-}}
 }
 \value{
 A tibble of predictions. The number of rows in the tibble is guaranteed

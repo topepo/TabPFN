@@ -37,7 +37,7 @@ specified as:
 \itemize{
 \item A \strong{data frame} with 1 numeric column.
 \item A \strong{matrix} with 1 numeric column.
-\item A numeric \strong{vector}.
+\item A numeric \strong{vector} for regression or a \strong{factor} for classification.
 }}
 
 \item{formula}{A formula specifying the outcome terms on the left-hand side,
@@ -50,6 +50,15 @@ and the predictor terms on the right-hand side.}
 }
 \value{
 A \code{TabPFN} object with elements:
+\itemize{
+\item \code{fit}: the python object containing the model.
+\item \code{levels}: a character string of class levels (or NULL for regression)
+\item \code{training}: a vector with the training set dimensions.
+\item \code{versions}: a list of python and pythoin package versions and information.
+\item \code{logging}: any R or python messages produced by the computations.
+\item \code{blueprint}: am object produced by \code{\link[hardhat:mold]{hardhat::mold()}} used to process
+new data during prediction.
+}
 }
 \description{
 \code{TabPFN()} fits a model.

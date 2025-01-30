@@ -14,7 +14,7 @@
 #'
 #'   * A __data frame__ with 1 numeric column.
 #'   * A __matrix__ with 1 numeric column.
-#'   * A numeric __vector__.
+#'   * A numeric __vector__ for regression or a __factor__ for classification.
 #'
 #' @param data When a __recipe__ or __formula__ is used, `data` is specified as:
 #'
@@ -28,6 +28,15 @@
 #' @return
 #'
 #' A `TabPFN` object with elements:
+#'
+#'   * `fit`: the python object containing the model.
+#'   * `levels`: a character string of class levels (or NULL for regression)
+#'   * `training`: a vector with the training set dimensions.
+#'   * `versions`: a list of python and pythoin package versions and information.
+#'   * `logging`: any R or python messages produced by the computations.
+#'   * `blueprint`: am object produced by [hardhat::mold()] used to process
+#'      new data during prediction.
+#'
 #'
 #' @examples
 #' predictors <- mtcars[, -1]
