@@ -113,6 +113,7 @@ TabPFN.recipe <- function(x, data, ...) {
 
 TabPFN_bridge <- function(processed, ...) {
  rlang::check_dots_empty()
+ check_py_packages()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
