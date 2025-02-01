@@ -145,7 +145,7 @@ cbind(grid, grid_pred) |>
 ```
 
 <div class="figure">
-<img src="man/figures/README-boundaries-1.png" alt="plot of chunk boundaries" width="100%" />
+<img src="man/figures/README-boundaries-1.png" alt="plot of chunk boundaries" width="50%" />
 <p class="caption">plot of chunk boundaries</p>
 </div>
 

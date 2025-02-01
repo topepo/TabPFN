@@ -118,6 +118,7 @@ The fit looks fairly good when shown with out-of-sample data:
 #| label: boundaries
 #| fig.width: 5
 #| fig.height: 4
+#| out.width: 50%
 
 cbind(grid, grid_pred) |>
  ggplot(aes(X1, X2)) + 
