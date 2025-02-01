@@ -47,7 +47,7 @@ and this code can be used to create an enironment and install the relavant packa
 #| label: venv-setup
 #| eval: false
 
-virtualenv_install(
+virtualenv_create(
 	"r-tabpfn",
 	packages = c("numpy", "tabpfn"),
 	python_version = "<3.12"
@@ -118,13 +118,14 @@ The fit looks fairly good when shown with out-of-sample data:
 #| label: boundaries
 #| fig.width: 5
 #| fig.height: 4
+#| fig.align: "center"
 #| out.width: 50%
 
 cbind(grid, grid_pred) |>
  ggplot(aes(X1, X2)) + 
  geom_point(data = two_cls_val, aes(col = class, pch = class), 
-            alpha = 3 / 4, cex = 2) +
- geom_contour(aes(z = .pred_Class1), breaks = 1/ 2, col = "black") +
+            alpha = 3 / 4, cex = 3) +
+ geom_contour(aes(z = .pred_Class1), breaks = 1/ 2, col = "black", linewidth = 1) +
  coord_equal(ratio = 1)
 ```
 

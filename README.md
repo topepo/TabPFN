@@ -39,7 +39,7 @@ and this code can be used to create an enironment and install the relavant packa
 
 
 ``` r
-virtualenv_install(
+virtualenv_create(
 	"r-tabpfn",
 	packages = c("numpy", "tabpfn"),
 	python_version = "<3.12"
@@ -51,6 +51,7 @@ then tell reticulate to use it:
 
 ``` r
 use_virtualenv("~/.virtualenvs/r-tabpfn")
+#> Error in use_python(python, required = required): failed to initialize requested version of Python
 ```
 
 On starting the TabPFN, it will see if the python packages are installed. 
@@ -89,13 +90,13 @@ predict(reg_mod, mtcars[26:32, -1])
 #> # A tibble: 7 × 1
 #>   .pred
 #>   <dbl>
-#> 1  30.7
-#> 2  24.0
-#> 3  25.4
-#> 4  15.0
-#> 5  19.3
-#> 6  14.1
-#> 7  22.7
+#> 1  31.2
+#> 2  23.7
+#> 3  25.5
+#> 4  14.9
+#> 5  19.2
+#> 6  13.9
+#> 7  22.6
 ```
 
 While TabPFN isn’t a tidymodels package, it follows their prediction convention: a data frame is always returned with a standard set of column names. 
@@ -119,16 +120,16 @@ grid_pred
 #> # A tibble: 625 × 3
 #>    .pred_Class1 .pred_Class2 .pred_class
 #>           <dbl>        <dbl> <chr>      
-#>  1        0.989      0.0110  Class1     
-#>  2        0.993      0.00725 Class1     
-#>  3        0.995      0.00510 Class1     
-#>  4        0.996      0.00386 Class1     
-#>  5        0.996      0.00409 Class1     
-#>  6        0.993      0.00665 Class1     
-#>  7        0.985      0.0154  Class1     
-#>  8        0.950      0.0503  Class1     
-#>  9        0.863      0.137   Class1     
-#> 10        0.646      0.354   Class1     
+#>  1        0.988      0.0116  Class1     
+#>  2        0.991      0.00850 Class1     
+#>  3        0.994      0.00647 Class1     
+#>  4        0.994      0.00571 Class1     
+#>  5        0.993      0.00677 Class1     
+#>  6        0.989      0.0107  Class1     
+#>  7        0.975      0.0246  Class1     
+#>  8        0.928      0.0719  Class1     
+#>  9        0.830      0.170   Class1     
+#> 10        0.628      0.372   Class1     
 #> # ℹ 615 more rows
 ```
 
@@ -139,12 +140,12 @@ The fit looks fairly good when shown with out-of-sample data:
 cbind(grid, grid_pred) |>
  ggplot(aes(X1, X2)) + 
  geom_point(data = two_cls_val, aes(col = class, pch = class), 
-            alpha = 3 / 4, cex = 2) +
- geom_contour(aes(z = .pred_Class1), breaks = 1/ 2, col = "black") +
+            alpha = 3 / 4, cex = 3) +
+ geom_contour(aes(z = .pred_Class1), breaks = 1/ 2, col = "black", linewidth = 1) +
  coord_equal(ratio = 1)
 ```
 
-<div class="figure">
+<div class="figure" style="text-align: center">
 <img src="man/figures/README-boundaries-1.png" alt="plot of chunk boundaries" width="50%" />
 <p class="caption">plot of chunk boundaries</p>
 </div>
