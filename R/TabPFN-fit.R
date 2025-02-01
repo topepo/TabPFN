@@ -25,6 +25,13 @@
 #'
 #' @param ... Not currently used, but required for extensibility.
 #'
+#' @details
+#'
+#' Note that the maximum number of features 500 officially supported by the
+#' TabPFN python api. `ignore_pretraining_limits` to `TRUE` to override the
+#' error.
+#'
+#'
 #' @return
 #'
 #' A `TabPFN` object with elements:
