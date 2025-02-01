@@ -180,7 +180,7 @@ print.TabPFN <- function(x, ...) {
 	type <- ifelse(is.null(x$levels), "Regression", "Classification")
 	cli::cli_inform("TabPFN {type} Model")
 	cat("\n")
-	cli::cli_inform("Training set")
+	cli::cli_inform("Training set\n\n")
 	cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))
 	cli::cli_inform(c(i = "{x$training[2]} predictor{?s}"))
 
