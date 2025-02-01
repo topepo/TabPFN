@@ -112,8 +112,7 @@ TabPFN.recipe <- function(x, data, ...) {
 # Bridge
 
 TabPFN_bridge <- function(processed, ...) {
- rlang::check_dots_empty()
- check_py_packages()
+  rlang::check_dots_empty()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
@@ -133,7 +132,6 @@ TabPFN_bridge <- function(processed, ...) {
 # Implementation
 
 TabPFN_impl <- function(x, y) {
-	tabpfn <- reticulate::import("tabpfn")
 
 	if (is.factor(y)) {
 		py_msg <- reticulate::py_capture_output(
