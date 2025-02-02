@@ -23,6 +23,12 @@
 #' @param formula A formula specifying the outcome terms on the left-hand side,
 #' and the predictor terms on the right-hand side.
 #'
+#' @param ignore_pretraining_limits A logical. The maximum number of features
+#' 500 officially supported by the TabPFN python api.
+#' `ignore_pretraining_limits` to `TRUE` to override.
+#'
+#' @param n_jobs The number of parallel process workers.
+#'
 #' @param ... Not currently used, but required for extensibility.
 #'
 #' @details
@@ -55,11 +61,16 @@
 #' # Formula interface
 #' mod2 <- TabPFN(mpg ~ ., mtcars)
 #'
-#' # Recipes interface
-#' library(recipes)
-#' rec <- recipe(mpg ~ ., mtcars)
-#' rec <- step_log(rec, disp)
-#' mod3 <- TabPFN(rec, mtcars)
+#' Recipes interface
+#' if (!rlang::is_installed("recipes")) {
+#'  library(recipes)
+#'  rec <-
+#'   recipe(mpg ~ ., mtcars) |>
+#'   step_log(disp)
+#'
+#'  mod3 <- TabPFN(rec, mtcars)
+#'  mod3
+#' }
 #'
 #' @export
 TabPFN <- function(x, ...) {
@@ -76,25 +87,55 @@ TabPFN.default <- function(x, ...) {
 
 #' @export
 #' @rdname TabPFN
-TabPFN.data.frame <- function(x, y, ...) {
+TabPFN.data.frame <- function(
+	x,
+	y,
+	ignore_pretraining_limits = FALSE,
+	n_jobs = 1L,
+	...
+) {
+ options <- list(
+  ignore_pretraining_limits = ignore_pretraining_limits,
+  n_jobs = n_jobs)
+
 	processed <- hardhat::mold(x, y)
-	TabPFN_bridge(processed, ...)
+	TabPFN_bridge(processed, options, ...)
 }
 
 # XY method - matrix
 
 #' @export
 #' @rdname TabPFN
-TabPFN.matrix <- function(x, y, ...) {
+TabPFN.matrix <- function(
+	x,
+	y,
+	ignore_pretraining_limits = FALSE,
+	n_jobs = 1L,
+	...
+) {
+ options <- list(
+  ignore_pretraining_limits = ignore_pretraining_limits,
+  n_jobs = n_jobs)
+
 	processed <- hardhat::mold(x, y)
-	TabPFN_bridge(processed, ...)
+	TabPFN_bridge(processed, options, ...)
 }
 
 # Formula method
 
 #' @export
 #' @rdname TabPFN
-TabPFN.formula <- function(formula, data, ...) {
+TabPFN.formula <- function(
+	formula,
+	data,
+	ignore_pretraining_limits = FALSE,
+	n_jobs = 1L,
+	...
+) {
+ options <- list(
+  ignore_pretraining_limits = ignore_pretraining_limits,
+  n_jobs = n_jobs)
+
 	# No not convert factors to indicators:
 	bp <- hardhat::default_formula_blueprint(
 		intercept = FALSE,
@@ -103,28 +144,38 @@ TabPFN.formula <- function(formula, data, ...) {
 		composition = "tibble"
 	)
 	processed <- hardhat::mold(formula, data, blueprint = bp)
-	TabPFN_bridge(processed, ...)
+	TabPFN_bridge(processed, options, ...)
 }
 
 # Recipe method
 
 #' @export
 #' @rdname TabPFN
-TabPFN.recipe <- function(x, data, ...) {
+TabPFN.recipe <- function(
+	x,
+	data,
+	ignore_pretraining_limits = FALSE,
+	n_jobs = 1L,
+	...
+) {
+ options <- list(
+  ignore_pretraining_limits = ignore_pretraining_limits,
+  n_jobs = n_jobs)
+
 	processed <- hardhat::mold(x, data)
-	TabPFN_bridge(processed, ...)
+	TabPFN_bridge(processed, options, ...)
 }
 
 # ------------------------------------------------------------------------------
 # Bridge
 
-TabPFN_bridge <- function(processed, ...) {
- rlang::check_dots_empty()
- check_py_packages()
+TabPFN_bridge <- function(processed, options, ...) {
+	rlang::check_dots_empty()
+	check_py_packages()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
-	res <- TabPFN_impl(predictors, outcome)
+	res <- TabPFN_impl(predictors, outcome, options)
 
 	new_TabPFN(
 		fit = res$fit,
@@ -139,18 +190,24 @@ TabPFN_bridge <- function(processed, ...) {
 # ------------------------------------------------------------------------------
 # Implementation
 
-TabPFN_impl <- function(x, y) {
+TabPFN_impl <- function(x, y, opts) {
 	tabpfn <- reticulate::import("tabpfn")
 
 	if (is.factor(y)) {
-		py_msg <- reticulate::py_capture_output(
-			model_fit <- try(tabpfn$TabPFNClassifier()$fit(x, y), silent = TRUE)
+		mod_obj <- tabpfn$TabPFNClassifier(
+			ignore_pretraining_limits = opts$ignore_pretraining_limits,
+			n_jobs = opts$n_jobs
 		)
 	} else if (is.numeric(y)) {
-		py_msg <- reticulate::py_capture_output(
-			model_fit <- try(tabpfn$TabPFNRegressor()$fit(x, y), silent = TRUE)
+		mod_obj <- tabpfn$TabPFNRegressor(
+			ignore_pretraining_limits = opts$ignore_pretraining_limits,
+			n_jobs = opts$n_jobs
 		)
 	}
+
+	py_msg <- reticulate::py_capture_output(
+		model_fit <- try(mod_obj$fit(x, y), silent = TRUE)
+	)
 
 	if (inherits(model_fit, "try-error")) {
 		msgs <- as.character(model_fit)
@@ -185,7 +242,7 @@ print.TabPFN <- function(x, ...) {
 	cli::cli_inform(c(i = "{x$training[2]} predictor{?s}"))
 
 	if (!is.null(x$levels)) {
-	 cli::cli_inform(c(i = "class levels: {.val {x$levels}}"))
+		cli::cli_inform(c(i = "class levels: {.val {x$levels}}"))
 	}
 
 	invisible(x)

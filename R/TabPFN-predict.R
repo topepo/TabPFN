@@ -23,7 +23,7 @@
 #'
 #' @export
 predict.TabPFN <- function(object, new_data, ...) {
- rlang::check_dots_empty()
+	rlang::check_dots_empty()
 	forged <- hardhat::forge(new_data, object$blueprint)$predictors
 	res <- predict(object$fit, forged, object$levels)
 	res

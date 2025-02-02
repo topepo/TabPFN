@@ -13,13 +13,13 @@ TabPFN(x, ...)
 
 \method{TabPFN}{default}(x, ...)
 
-\method{TabPFN}{data.frame}(x, y, ...)
+\method{TabPFN}{data.frame}(x, y, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
 
-\method{TabPFN}{matrix}(x, y, ...)
+\method{TabPFN}{matrix}(x, y, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
 
-\method{TabPFN}{formula}(formula, data, ...)
+\method{TabPFN}{formula}(formula, data, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
 
-\method{TabPFN}{recipe}(x, data, ...)
+\method{TabPFN}{recipe}(x, data, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
 }
 \arguments{
 \item{x}{Depending on the context:
@@ -39,6 +39,12 @@ specified as:
 \item A \strong{matrix} with 1 numeric column.
 \item A numeric \strong{vector} for regression or a \strong{factor} for classification.
 }}
+
+\item{ignore_pretraining_limits}{A logical. The maximum number of features
+500 officially supported by the TabPFN python api.
+\code{ignore_pretraining_limits} to \code{TRUE} to override.}
+
+\item{n_jobs}{The number of parallel process workers.}
 
 \item{formula}{A formula specifying the outcome terms on the left-hand side,
 and the predictor terms on the right-hand side.}
@@ -63,6 +69,11 @@ new data during prediction.
 \description{
 \code{TabPFN()} fits a model.
 }
+\details{
+Note that the maximum number of features 500 officially supported by the
+TabPFN python api. \code{ignore_pretraining_limits} to \code{TRUE} to override the
+error.
+}
 \examples{
 predictors <- mtcars[, -1]
 outcome <- mtcars[, 1]
@@ -73,10 +84,15 @@ mod <- TabPFN(predictors, outcome)
 # Formula interface
 mod2 <- TabPFN(mpg ~ ., mtcars)
 
-# Recipes interface
-library(recipes)
-rec <- recipe(mpg ~ ., mtcars)
-rec <- step_log(rec, disp)
-mod3 <- TabPFN(rec, mtcars)
+Recipes interface
+if (!rlang::is_installed("recipes")) {
+ library(recipes)
+ rec <-
+  recipe(mpg ~ ., mtcars) |>
+  step_log(disp)
+
+ mod3 <- TabPFN(rec, mtcars)
+ mod3
+}
 
 }
