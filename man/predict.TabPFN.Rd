@@ -2,32 +2,37 @@
 % Please edit documentation in R/TabPFN-predict.R
 \name{predict.TabPFN}
 \alias{predict.TabPFN}
+\alias{augment.TabPFN}
 \title{Predict from a \code{TabPFN}}
 \usage{
 \method{predict}{TabPFN}(object, new_data, ...)
+
+\method{augment}{TabPFN}(x, new_data, ...)
 }
 \arguments{
-\item{object}{A \code{TabPFN} object.}
+\item{object, x}{A \code{TabPFN} object.}
 
 \item{new_data}{A data frame or matrix of new predictors.}
 
 \item{...}{Not used, but required for extensibility.}
 }
 \value{
-A tibble of predictions. The number of rows in the tibble is guaranteed
-to be the same as the number of rows in \code{new_data}.
+\code{\link[=predict]{predict()}} returns a tibble of predictions and \code{\link[=augment]{augment()}} appends the
+columns in \code{new_data}. In either case, the number of rows in the tibble is
+guaranteed to be the same as the number of rows in \code{new_data}.
 }
 \description{
 Predict from a \code{TabPFN}
 }
 \examples{
-train <- mtcars[1:20,]
-test <- mtcars[21:32, -1]
+car_train <- mtcars[ 1:20,   ]
+car_test  <- mtcars[21:32, -1]
 
 # Fit
-mod <- TabPFN(mpg ~ cyl + log(drat), train)
+mod <- TabPFN(mpg ~ cyl + log(drat), car_train)
 
 # Predict, with preprocessing
-predict(mod, test)
+predict(mod, car_test)
+augment(mod, car_test)
 
 }

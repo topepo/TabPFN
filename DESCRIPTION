@@ -11,6 +11,7 @@ Description: R functions are used via 'python' to train and predict
 License: Apache License (>= 2)
 Imports: 
     cli,
+    generics,
     hardhat,
     reticulate (>= 1.40.0.9000),
     rlang (>= 1.1.0),

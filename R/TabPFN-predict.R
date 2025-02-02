@@ -1,6 +1,6 @@
 #' Predict from a `TabPFN`
 #'
-#' @param object A `TabPFN` object.
+#' @param object,x A `TabPFN` object.
 #'
 #' @param new_data A data frame or matrix of new predictors.
 #'
@@ -8,18 +8,20 @@
 #'
 #' @return
 #'
-#' A tibble of predictions. The number of rows in the tibble is guaranteed
-#' to be the same as the number of rows in `new_data`.
+#' [predict()] returns a tibble of predictions and [augment()] appends the
+#' columns in `new_data`. In either case, the number of rows in the tibble is
+#' guaranteed to be the same as the number of rows in `new_data`.
 #'
 #' @examples
-#' train <- mtcars[1:20,]
-#' test <- mtcars[21:32, -1]
+#' car_train <- mtcars[ 1:20,   ]
+#' car_test  <- mtcars[21:32, -1]
 #'
 #' # Fit
-#' mod <- TabPFN(mpg ~ cyl + log(drat), train)
+#' mod <- TabPFN(mpg ~ cyl + log(drat), car_train)
 #'
 #' # Predict, with preprocessing
-#' predict(mod, test)
+#' predict(mod, car_test)
+#' augment(mod, car_test)
 #'
 #' @export
 predict.TabPFN <- function(object, new_data, ...) {
@@ -75,4 +77,13 @@ predict.tabpfn.classifier.TabPFNClassifier <- function(
 	}
 
 	res
+}
+
+#' @export
+#' @rdname predict.TabPFN
+augment.TabPFN  <- function(x, new_data, ...) {
+ new_data <- tibble::new_tibble(new_data)
+ res <- predict(x, new_data)
+ res <- cbind(res, new_data)
+ tibble::new_tibble(res)
 }
