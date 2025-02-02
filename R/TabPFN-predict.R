@@ -1,4 +1,4 @@
-#' Predict from a `TabPFN`
+#' Predict using `TabPFN`
 #'
 #' @param object,x A `TabPFN` object.
 #'
@@ -11,6 +11,11 @@
 #' [predict()] returns a tibble of predictions and [augment()] appends the
 #' columns in `new_data`. In either case, the number of rows in the tibble is
 #' guaranteed to be the same as the number of rows in `new_data`.
+#'
+#' For regression data, the prediction is in the column `.pred`. For
+#' classification, the class predictions are in `.pred_class` and the
+#' probability estimates are in columns with the pattern `.pred_{level}` where
+#' `level` is the levels of the outcome factor vector.
 #'
 #' @examples
 #' car_train <- mtcars[ 1:20,   ]

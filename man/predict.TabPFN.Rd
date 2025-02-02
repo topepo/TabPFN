@@ -3,7 +3,7 @@
 \name{predict.TabPFN}
 \alias{predict.TabPFN}
 \alias{augment.TabPFN}
-\title{Predict from a \code{TabPFN}}
+\title{Predict using \code{TabPFN}}
 \usage{
 \method{predict}{TabPFN}(object, new_data, ...)
 
@@ -20,9 +20,14 @@
 \code{\link[=predict]{predict()}} returns a tibble of predictions and \code{\link[=augment]{augment()}} appends the
 columns in \code{new_data}. In either case, the number of rows in the tibble is
 guaranteed to be the same as the number of rows in \code{new_data}.
+
+For regression data, the prediction is in the column \code{.pred}. For
+classification, the class predictions are in \code{.pred_class} and the
+probability estimates are in columns with the pattern \verb{.pred_\{level\}} where
+\code{level} is the levels of the outcome factor vector.
 }
 \description{
-Predict from a \code{TabPFN}
+Predict using \code{TabPFN}
 }
 \examples{
 car_train <- mtcars[ 1:20,   ]

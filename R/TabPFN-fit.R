@@ -24,7 +24,7 @@
 #' and the predictor terms on the right-hand side.
 #'
 #' @param ignore_pretraining_limits A logical. The maximum number of features
-#' 500 officially supported by the TabPFN python api.
+#' 500 officially supported by the TabPFN python api. Set
 #' `ignore_pretraining_limits` to `TRUE` to override.
 #'
 #' @param n_jobs The number of parallel process workers.
@@ -33,10 +33,8 @@
 #'
 #' @details
 #'
-#' Note that the maximum number of features 500 officially supported by the
-#' TabPFN python api. `ignore_pretraining_limits` to `TRUE` to override the
-#' error.
-#'
+#' Predictors do not require preprocessing; missing values and factor vectors
+#' are allowed.
 #'
 #' @return
 #'

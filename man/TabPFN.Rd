@@ -41,7 +41,7 @@ specified as:
 }}
 
 \item{ignore_pretraining_limits}{A logical. The maximum number of features
-500 officially supported by the TabPFN python api.
+500 officially supported by the TabPFN python api. Set
 \code{ignore_pretraining_limits} to \code{TRUE} to override.}
 
 \item{n_jobs}{The number of parallel process workers.}
@@ -70,9 +70,8 @@ new data during prediction.
 \code{TabPFN()} fits a model.
 }
 \details{
-Note that the maximum number of features 500 officially supported by the
-TabPFN python api. \code{ignore_pretraining_limits} to \code{TRUE} to override the
-error.
+Predictors do not require preprocessing; missing values and factor vectors
+are allowed.
 }
 \examples{
 predictors <- mtcars[, -1]
