@@ -145,6 +145,7 @@ To train an AutoTabPFN ensemble, simply use `AutoTabPFN()` analogously to how `T
 
 ```{r}
 #| label: mtcars-auto
+#| eval: false
 reg_mod <- AutoTabPFN(mpg ~ ., data = mtcars[1:25, ])
 predict(reg_mod, mtcars[26:32, -1])
 ```
