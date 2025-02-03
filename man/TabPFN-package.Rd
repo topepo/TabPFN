@@ -10,6 +10,11 @@ R functions are used via 'python' to train and predict 'TabPFN' models.
 \author{
 \strong{Maintainer}: Max Kuhn \email{max@posit.co} (\href{https://orcid.org/0000-0003-2402-136X}{ORCID})
 
+Authors:
+\itemize{
+  \item Måns Thulin \email{mans@statistikkonsult.com}
+}
+
 Other contributors:
 \itemize{
   \item Posit Software, PBC [copyright holder, funder]
