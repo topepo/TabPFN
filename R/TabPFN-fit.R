@@ -169,7 +169,6 @@ TabPFN.recipe <- function(
 
 TabPFN_bridge <- function(processed, options, ...) {
  rlang::check_dots_empty()
- check_py_packages()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
@@ -225,10 +224,6 @@ TabPFN_impl <- function(x, y, opts) {
 	class(res) <- c("tab_pfn")
 	res
 }
-
-# TODO:
-# predict methods
-# flag for local versus server-side
 
 #' @export
 print.TabPFN <- function(x, ...) {
