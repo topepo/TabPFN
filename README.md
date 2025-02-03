@@ -27,7 +27,6 @@ pak(c("topepo/TabPFN"), ask = FALSE)
 
 ## Example
 
-
 The package requires a virtual environment to be created and registered with reticulated. If you don't have one, you can create one. First, load the reticulate package: 
 
 
@@ -51,7 +50,6 @@ then tell reticulate to use it:
 
 ``` r
 use_virtualenv("~/.virtualenvs/r-tabpfn")
-#> Error in use_python(python, required = required): failed to initialize requested version of Python
 ```
 
 On starting the TabPFN, it will see if the python packages are installed. 
@@ -59,13 +57,6 @@ On starting the TabPFN, it will see if the python packages are installed.
 
 ``` r
 library(TabPFN)
-```
-
-There is also a function to check too: 
-
-
-``` r
-TabPFN:::check_py_packages()
 ```
 
 To fit a model: 
@@ -90,11 +81,11 @@ predict(reg_mod, mtcars[26:32, -1])
 #> # A tibble: 7 × 1
 #>   .pred
 #>   <dbl>
-#> 1  31.2
+#> 1  31.3
 #> 2  23.7
-#> 3  25.5
-#> 4  14.9
-#> 5  19.2
+#> 3  25.4
+#> 4  14.6
+#> 5  19.3
 #> 6  13.9
 #> 7  22.6
 ```
@@ -107,6 +98,7 @@ For a classification model, the outcome should always be a factor vector. For ex
 ``` r
 require(modeldata)
 require(ggplot2)
+#> Loading required package: ggplot2
 
 two_cls_train <- parabolic[1:400,  ]
 two_cls_val   <- parabolic[401:500,]
@@ -120,16 +112,16 @@ grid_pred
 #> # A tibble: 625 × 3
 #>    .pred_Class1 .pred_Class2 .pred_class
 #>           <dbl>        <dbl> <chr>      
-#>  1        0.988      0.0116  Class1     
-#>  2        0.991      0.00850 Class1     
-#>  3        0.994      0.00647 Class1     
-#>  4        0.994      0.00571 Class1     
-#>  5        0.993      0.00677 Class1     
-#>  6        0.989      0.0107  Class1     
-#>  7        0.975      0.0246  Class1     
-#>  8        0.928      0.0719  Class1     
-#>  9        0.830      0.170   Class1     
-#> 10        0.628      0.372   Class1     
+#>  1        0.986      0.0137  Class1     
+#>  2        0.990      0.0100  Class1     
+#>  3        0.992      0.00816 Class1     
+#>  4        0.994      0.00646 Class1     
+#>  5        0.993      0.00654 Class1     
+#>  6        0.990      0.0101  Class1     
+#>  7        0.979      0.0213  Class1     
+#>  8        0.943      0.0572  Class1     
+#>  9        0.862      0.138   Class1     
+#> 10        0.696      0.304   Class1     
 #> # ℹ 615 more rows
 ```
 
@@ -149,6 +141,9 @@ cbind(grid, grid_pred) |>
 <img src="man/figures/README-boundaries-1.png" alt="plot of chunk boundaries" width="50%" />
 <p class="caption">plot of chunk boundaries</p>
 </div>
+
+**Note**: Do to a weird OpenMP issue between R and pytorch, load any package that might use OpenMP (including recipes) after using the model for the first time. IT's weird but we're working on it. 
+
 
 ## Code of Conduct
   

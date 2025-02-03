@@ -34,7 +34,6 @@ pak(c("topepo/TabPFN"), ask = FALSE)
 
 ## Example
 
-
 The package requires a virtual environment to be created and registered with reticulated. If you don't have one, you can create one. First, load the reticulate package: 
 
 ```{r}
@@ -65,14 +64,6 @@ On starting the TabPFN, it will see if the python packages are installed.
 ```{r}
 #| label: tab-start-up
 library(TabPFN)
-```
-
-There is also a function to check too: 
-
-```{r}
-#| lable: check-python
-
-TabPFN:::check_py_packages()
 ```
 
 To fit a model: 
@@ -128,6 +119,9 @@ cbind(grid, grid_pred) |>
  geom_contour(aes(z = .pred_Class1), breaks = 1/ 2, col = "black", linewidth = 1) +
  coord_equal(ratio = 1)
 ```
+
+**Note**: Do to a weird OpenMP issue between R and pytorch, load any package that might use OpenMP (including recipes) after using the model for the first time. IT's weird but we're working on it. 
+
 
 ## Code of Conduct
   
