@@ -1,8 +1,10 @@
-get_versions <- function(x) {
-	pkgs <- reticulate::py_list_packages(type = "virtualenv")
-	list(python = reticulate::py_config(), packages = tibble::as_tibble(pkgs))
-}
-
+#' Check python dependencies
+#'
+#' Look to see if the current virtual environment known to \pkg{reticulate}
+#' has the pythin packages required by \pkg{tabpfn}.
+#' @returns
+#' If there is no error, a list of python versions is returned invisibly.
+#' @export
 check_py_packages <- function() {
 	res <- TabPFN:::get_versions()
 
@@ -17,4 +19,10 @@ check_py_packages <- function() {
 			)
 		)
 	}
+	invisible(res)
+}
+
+get_versions <- function(x) {
+ pkgs <- reticulate::py_list_packages(type = "virtualenv")
+ list(python = reticulate::py_config(), packages = tibble::as_tibble(pkgs))
 }
