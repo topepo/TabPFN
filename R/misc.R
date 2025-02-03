@@ -1,4 +1,3 @@
-
 msg_tabpfn_not_available <- function(cnd) {
   c(
     x = "The {.pkg tabpfn} Python package is not installed in the discovered Python installation ({.file {reticulate::py_exe()}}).",
