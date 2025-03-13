@@ -89,8 +89,9 @@ AutoTabPFN.data.frame <- function(
 	ignore_pretraining_limits = FALSE,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	processed <- hardhat::mold(x, y)
 	AutoTabPFN_bridge(processed, options, ...)
@@ -106,8 +107,9 @@ AutoTabPFN.matrix <- function(
 	ignore_pretraining_limits = FALSE,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	processed <- hardhat::mold(x, y)
 	AutoTabPFN_bridge(processed, options, ...)
@@ -123,8 +125,9 @@ AutoTabPFN.formula <- function(
 	ignore_pretraining_limits = FALSE,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	# No not convert factors to indicators:
 	bp <- hardhat::default_formula_blueprint(
@@ -147,8 +150,9 @@ AutoTabPFN.recipe <- function(
 	ignore_pretraining_limits = FALSE,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	processed <- hardhat::mold(x, data)
 	AutoTabPFN_bridge(processed, options, ...)
@@ -159,7 +163,6 @@ AutoTabPFN.recipe <- function(
 
 AutoTabPFN_bridge <- function(processed, options, ...) {
 	rlang::check_dots_empty()
-	check_py_packages()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
@@ -179,7 +182,9 @@ AutoTabPFN_bridge <- function(processed, options, ...) {
 # Implementation
 
 AutoTabPFN_impl <- function(x, y, opts) {
-	AutoTabPFN <- reticulate::import("tabpfn_extensions.post_hoc_ensembles.sklearn_interface")
+	AutoTabPFN <- reticulate::import(
+		"tabpfn_extensions.post_hoc_ensembles.sklearn_interface"
+	)
 
 	if (is.factor(y)) {
 		mod_obj <- AutoTabPFN$AutoTabPFNClassifier(
