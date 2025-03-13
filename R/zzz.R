@@ -1,8 +1,12 @@
 tabpfn <- NULL
 
 .onLoad <- function(...) {
-  pkg <- asNamespace("TabPFN")
-  pkg$check_libomp()
+  if (
+    !(reticulate::py_available() &&
+      reticulate::py_module_available("torch"))
+  ) {
+    check_libomp()
+  }
 
   reticulate::py_require("tabpfn")
 
