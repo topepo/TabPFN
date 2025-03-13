@@ -43,7 +43,7 @@
 #'   * `fit`: the python object containing the model.
 #'   * `levels`: a character string of class levels (or NULL for regression)
 #'   * `training`: a vector with the training set dimensions.
-#'   * `versions`: a list of python and pythoin package versions and information.
+#'   * `versions`: a list of python and python package versions and information.
 #'   * `logging`: any R or python messages produced by the computations.
 #'   * `blueprint`: am object produced by [hardhat::mold()] used to process
 #'      new data during prediction.
