@@ -22,9 +22,9 @@ check_libomp <- function() {
     cli::cli_abort(
       c(
         i = "We believe that an existing package has loaded {.pkg OpenMP}.",
-        x = "{.pkg PyTorch} was about to do the same and would cause a segmetation fault.",
+        x = "{.pkg PyTorch} was about to do the same and would cause a segmentation fault.",
         i = "See {.url https://github.com/topepo/TabPFN/issues/3}.",
-        "!" = "Try loading {.pkg TabPFN} before other packages in a new R session.",
+        "!" = "Try running {.code reticulate::import('torch')} in a new R session prior to loading other packages.",
         call = NULL
       )
     )
