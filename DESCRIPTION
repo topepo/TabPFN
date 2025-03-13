@@ -3,7 +3,7 @@ Title: TabPFN - Foundation Model for Tabular Data
 Version: 0.1.0
 Authors@R: c(
     person("Max", "Kuhn", , "mxkuhn@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-2402-136X")))
+           comment = c(ORCID = "0000-0003-2402-136X"))
   )
 Description: R functions are used via 'python' to train and predict
     'TabPFN' models.
