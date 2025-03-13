@@ -56,8 +56,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Install torch
-        run: torch::install_torch()
+      - name: Install python env
+        run: |
+          library(reticulate)
+          path_to_python <- install_python()
+          virtualenv_create("r-reticulate", python = path_to_python)
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2

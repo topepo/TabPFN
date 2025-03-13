@@ -36,8 +36,11 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - name: Install torch
-        run: torch::install_torch()
+      - name: Install python env
+        run: |
+          library(reticulate)
+          path_to_python <- install_python()
+          virtualenv_create("r-reticulate", python = path_to_python)
         shell: Rscript {0}
 
       - name: Build site
