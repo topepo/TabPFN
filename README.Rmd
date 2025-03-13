@@ -34,7 +34,6 @@ pak(c("topepo/TabPFN"), ask = FALSE)
 
 ## Example
 
-
 The package requires a virtual environment to be created and registered with reticulated. If you don't have one, you can create one. First, load the reticulate package: 
 
 ```{r}
@@ -65,14 +64,6 @@ On starting the TabPFN, it will see if the python packages are installed.
 ```{r}
 #| label: tab-start-up
 library(TabPFN)
-```
-
-There is also a function to check too: 
-
-```{r}
-#| lable: check-python
-
-TabPFN:::check_py_packages()
 ```
 
 To fit a model: 
@@ -149,8 +140,6 @@ To train an AutoTabPFN ensemble, simply use `AutoTabPFN()` analogously to how `T
 reg_mod <- AutoTabPFN(mpg ~ ., data = mtcars[1:25, ])
 predict(reg_mod, mtcars[26:32, -1])
 ```
-
-
 
 ## Code of Conduct
   

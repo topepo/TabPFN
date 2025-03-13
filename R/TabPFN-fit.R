@@ -168,8 +168,7 @@ TabPFN.recipe <- function(
 # Bridge
 
 TabPFN_bridge <- function(processed, options, ...) {
-	rlang::check_dots_empty()
-	check_py_packages()
+ rlang::check_dots_empty()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
@@ -219,16 +218,12 @@ TabPFN_impl <- function(x, y, opts) {
 		fit = model_fit,
 		lvls = levels(y),
 		train = dim(x),
-		versions = get_versions(),
+		versions = reticulate::py_config(), # will add package list back later
 		logging = c(r = msgs, py = py_msg)
 	)
 	class(res) <- c("tab_pfn")
 	res
 }
-
-# TODO:
-# predict methods
-# flag for local versus server-side
 
 #' @export
 print.TabPFN <- function(x, ...) {
