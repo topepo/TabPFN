@@ -33,6 +33,10 @@ jobs:
           extra-packages: any::roxygen2
           needs: pr-document
 
+      - name: Install torch
+        run: torch::install_torch()
+        shell: Rscript {0}
+
       - name: Document
         run: roxygen2::roxygenise()
         shell: Rscript {0}
