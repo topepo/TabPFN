@@ -1,12 +1,19 @@
 tabpfn <- NULL
 
 .onLoad <- function(...) {
-  reticulate::py_require(
-    c(
-      "tabpfn",
-      "git+https://github.com/PriorLabs/tabpfn-extensions.git"
-    )
-  )
+
+
+ reticulate::py_require(
+   packages = c(
+     "tabpfn",
+     paste0("tabpfn-extensions[post_hoc_ensembles,interpretability,hpo]",
+            "@",
+            "git+https://github.com/PriorLabs/tabpfn-extensions.git")
+     ),
+   # Python version constraint required by tabpfn-extensions
+   # https://github.com/PriorLabs/tabpfn-extensions/issues/45
+   python_version = "<3.10"
+ )
 
   tryCatch(
     tabpfn <<- reticulate::import(
