@@ -1,13 +1,6 @@
 tabpfn <- NULL
 
 .onLoad <- function(...) {
-  if (
-    !(reticulate::py_available() &&
-      reticulate::py_module_available("torch"))
-  ) {
-    check_libomp()
-  }
-
   reticulate::py_require("tabpfn")
 
   tryCatch(
@@ -16,6 +9,15 @@ tabpfn <- NULL
       delay_load = list(
         on_error = function(e) {
           cli::cli_abort(msg_tabpfn_not_available(e))
+        },
+        # See https://github.com/topepo/TabPFN/issues/3
+        before_load = function() {
+          if (
+            !(reticulate::py_available() &&
+              reticulate::py_module_available("torch"))
+          ) {
+            check_libomp()
+          }
         }
       )
     ),
