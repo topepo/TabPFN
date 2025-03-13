@@ -213,7 +213,7 @@ AutoTabPFN_impl <- function(x, y, opts) {
 		fit = model_fit,
 		lvls = levels(y),
 		train = dim(x),
-		versions = get_versions(),
+		# versions = get_versions(), ???
 		logging = c(r = msgs, py = py_msg)
 	)
 	class(res) <- c("autotabpfn")
