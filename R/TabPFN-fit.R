@@ -188,8 +188,7 @@ TabPFN_bridge <- function(processed, options, ...) {
 # Implementation
 
 TabPFN_impl <- function(x, y, opts) {
-	tabpfn <- reticulate::import("tabpfn")
-
+ # tabpfn is imported in zzz.R
 	if (is.factor(y)) {
 		mod_obj <- tabpfn$TabPFNClassifier(
 			ignore_pretraining_limits = opts$ignore_pretraining_limits,
@@ -218,7 +217,7 @@ TabPFN_impl <- function(x, y, opts) {
 		fit = model_fit,
 		lvls = levels(y),
 		train = dim(x),
-		versions = reticulate::py_config(), # will add package list back later
+		versions = reticulate::py_config(),
 		logging = c(r = msgs, py = py_msg)
 	)
 	class(res) <- c("tab_pfn")

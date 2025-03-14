@@ -182,16 +182,14 @@ AutoTabPFN_bridge <- function(processed, options, ...) {
 # Implementation
 
 AutoTabPFN_impl <- function(x, y, opts) {
-	AutoTabPFN <- reticulate::import(
-		"tabpfn_extensions.post_hoc_ensembles.sklearn_interface"
-	)
 
+	# autotabpfn is imported in zzz.R
 	if (is.factor(y)) {
-		mod_obj <- AutoTabPFN$AutoTabPFNClassifier(
+		mod_obj <- autotabpfn$AutoTabPFNClassifier(
 			ignore_pretraining_limits = opts$ignore_pretraining_limits
 		)
 	} else if (is.numeric(y)) {
-		mod_obj <- AutoTabPFN$AutoTabPFNRegressor(
+		mod_obj <- autotabpfn$AutoTabPFNRegressor(
 			ignore_pretraining_limits = opts$ignore_pretraining_limits,
 			device = "cuda"
 		)
@@ -213,7 +211,7 @@ AutoTabPFN_impl <- function(x, y, opts) {
 		fit = model_fit,
 		lvls = levels(y),
 		train = dim(x),
-		# versions = get_versions(), ???
+		versions = reticulate::py_config(),
 		logging = c(r = msgs, py = py_msg)
 	)
 	class(res) <- c("autotabpfn")
