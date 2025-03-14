@@ -34,7 +34,7 @@ The package requires a virtual environment to be created and registered with ret
 require(reticulate)
 ```
 
-and this code can be used to create an enironment and install the relavant packages: 
+and this code can be used to create an environment and install the relevant packages: 
 
 
 ``` r

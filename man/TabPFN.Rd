@@ -60,7 +60,7 @@ A \code{TabPFN} object with elements:
 \item \code{fit}: the python object containing the model.
 \item \code{levels}: a character string of class levels (or NULL for regression)
 \item \code{training}: a vector with the training set dimensions.
-\item \code{versions}: a list of python and pythoin package versions and information.
+\item \code{versions}: a list of python and python package versions and information.
 \item \code{logging}: any R or python messages produced by the computations.
 \item \code{blueprint}: am object produced by \code{\link[hardhat:mold]{hardhat::mold()}} used to process
 new data during prediction.
@@ -83,7 +83,7 @@ mod <- TabPFN(predictors, outcome)
 # Formula interface
 mod2 <- TabPFN(mpg ~ ., mtcars)
 
-Recipes interface
+# Recipes interface
 if (!rlang::is_installed("recipes")) {
  library(recipes)
  rec <-

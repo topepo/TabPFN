@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/TabPFN)](https://CRAN.R-project.org/package=TabPFN)
+[![R-CMD-check](https://github.com/topepo/TabPFN/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/topepo/TabPFN/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/topepo/TabPFN/branch/main/graph/badge.svg)](https://app.codecov.io/gh/topepo/TabPFN?branch=main)
 <!-- badges: end -->
 
 The goal of TabPFN is to ...
@@ -40,7 +42,7 @@ The package requires a virtual environment to be created and registered with ret
 require(reticulate)
 ```
 
-and this code can be used to create an enironment and install the relavant packages: 
+and this code can be used to create an environment and install the relevant packages: 
 
 ```{r}
 #| label: venv-setup
