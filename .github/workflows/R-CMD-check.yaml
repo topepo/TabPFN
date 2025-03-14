@@ -60,9 +60,14 @@ jobs:
         run: |
           remotes::install_local()
           library(reticulate)
+          ext <-
+           paste0("tabpfn-extensions[post_hoc_ensembles,interpretability,hpo]",
+                  "@",
+                  "git+https://github.com/PriorLabs/tabpfn-extensions.git")
           virtualenv_create("r-reticulate", Sys.which("python"),
             packages = c(
-              "tabpfn"
+              "tabpfn",
+              ext
           ))
           python <- reticulate::virtualenv_python("r-reticulate")
 
