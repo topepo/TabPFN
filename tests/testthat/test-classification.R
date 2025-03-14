@@ -90,7 +90,7 @@ test_that('classification models - recipes', {
  #-----------------------------------------------------------------------------
 
  rec <-
-  recipe(Class ~ ., data = two_class_dat) %>%
+  recipe(Class ~ ., data = two_class_dat) |>
   step_interact(~ A:B)
 
  mod_rec <- try(TabPFN(rec, two_class_dat[1:20, ]), silent = TRUE)

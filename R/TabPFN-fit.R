@@ -63,7 +63,7 @@
 #' if (!rlang::is_installed("recipes")) {
 #'  library(recipes)
 #'  rec <-
-#'   recipe(mpg ~ ., mtcars) |>
+#'   recipe(mpg ~ ., mtcars) %>%
 #'   step_log(disp)
 #'
 #'  mod3 <- TabPFN(rec, mtcars)

@@ -71,8 +71,8 @@ test_that('regression models - recipes', {
  #-----------------------------------------------------------------------------
 
  rec <-
-  recipe(ridership ~ Austin + Quincy_Wells + date, data = Chicago) %>%
-  step_date(date) %>%
+  recipe(ridership ~ Austin + Quincy_Wells + date, data = Chicago) |>
+  step_date(date) |>
   step_rm(date)
 
  mod_rec <- try(TabPFN(rec, Chicago[1:20, ]), silent = TRUE)
