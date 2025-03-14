@@ -33,15 +33,23 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          extra-packages: any::pkgdown, local::. remotes reticulate
           needs: website
 
-      - name: Install python env
-        run: |
-          library(reticulate)
-          path_to_python <- install_python()
-          virtualenv_create("r-reticulate", python = path_to_python)
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: setup r-reticulate venv
         shell: Rscript {0}
+        run: |
+          remotes::install_local()
+          library(reticulate)
+          virtualenv_create("r-reticulate", Sys.which("python"),
+            packages = c(
+              "tabpfn"
+          ))
+          python <- reticulate::virtualenv_python("r-reticulate")
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)

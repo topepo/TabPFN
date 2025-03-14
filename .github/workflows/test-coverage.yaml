@@ -24,26 +24,23 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::covr, any::xml2
+          extra-packages: any::covr, any::xml2 remotes reticulate
           needs: coverage
 
-      - name: Install python env
-        run: |
-          library(reticulate)
-          path_to_python <- install_python()
-          virtualenv_create("r-reticulate", python = path_to_python)
-        shell: Rscript {0}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-      - name: Test coverage
-        run: |
-          cov <- covr::package_coverage(
-            quiet = FALSE,
-            clean = FALSE,
-            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
-          )
-          print(cov)
-          covr::to_cobertura(cov)
+      - name: setup r-reticulate venv
         shell: Rscript {0}
+        run: |
+          remotes::install_local()
+          library(reticulate)
+          virtualenv_create("r-reticulate", Sys.which("python"),
+            packages = c(
+              "tabpfn"
+          ))
+          python <- reticulate::virtualenv_python("r-reticulate")
 
       - uses: codecov/codecov-action@v4
         with:
