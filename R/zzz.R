@@ -1,4 +1,5 @@
 tabpfn <- NULL
+autotabpfn <- NULL
 
 .onLoad <- function(...) {
 
