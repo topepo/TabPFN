@@ -59,7 +59,7 @@
 #' # Formula interface
 #' mod2 <- TabPFN(mpg ~ ., mtcars)
 #'
-#' Recipes interface
+#' # Recipes interface
 #' if (!rlang::is_installed("recipes")) {
 #'  library(recipes)
 #'  rec <-
