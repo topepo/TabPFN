@@ -1,6 +1,6 @@
-#' Fit a `TabPFN` model.
+#' Fit a `AutoTabPFN` model.
 #'
-#' `TabPFN()` fits a model.
+#' `AutoTabPFN()` fits a model.
 #'
 #' @param x Depending on the context:
 #'
@@ -27,8 +27,6 @@
 #' 500 officially supported by the TabPFN python api. Set
 #' `ignore_pretraining_limits` to `TRUE` to override.
 #'
-#' @param n_jobs The number of parallel process workers.
-#'
 #' @param ... Not currently used, but required for extensibility.
 #'
 #' @details
@@ -38,12 +36,12 @@
 #'
 #' @return
 #'
-#' A `TabPFN` object with elements:
+#' A `AutoTabPFN` object with elements:
 #'
 #'   * `fit`: the python object containing the model.
 #'   * `levels`: a character string of class levels (or NULL for regression)
 #'   * `training`: a vector with the training set dimensions.
-#'   * `versions`: a list of python and python package versions and information.
+#'   * `versions`: a list of python and pythoin package versions and information.
 #'   * `logging`: any R or python messages produced by the computations.
 #'   * `blueprint`: am object produced by [hardhat::mold()] used to process
 #'      new data during prediction.
@@ -54,85 +52,82 @@
 #' outcome <- mtcars[, 1]
 #'
 #' # XY interface
-#' mod <- TabPFN(predictors, outcome)
+#' mod <- AutoTabPFN(predictors, outcome)
 #'
 #' # Formula interface
-#' mod2 <- TabPFN(mpg ~ ., mtcars)
+#' mod2 <- AutoTabPFN(mpg ~ ., mtcars)
 #'
 #' # Recipes interface
 #' if (!rlang::is_installed("recipes")) {
 #'  library(recipes)
 #'  rec <-
-#'   recipe(mpg ~ ., mtcars) %>%
+#'   recipe(mpg ~ ., mtcars) |>
 #'   step_log(disp)
 #'
-#'  mod3 <- TabPFN(rec, mtcars)
+#'  mod3 <- AutoTabPFN(rec, mtcars)
 #'  mod3
 #' }
 #'
 #' @export
-TabPFN <- function(x, ...) {
-	UseMethod("TabPFN")
+AutoTabPFN <- function(x, ...) {
+	UseMethod("AutoTabPFN")
 }
 
 #' @export
-#' @rdname TabPFN
-TabPFN.default <- function(x, ...) {
-	cli::cli_abort("{.fn TabPFN} is not defined for {obj_type_friendly(x)}.")
+#' @rdname AutoTabPFN
+AutoTabPFN.default <- function(x, ...) {
+	cli::cli_abort("{.fn AutoTabPFN} is not defined for {obj_type_friendly(x)}.")
 }
 
 # XY method - data frame
 
 #' @export
-#' @rdname TabPFN
-TabPFN.data.frame <- function(
+#' @rdname AutoTabPFN
+AutoTabPFN.data.frame <- function(
 	x,
 	y,
 	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	processed <- hardhat::mold(x, y)
-	TabPFN_bridge(processed, options, ...)
+	AutoTabPFN_bridge(processed, options, ...)
 }
 
 # XY method - matrix
 
 #' @export
-#' @rdname TabPFN
-TabPFN.matrix <- function(
+#' @rdname AutoTabPFN
+AutoTabPFN.matrix <- function(
 	x,
 	y,
 	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	processed <- hardhat::mold(x, y)
-	TabPFN_bridge(processed, options, ...)
+	AutoTabPFN_bridge(processed, options, ...)
 }
 
 # Formula method
 
 #' @export
-#' @rdname TabPFN
-TabPFN.formula <- function(
+#' @rdname AutoTabPFN
+AutoTabPFN.formula <- function(
 	formula,
 	data,
 	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	# No not convert factors to indicators:
 	bp <- hardhat::default_formula_blueprint(
@@ -142,39 +137,38 @@ TabPFN.formula <- function(
 		composition = "tibble"
 	)
 	processed <- hardhat::mold(formula, data, blueprint = bp)
-	TabPFN_bridge(processed, options, ...)
+	AutoTabPFN_bridge(processed, options, ...)
 }
 
 # Recipe method
 
 #' @export
-#' @rdname TabPFN
-TabPFN.recipe <- function(
+#' @rdname AutoTabPFN
+AutoTabPFN.recipe <- function(
 	x,
 	data,
 	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits
+	)
 
 	processed <- hardhat::mold(x, data)
-	TabPFN_bridge(processed, options, ...)
+	AutoTabPFN_bridge(processed, options, ...)
 }
 
 # ------------------------------------------------------------------------------
 # Bridge
 
-TabPFN_bridge <- function(processed, options, ...) {
- rlang::check_dots_empty()
+AutoTabPFN_bridge <- function(processed, options, ...) {
+	rlang::check_dots_empty()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
-	res <- TabPFN_impl(predictors, outcome, options)
+	res <- AutoTabPFN_impl(predictors, outcome, options)
 
-	new_TabPFN(
+	new_AutoTabPFN(
 		fit = res$fit,
 		levels = res$lvls,
 		training = res$train,
@@ -187,17 +181,17 @@ TabPFN_bridge <- function(processed, options, ...) {
 # ------------------------------------------------------------------------------
 # Implementation
 
-TabPFN_impl <- function(x, y, opts) {
- # tabpfn is imported in zzz.R
+AutoTabPFN_impl <- function(x, y, opts) {
+
+	# autotabpfn is imported in zzz.R
 	if (is.factor(y)) {
-		mod_obj <- tabpfn$TabPFNClassifier(
-			ignore_pretraining_limits = opts$ignore_pretraining_limits,
-			n_jobs = opts$n_jobs
+		mod_obj <- autotabpfn$AutoTabPFNClassifier(
+			ignore_pretraining_limits = opts$ignore_pretraining_limits
 		)
 	} else if (is.numeric(y)) {
-		mod_obj <- tabpfn$TabPFNRegressor(
+		mod_obj <- autotabpfn$AutoTabPFNRegressor(
 			ignore_pretraining_limits = opts$ignore_pretraining_limits,
-			n_jobs = opts$n_jobs
+			device = "cuda"
 		)
 	}
 
@@ -220,14 +214,18 @@ TabPFN_impl <- function(x, y, opts) {
 		versions = reticulate::py_config(),
 		logging = c(r = msgs, py = py_msg)
 	)
-	class(res) <- c("tab_pfn")
+	class(res) <- c("autotabpfn")
 	res
 }
 
+# TODO:
+# predict methods
+# flag for local versus server-side
+
 #' @export
-print.TabPFN <- function(x, ...) {
+print.AutoTabPFN <- function(x, ...) {
 	type <- ifelse(is.null(x$levels), "Regression", "Classification")
-	cli::cli_inform("TabPFN {type} Model")
+	cli::cli_inform("AutoTabPFN {type} Model")
 	cat("\n")
 	cli::cli_inform("Training set\n\n")
 	cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))

@@ -142,8 +142,24 @@ cbind(grid, grid_pred) |>
 <p class="caption">plot of chunk boundaries</p>
 </div>
 
-**Note**: Do to a weird OpenMP issue between R and pytorch, load any package that might use OpenMP (including recipes) after using the model for the first time. IT's weird but we're working on it. 
+## AutoTabPFN
+AutoTabPFN (called "TabPFN (PHE)" in the original [TabPFN paper](https://www.nature.com/articles/s41586-024-08328-6)) is an ensemble version of TabPFN, that automatically runs a hyperparameter search and build an ensemble of TabPFN models. It is slower to train and use, but on average yields better predictions.
 
+Using AutoTabPFN requires that you install the [tabpfn-community.post_hoc_ensembles package](https://github.com/PriorLabs/tabpfn-community/tree/main). At the time of writing, this is only available from GitHub, and can be installed from a terminal using:
+
+```bash
+cd ~/.virtualenvs/r-tabpfn
+source bin/activate
+git clone https://github.com/PriorLabs/tabpfn-community
+pip install -e tabpfn-community[post_hoc_ensembles]
+```
+
+To train an AutoTabPFN ensemble, simply use `AutoTabPFN()` analogously to how `TabPFN()` is used. You can then use `predict()` for predictions.
+
+```r
+reg_mod <- AutoTabPFN(mpg ~ ., data = mtcars[1:25, ])
+predict(reg_mod, mtcars[26:32, -1])
+```
 
 ## Code of Conduct
   
