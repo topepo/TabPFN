@@ -71,7 +71,11 @@ patch_libllvmlite <- function(venv_prefix = reticulate::import("sys")$prefix) {
     full.names = TRUE
   )))
   for (lib in libllvmlite.dylib)
-    system2("install_name_tool", c("-add_rpath /usr/lib", shQuote(lib)))
+    suppressWarnings(system2(
+      "install_name_tool",
+      c("-add_rpath /usr/lib", shQuote(lib)),
+      stderr = FALSE
+    ))
 }
 
 
