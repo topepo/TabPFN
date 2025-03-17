@@ -106,9 +106,10 @@ tab_pfn.data.frame <- function(
 	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		n_jobs = n_jobs
+	)
 
 	processed <- hardhat::mold(x, y)
 	tab_pfn_bridge(processed, options, ...)
@@ -125,9 +126,10 @@ tab_pfn.matrix <- function(
 	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		n_jobs = n_jobs
+	)
 
 	processed <- hardhat::mold(x, y)
 	tab_pfn_bridge(processed, options, ...)
@@ -144,9 +146,10 @@ tab_pfn.formula <- function(
 	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		n_jobs = n_jobs
+	)
 
 	# No not convert factors to indicators:
 	bp <- hardhat::default_formula_blueprint(
@@ -170,9 +173,10 @@ tab_pfn.recipe <- function(
 	n_jobs = 1L,
 	...
 ) {
- options <- list(
-  ignore_pretraining_limits = ignore_pretraining_limits,
-  n_jobs = n_jobs)
+	options <- list(
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		n_jobs = n_jobs
+	)
 
 	processed <- hardhat::mold(x, data)
 	tab_pfn_bridge(processed, options, ...)
@@ -182,7 +186,7 @@ tab_pfn.recipe <- function(
 # Bridge
 
 tab_pfn_bridge <- function(processed, options, ...) {
- rlang::check_dots_empty()
+	rlang::check_dots_empty()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]

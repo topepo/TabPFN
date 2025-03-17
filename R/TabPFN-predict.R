@@ -88,9 +88,9 @@ predict.tabpfn.classifier.TabPFNClassifier <- function(
 
 #' @export
 #' @rdname predict.tab_pfn
-augment.tab_pfn  <- function(x, new_data, ...) {
- new_data <- tibble::new_tibble(new_data)
- res <- predict(x, new_data)
- res <- cbind(res, new_data)
- tibble::new_tibble(res)
+augment.tab_pfn <- function(x, new_data, ...) {
+	new_data <- tibble::new_tibble(new_data)
+	res <- predict(x, new_data)
+	res <- cbind(res, new_data)
+	tibble::new_tibble(res)
 }

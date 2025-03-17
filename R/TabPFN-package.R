@@ -11,4 +11,3 @@ generics::augment
 
 ## usethis namespace: end
 NULL
-
