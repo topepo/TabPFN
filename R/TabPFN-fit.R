@@ -1,6 +1,6 @@
 #' Fit a `TabPFN` model.
 #'
-#' `TabPFN()` fits a model.
+#' `tab_pfn()` fits a model.
 #'
 #' @param x Depending on the context:
 #'
@@ -38,7 +38,7 @@
 #'
 #' @return
 #'
-#' A `TabPFN` object with elements:
+#' A `tab_pfn` object with elements:
 #'
 #'   * `fit`: the python object containing the model.
 #'   * `levels`: a character string of class levels (or NULL for regression)
@@ -68,10 +68,10 @@
 #' outcome <- mtcars[, 1]
 #'
 #' # XY interface
-#' mod <- TabPFN(predictors, outcome)
+#' mod <- tab_pfn(predictors, outcome)
 #'
 #' # Formula interface
-#' mod2 <- TabPFN(mpg ~ ., mtcars)
+#' mod2 <- tab_pfn(mpg ~ ., mtcars)
 #'
 #' # Recipes interface
 #' if (!rlang::is_installed("recipes")) {
@@ -80,26 +80,26 @@
 #'   recipe(mpg ~ ., mtcars) %>%
 #'   step_log(disp)
 #'
-#'  mod3 <- TabPFN(rec, mtcars)
+#'  mod3 <- tab_pfn(rec, mtcars)
 #'  mod3
 #' }
 #'
 #' @export
-TabPFN <- function(x, ...) {
-	UseMethod("TabPFN")
+tab_pfn <- function(x, ...) {
+	UseMethod("tab_pfn")
 }
 
 #' @export
-#' @rdname TabPFN
-TabPFN.default <- function(x, ...) {
-	cli::cli_abort("{.fn TabPFN} is not defined for {obj_type_friendly(x)}.")
+#' @rdname tab_pfn
+tab_pfn.default <- function(x, ...) {
+	cli::cli_abort("{.fn tab_pfn} is not defined for {obj_type_friendly(x)}.")
 }
 
 # XY method - data frame
 
 #' @export
-#' @rdname TabPFN
-TabPFN.data.frame <- function(
+#' @rdname tab_pfn
+tab_pfn.data.frame <- function(
 	x,
 	y,
 	ignore_pretraining_limits = FALSE,
@@ -111,14 +111,14 @@ TabPFN.data.frame <- function(
   n_jobs = n_jobs)
 
 	processed <- hardhat::mold(x, y)
-	TabPFN_bridge(processed, options, ...)
+	tab_pfn_bridge(processed, options, ...)
 }
 
 # XY method - matrix
 
 #' @export
-#' @rdname TabPFN
-TabPFN.matrix <- function(
+#' @rdname tab_pfn
+tab_pfn.matrix <- function(
 	x,
 	y,
 	ignore_pretraining_limits = FALSE,
@@ -130,14 +130,14 @@ TabPFN.matrix <- function(
   n_jobs = n_jobs)
 
 	processed <- hardhat::mold(x, y)
-	TabPFN_bridge(processed, options, ...)
+	tab_pfn_bridge(processed, options, ...)
 }
 
 # Formula method
 
 #' @export
-#' @rdname TabPFN
-TabPFN.formula <- function(
+#' @rdname tab_pfn
+tab_pfn.formula <- function(
 	formula,
 	data,
 	ignore_pretraining_limits = FALSE,
@@ -156,14 +156,14 @@ TabPFN.formula <- function(
 		composition = "tibble"
 	)
 	processed <- hardhat::mold(formula, data, blueprint = bp)
-	TabPFN_bridge(processed, options, ...)
+	tab_pfn_bridge(processed, options, ...)
 }
 
 # Recipe method
 
 #' @export
-#' @rdname TabPFN
-TabPFN.recipe <- function(
+#' @rdname tab_pfn
+tab_pfn.recipe <- function(
 	x,
 	data,
 	ignore_pretraining_limits = FALSE,
@@ -175,20 +175,20 @@ TabPFN.recipe <- function(
   n_jobs = n_jobs)
 
 	processed <- hardhat::mold(x, data)
-	TabPFN_bridge(processed, options, ...)
+	tab_pfn_bridge(processed, options, ...)
 }
 
 # ------------------------------------------------------------------------------
 # Bridge
 
-TabPFN_bridge <- function(processed, options, ...) {
+tab_pfn_bridge <- function(processed, options, ...) {
  rlang::check_dots_empty()
 
 	predictors <- processed$predictors
 	outcome <- processed$outcomes[[1]]
-	res <- TabPFN_impl(predictors, outcome, options)
+	res <- tab_pfn_impl(predictors, outcome, options)
 
-	new_TabPFN(
+	new_tab_pfn(
 		fit = res$fit,
 		levels = res$lvls,
 		training = res$train,
@@ -201,7 +201,7 @@ TabPFN_bridge <- function(processed, options, ...) {
 # ------------------------------------------------------------------------------
 # Implementation
 
-TabPFN_impl <- function(x, y, opts) {
+tab_pfn_impl <- function(x, y, opts) {
 	tabpfn <- reticulate::import("tabpfn")
 
 	if (is.factor(y)) {
@@ -240,9 +240,9 @@ TabPFN_impl <- function(x, y, opts) {
 }
 
 #' @export
-print.TabPFN <- function(x, ...) {
+print.tab_pfn <- function(x, ...) {
 	type <- ifelse(is.null(x$levels), "Regression", "Classification")
-	cli::cli_inform("TabPFN {type} Model")
+	cli::cli_inform("tab_pfn {type} Model")
 	cat("\n")
 	cli::cli_inform("Training set\n\n")
 	cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))

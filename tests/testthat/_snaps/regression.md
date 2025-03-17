@@ -3,7 +3,7 @@
     Code
       mod_df
     Message
-      TabPFN Regression Model
+      tab_pfn Regression Model
     Output
       
     Message
@@ -16,7 +16,7 @@
     Code
       mod_f
     Message
-      TabPFN Regression Model
+      tab_pfn Regression Model
     Output
       
     Message
@@ -29,7 +29,7 @@
     Code
       mod_mat
     Message
-      TabPFN Regression Model
+      tab_pfn Regression Model
     Output
       
     Message
@@ -39,14 +39,14 @@
 
 ---
 
-    `TabPFN()` is not defined for the number 1.
+    `tab_pfn()` is not defined for the number 1.
 
 # regression models - recipes
 
     Code
       mod_rec
     Message
-      TabPFN Regression Model
+      tab_pfn Regression Model
     Output
       
     Message

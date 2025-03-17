@@ -21,7 +21,7 @@ test_that('classification models', {
 
  #-----------------------------------------------------------------------------
 
- mod_df <- try(TabPFN(x_tr_df, y_tr), silent = TRUE)
+ mod_df <- try(tab_pfn(x_tr_df, y_tr), silent = TRUE)
  expect_s3_class(mod_df, exp_cls)
  expect_snapshot(mod_df)
 
@@ -36,7 +36,7 @@ test_that('classification models', {
 
  #-----------------------------------------------------------------------------
 
- mod_f <- try(TabPFN(Class ~ ., data = two_class_dat[1:20, ]), silent = TRUE)
+ mod_f <- try(tab_pfn(Class ~ ., data = two_class_dat[1:20, ]), silent = TRUE)
  expect_s3_class(mod_f, exp_cls)
  expect_snapshot(mod_f)
 
@@ -51,7 +51,7 @@ test_that('classification models', {
 
  #-----------------------------------------------------------------------------
 
- mod_mat <- try(TabPFN(x_tr_mat, y_tr), silent = TRUE)
+ mod_mat <- try(tab_pfn(x_tr_mat, y_tr), silent = TRUE)
  expect_s3_class(mod_mat, exp_cls)
  expect_snapshot(mod_mat)
 
@@ -93,7 +93,7 @@ test_that('classification models - recipes', {
   recipe(Class ~ ., data = two_class_dat) |>
   step_interact(~ A:B)
 
- mod_rec <- try(TabPFN(rec, two_class_dat[1:20, ]), silent = TRUE)
+ mod_rec <- try(tab_pfn(rec, two_class_dat[1:20, ]), silent = TRUE)
  expect_s3_class(mod_rec, exp_cls)
  expect_snapshot(mod_rec)
 

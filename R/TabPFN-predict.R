@@ -1,6 +1,6 @@
 #' Predict using `TabPFN`
 #'
-#' @param object,x A `TabPFN` object.
+#' @param object,x A `tab_pfn` object.
 #'
 #' @param new_data A data frame or matrix of new predictors.
 #'
@@ -22,14 +22,14 @@
 #' car_test  <- mtcars[21:32, -1]
 #'
 #' # Fit
-#' mod <- TabPFN(mpg ~ cyl + log(drat), car_train)
+#' mod <- tab_pfn(mpg ~ cyl + log(drat), car_train)
 #'
 #' # Predict, with preprocessing
 #' predict(mod, car_test)
 #' augment(mod, car_test)
 #'
 #' @export
-predict.TabPFN <- function(object, new_data, ...) {
+predict.tab_pfn <- function(object, new_data, ...) {
 	rlang::check_dots_empty()
 	forged <- hardhat::forge(new_data, object$blueprint)$predictors
 	res <- predict(object$fit, forged, object$levels)
@@ -87,8 +87,8 @@ predict.tabpfn.classifier.TabPFNClassifier <- function(
 }
 
 #' @export
-#' @rdname predict.TabPFN
-augment.TabPFN  <- function(x, new_data, ...) {
+#' @rdname predict.tab_pfn
+augment.tab_pfn  <- function(x, new_data, ...) {
  new_data <- tibble::new_tibble(new_data)
  res <- predict(x, new_data)
  res <- cbind(res, new_data)
