@@ -22,7 +22,13 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/topepo/TabPFN/branch/main/graph/badge.svg)](https://app.codecov.io/gh/topepo/TabPFN?branch=main)
 <!-- badges: end -->
 
-The goal of TabPFN is to ...
+TabPFN, meaning prior fitted networks for tabular data, is a deep-learning model. See:
+
+- [_Transformers Can Do Bayesian Inference_](https://arxiv.org/abs/2112.10510) (arXiv, 2021)
+- [_ TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second_](https://arxiv.org/abs/2207.01848) (arXiv, 2022)
+- [_Accurate predictions on small data with a tabular foundation model_](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Accurate+predictions+on+small+data+with+a+tabular+foundation+model%22) (Nature, 2025)
+
+This R package is a wrapper of the [Python library](https://github.com/PriorLabs/TabPFN) via reticulate. It has an idiomatic R syntax using standard S3 methods. 
 
 ## Installation
 
@@ -34,37 +40,41 @@ require(pak)
 pak(c("topepo/TabPFN"), ask = FALSE)
 ```
 
-## Example
-
-The package requires a virtual environment to be created and registered with reticulated. If you don't have one, you can create one. First, load the reticulate package: 
+You'll need a Python virtual environment to access the underlying library. After installing the R package, you could use this code to create an appropriate environment: 
 
 ```{r}
-require(reticulate)
-```
-
-and this code can be used to create an environment and install the relevant packages: 
-
-```{r}
-#| label: venv-setup
 #| eval: false
+library(reticulate)
 
-virtualenv_create(
+python <-install_python()
+
+virtualenv_install(
 	"r-tabpfn",
 	packages = c("numpy", "tabpfn"),
-	python_version = "<3.12"
+	python = python
 )
+
+# check the install:
+py_config()
+py_list_packages(envname = "r-tabpfn", type = "virtualenv")
 ```
 
-then tell reticulate to use it: 
+
+## Example
+
 
 ```{r}
-use_virtualenv("~/.virtualenvs/r-tabpfn")
+
 ```
 
 On starting the TabPFN, it will see if the python packages are installed. 
 
 ```{r}
 #| label: tab-start-up
+
+# Perhaps start by setting your virt env: 
+# reticulate::use_virtualenv("~/.virtualenvs/your-envir-name")
+
 library(TabPFN)
 ```
 
@@ -121,9 +131,6 @@ cbind(grid, grid_pred) |>
  geom_contour(aes(z = .pred_Class1), breaks = 1/ 2, col = "black", linewidth = 1) +
  coord_equal(ratio = 1)
 ```
-
-**Note**: Do to a weird OpenMP issue between R and pytorch, load any package that might use OpenMP (including recipes) after using the model for the first time. IT's weird but we're working on it. 
-
 
 ## Code of Conduct
   

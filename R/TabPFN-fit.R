@@ -48,6 +48,20 @@
 #'   * `blueprint`: am object produced by [hardhat::mold()] used to process
 #'      new data during prediction.
 #'
+#' @references
+#'
+#' Hollmann, Noah, Samuel Müller, Lennart Purucker, Arjun Krishnakumar, Max
+#' Körfer, Shi Bin Hoo, Robin Tibor Schirrmeister, and Frank Hutter.
+#' "Accurate predictions on small data with a tabular foundation model."
+#'  _Nature_ 637, no. 8045 (2025): 319-326.
+#'
+#' Hollmann, Noah, Samuel Müller, Katharina Eggensperger, and Frank Hutter.
+#' "Tabpfn: A transformer that solves small tabular classification problems in
+#' a second." _arXiv preprint_ arXiv:2207.01848 (2022).
+#'
+#' Müller, Samuel, Noah Hollmann, Sebastian Pineda Arango, Josif Grabocka, and
+#' Frank Hutter. "Transformers can do bayesian inference." _arXiv preprint_
+#' arXiv:2112.10510 (2021).
 #'
 #' @examples
 #' predictors <- mtcars[, -1]
