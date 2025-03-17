@@ -16,7 +16,7 @@ test_that('classification models', {
   tibble::tibble(
    .pred_Class1 = numeric(0),
    .pred_Class2 = numeric(0),
-   .pred_class = character(0)
+   .pred_class = factor(0, levels = levels(two_class_dat$Class))
   )
 
  #-----------------------------------------------------------------------------
@@ -84,7 +84,7 @@ test_that('classification models - recipes', {
   tibble::tibble(
    .pred_Class1 = numeric(0),
    .pred_Class2 = numeric(0),
-   .pred_class = character(0)
+   .pred_class = factor(0, levels = levels(two_class_dat$Class))
   )
 
  #-----------------------------------------------------------------------------
