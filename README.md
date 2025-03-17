@@ -109,10 +109,8 @@ For a classification model, the outcome should always be a factor
 vector. For example, using these data from the modeldata package:
 
 ``` r
-require(modeldata)
-#> Loading required package: modeldata
-require(ggplot2)
-#> Loading required package: ggplot2
+library(modeldata)
+library(ggplot2)
 
 two_cls_train <- parabolic[1:400,  ]
 two_cls_val   <- parabolic[401:500,]
