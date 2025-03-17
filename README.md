@@ -20,8 +20,7 @@ deep-learning model. See:
 - [*Transformers Can Do Bayesian
   Inference*](https://arxiv.org/abs/2112.10510) (arXiv, 2021)
 - [*TabPFN: A Transformer That Solves Small Tabular Classification
-  Problems in a Second*](https://arxiv.org/abs/2207.01848) (arXiv,
-  2022)
+  Problems in a Second*](https://arxiv.org/abs/2207.01848) (arXiv, 2022)
 - [*Accurate predictions on small data with a tabular foundation
   model*](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Accurate+predictions+on+small+data+with+a+tabular+foundation+model%22)
   (Nature, 2025)
@@ -74,9 +73,9 @@ library(TabPFN)
 To fit a model:
 
 ``` r
-reg_mod <- TabPFN(mtcars[1:25, -1], mtcars$mpg[1:25])
+reg_mod <- tab_pfn(mtcars[1:25, -1], mtcars$mpg[1:25])
 reg_mod
-#> TabPFN Regression Model
+#> tab_pfn Regression Model
 #> Training set
 #> ℹ 25 data points
 #> ℹ 10 predictors
@@ -117,7 +116,7 @@ two_cls_val   <- parabolic[401:500,]
 grid <- expand.grid(X1 = seq(-5.1, 5.0, length.out = 25), 
                     X2 = seq(-5.5, 4.0, length.out = 25))
 
-cls_mod <- TabPFN(class ~ ., data = two_cls_train)
+cls_mod <- tab_pfn(class ~ ., data = two_cls_train)
 
 grid_pred <- predict(cls_mod, grid)
 grid_pred

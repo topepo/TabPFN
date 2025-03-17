@@ -2,18 +2,14 @@
 % Please edit documentation in R/TabPFN-package.R
 \docType{package}
 \name{TabPFN-package}
+\alias{TabPFN}
 \alias{TabPFN-package}
 \title{TabPFN: TabPFN - Foundation Model for Tabular Data}
 \description{
 R functions are used via 'python' to train and predict 'TabPFN' models.
 }
 \author{
-\strong{Maintainer}: Max Kuhn \email{max@posit.co} (\href{https://orcid.org/0000-0003-2402-136X}{ORCID})
-
-Other contributors:
-\itemize{
-  \item Posit Software, PBC [copyright holder, funder]
-}
+\strong{Maintainer}: Max Kuhn \email{mxkuhn@gmail.com} (\href{https://orcid.org/0000-0003-2402-136X}{ORCID})
 
 }
 \keyword{internal}

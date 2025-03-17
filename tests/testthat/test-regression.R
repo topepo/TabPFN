@@ -5,7 +5,7 @@ test_that('regression models', {
 
  #-----------------------------------------------------------------------------
 
- mod_df <- try(TabPFN(predictors, outcome), silent = TRUE)
+ mod_df <- try(tab_pfn(predictors, outcome), silent = TRUE)
  expect_s3_class(mod_df, exp_cls)
  expect_snapshot(mod_df)
 
@@ -20,7 +20,7 @@ test_that('regression models', {
 
  #-----------------------------------------------------------------------------
 
- mod_f <- try(TabPFN(mpg ~ ., data = mtcars), silent = TRUE)
+ mod_f <- try(tab_pfn(mpg ~ ., data = mtcars), silent = TRUE)
  expect_s3_class(mod_f, exp_cls)
  expect_snapshot(mod_f)
 
@@ -35,7 +35,7 @@ test_that('regression models', {
 
  #-----------------------------------------------------------------------------
 
- mod_mat <- try(TabPFN(as.matrix(predictors), outcome), silent = TRUE)
+ mod_mat <- try(tab_pfn(as.matrix(predictors), outcome), silent = TRUE)
  expect_s3_class(mod_mat, exp_cls)
  expect_snapshot(mod_mat)
 
@@ -51,7 +51,7 @@ test_that('regression models', {
  #-----------------------------------------------------------------------------
 
  expect_snapshot_error(
-  TabPFN(1, 2)
+  tab_pfn(1, 2)
  )
 })
 
@@ -75,7 +75,7 @@ test_that('regression models - recipes', {
   step_date(date) |>
   step_rm(date)
 
- mod_rec <- try(TabPFN(rec, Chicago[1:20, ]), silent = TRUE)
+ mod_rec <- try(tab_pfn(rec, Chicago[1:20, ]), silent = TRUE)
  expect_s3_class(mod_rec, exp_cls)
  expect_snapshot(mod_rec)
 

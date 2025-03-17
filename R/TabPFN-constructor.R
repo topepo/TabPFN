@@ -1,4 +1,4 @@
-new_TabPFN <- function(
+new_tab_pfn <- function(
 	fit,
 	levels,
 	training,
@@ -29,6 +29,6 @@ new_TabPFN <- function(
 		versions = versions,
 		logging = logging,
 		blueprint = blueprint,
-		class = "TabPFN"
+		class = "tab_pfn"
 	)
 }

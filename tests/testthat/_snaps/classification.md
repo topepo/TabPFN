@@ -3,7 +3,7 @@
     Code
       mod_df
     Message
-      TabPFN Classification Model
+      tab_pfn Classification Model
     Output
       
     Message
@@ -17,7 +17,7 @@
     Code
       mod_f
     Message
-      TabPFN Classification Model
+      tab_pfn Classification Model
     Output
       
     Message
@@ -31,7 +31,7 @@
     Code
       mod_mat
     Message
-      TabPFN Classification Model
+      tab_pfn Classification Model
     Output
       
     Message
@@ -45,7 +45,7 @@
     Code
       mod_rec
     Message
-      TabPFN Classification Model
+      tab_pfn Classification Model
     Output
       
     Message
