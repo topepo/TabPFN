@@ -63,7 +63,19 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of TabPFN is to …</p>
+<p>TabPFN, meaning prior fitted networks for tabular data, is a deep-learning model. See:</p>
+<ul>
+<li>
+<a href="https://arxiv.org/abs/2112.10510" class="external-link"><em>Transformers Can Do Bayesian Inference</em></a> (arXiv, 2021)</li>
+<li>
+<a href="https://arxiv.org/abs/2207.01848" class="external-link">_ TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second_</a> (arXiv,
+<ol start="2022" style="list-style-type: decimal"><li>
+</li></ol>
+</li>
+<li>
+<a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Accurate+predictions+on+small+data+with+a+tabular+foundation+model%22" class="external-link"><em>Accurate predictions on small data with a tabular foundation model</em></a> (Nature, 2025)</li>
+</ul>
+<p>This R package is a wrapper of the <a href="https://github.com/PriorLabs/TabPFN" class="external-link">Python library</a> via reticulate. It has an idiomatic R syntax using standard S3 methods.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -71,28 +83,33 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://pak.r-lib.org/" class="external-link">pak</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topepo/TabPFN"</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>You’ll need a Python virtual environment to access the underlying library. After installing the R package, you could use this code to create an appropriate environment:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">python</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/install_python.html" class="external-link">install_python</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/virtualenv-tools.html" class="external-link">virtualenv_install</a></span><span class="op">(</span></span>
+<span>    <span class="st">"r-tabpfn"</span>,</span>
+<span>    packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numpy"</span>, <span class="st">"tabpfn"</span><span class="op">)</span>,</span>
+<span>    python <span class="op">=</span> <span class="va">python</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># check the install:</span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_config.html" class="external-link">py_config</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_list_packages.html" class="external-link">py_list_packages</a></span><span class="op">(</span>envname <span class="op">=</span> <span class="st">"r-tabpfn"</span>, type <span class="op">=</span> <span class="st">"virtualenv"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>The package requires a virtual environment to be created and registered with reticulated. If you don’t have one, you can create one. First, load the reticulate package:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span></code></pre></div>
-<p>and this code can be used to create an environment and install the relevant packages:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/virtualenv-tools.html" class="external-link">virtualenv_create</a></span><span class="op">(</span></span>
-<span>    <span class="st">"r-tabpfn"</span>,</span>
-<span>    packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numpy"</span>, <span class="st">"tabpfn"</span><span class="op">)</span>,</span>
-<span>    python_version <span class="op">=</span> <span class="st">"&lt;3.12"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>then tell reticulate to use it:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_virtualenv</a></span><span class="op">(</span><span class="st">"~/.virtualenvs/r-tabpfn"</span><span class="op">)</span></span></code></pre></div>
 <p>On starting the TabPFN, it will see if the python packages are installed.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">TabPFN</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Perhaps start by setting your virt env: </span></span>
+<span><span class="co"># reticulate::use_virtualenv("~/.virtualenvs/your-envir-name")</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">TabPFN</span><span class="op">)</span></span></code></pre></div>
 <p>To fit a model:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">reg_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/TabPFN.html">TabPFN</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">reg_mod</span></span>
 <span><span class="co">#&gt; TabPFN Regression Model</span></span>
@@ -101,24 +118,23 @@
 <span><span class="co">#&gt; ℹ 10 predictors</span></span></code></pre></div>
 <p>In addition to the x/y interface shown above, there are also formula and recipes interfaces.</p>
 <p>Prediction follows the usual S3 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">reg_mod</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">26</span><span class="op">:</span><span class="fl">32</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 7 × 1</span></span>
 <span><span class="co">#&gt;   .pred</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1  31.3</span></span>
+<span><span class="co">#&gt; 1  31.2</span></span>
 <span><span class="co">#&gt; 2  23.7</span></span>
-<span><span class="co">#&gt; 3  25.4</span></span>
-<span><span class="co">#&gt; 4  14.6</span></span>
+<span><span class="co">#&gt; 3  25.5</span></span>
+<span><span class="co">#&gt; 4  14.9</span></span>
 <span><span class="co">#&gt; 5  19.3</span></span>
 <span><span class="co">#&gt; 6  13.9</span></span>
 <span><span class="co">#&gt; 7  22.6</span></span></code></pre></div>
 <p>While TabPFN isn’t a tidymodels package, it follows their prediction convention: a data frame is always returned with a standard set of column names.</p>
 <p>For a classification model, the outcome should always be a factor vector. For example, using these data from the modeldata package:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://modeldata.tidymodels.org" class="external-link">modeldata</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeldata.tidymodels.org" class="external-link">modeldata</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">two_cls_train</span> <span class="op">&lt;-</span> <span class="va">parabolic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span>,  <span class="op">]</span></span>
 <span><span class="va">two_cls_val</span>   <span class="op">&lt;-</span> <span class="va">parabolic</span><span class="op">[</span><span class="fl">401</span><span class="op">:</span><span class="fl">500</span>,<span class="op">]</span></span>
@@ -131,32 +147,27 @@
 <span><span class="va">grid_pred</span></span>
 <span><span class="co">#&gt; # A tibble: 625 × 3</span></span>
 <span><span class="co">#&gt;    .pred_Class1 .pred_Class2 .pred_class</span></span>
-<span><span class="co">#&gt;           &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;      </span></span>
-<span><span class="co">#&gt;  1        0.986      0.0137  Class1     </span></span>
-<span><span class="co">#&gt;  2        0.990      0.0100  Class1     </span></span>
-<span><span class="co">#&gt;  3        0.992      0.00816 Class1     </span></span>
-<span><span class="co">#&gt;  4        0.994      0.00646 Class1     </span></span>
-<span><span class="co">#&gt;  5        0.993      0.00654 Class1     </span></span>
-<span><span class="co">#&gt;  6        0.990      0.0101  Class1     </span></span>
-<span><span class="co">#&gt;  7        0.979      0.0213  Class1     </span></span>
-<span><span class="co">#&gt;  8        0.943      0.0572  Class1     </span></span>
-<span><span class="co">#&gt;  9        0.862      0.138   Class1     </span></span>
-<span><span class="co">#&gt; 10        0.696      0.304   Class1     </span></span>
+<span><span class="co">#&gt;           &lt;dbl&gt;        &lt;dbl&gt; &lt;fct&gt;      </span></span>
+<span><span class="co">#&gt;  1        0.988      0.0119  Class1     </span></span>
+<span><span class="co">#&gt;  2        0.991      0.00870 Class1     </span></span>
+<span><span class="co">#&gt;  3        0.993      0.00660 Class1     </span></span>
+<span><span class="co">#&gt;  4        0.994      0.00580 Class1     </span></span>
+<span><span class="co">#&gt;  5        0.993      0.00682 Class1     </span></span>
+<span><span class="co">#&gt;  6        0.989      0.0108  Class1     </span></span>
+<span><span class="co">#&gt;  7        0.976      0.0244  Class1     </span></span>
+<span><span class="co">#&gt;  8        0.929      0.0710  Class1     </span></span>
+<span><span class="co">#&gt;  9        0.832      0.168   Class1     </span></span>
+<span><span class="co">#&gt; 10        0.631      0.369   Class1     </span></span>
 <span><span class="co">#&gt; # ℹ 615 more rows</span></span></code></pre></div>
 <p>The fit looks fairly good when shown with out-of-sample data:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">grid</span>, <span class="va">grid_pred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">X1</span>, <span class="va">X2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">two_cls_val</span>, <span class="fu">aes</span><span class="op">(</span>col <span class="op">=</span> <span class="va">class</span>, pch <span class="op">=</span> <span class="va">class</span><span class="op">)</span>, </span>
 <span>            alpha <span class="op">=</span> <span class="fl">3</span> <span class="op">/</span> <span class="fl">4</span>, cex <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span> <span class="fu">geom_contour</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>z <span class="op">=</span> <span class="va">.pred_Class1</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fl">1</span><span class="op">/</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span> <span class="fu">coord_equal</span><span class="op">(</span>ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<div class="figure" style="text-align: center">
-<img src="reference/figures/README-boundaries-1.png" alt="plot of chunk boundaries" width="50%"><p class="caption">
-plot of chunk boundaries
-</p>
-</div>
-<p><strong>Note</strong>: Do to a weird OpenMP issue between R and pytorch, load any package that might use OpenMP (including recipes) after using the model for the first time. IT’s weird but we’re working on it.</p>
+<p><img src="reference/figures/README-boundaries-1.png" width="50%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
@@ -201,6 +212,8 @@ plot of chunk boundaries
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://CRAN.R-project.org/package=TabPFN" class="external-link"><img src="https://www.r-pkg.org/badges/version/TabPFN" alt="CRAN status"></a></li>
+<li><a href="https://github.com/topepo/TabPFN/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/topepo/TabPFN/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/topepo/TabPFN?branch=main" class="external-link"><img src="https://codecov.io/gh/topepo/TabPFN/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
