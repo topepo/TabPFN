@@ -19,8 +19,8 @@ deep-learning model. See:
 
 - [*Transformers Can Do Bayesian
   Inference*](https://arxiv.org/abs/2112.10510) (arXiv, 2021)
-- [\_ TabPFN: A Transformer That Solves Small Tabular Classification
-  Problems in a Second\_](https://arxiv.org/abs/2207.01848) (arXiv,
+- [*TabPFN: A Transformer That Solves Small Tabular Classification
+  Problems in a Second*](https://arxiv.org/abs/2207.01848) (arXiv,
   2022)
 - [*Accurate predictions on small data with a tabular foundation
   model*](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Accurate+predictions+on+small+data+with+a+tabular+foundation+model%22)

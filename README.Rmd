@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 TabPFN, meaning prior fitted networks for tabular data, is a deep-learning model. See:
 
 - [_Transformers Can Do Bayesian Inference_](https://arxiv.org/abs/2112.10510) (arXiv, 2021)
-- [_ TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second_](https://arxiv.org/abs/2207.01848) (arXiv, 2022)
+- [_TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second_](https://arxiv.org/abs/2207.01848) (arXiv, 2022)
 - [_Accurate predictions on small data with a tabular foundation model_](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Accurate+predictions+on+small+data+with+a+tabular+foundation+model%22) (Nature, 2025)
 
 This R package is a wrapper of the [Python library](https://github.com/PriorLabs/TabPFN) via reticulate. It has an idiomatic R syntax using standard S3 methods. 
