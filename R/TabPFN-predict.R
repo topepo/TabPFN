@@ -75,10 +75,12 @@ predict.tabpfn.classifier.TabPFNClassifier <- function(
 		msgs <- as.character(res)
 		cli::cli_abort("Prediction failed: {msgs}")
 	} else {
-		colnames(res) <- paste0(".pred_", levels)
+		colnames(res) <- paste0(".pred_", object$classes_)
 		cls_ind <- apply(res, 1, which.max)
 		res <- tibble::as_tibble(res)
-		res$.pred_class <- factor(levels[cls_ind], levels = levels)
+		# TabPFN will reorder the class levels; if the original factor has levels "b"
+		# and "a", object$classes_ will have c("a", "b)
+		res$.pred_class <- factor(object$classes_[cls_ind], levels = levels)
 	}
 
 	res
