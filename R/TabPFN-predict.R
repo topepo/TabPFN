@@ -78,7 +78,7 @@ predict.tabpfn.classifier.TabPFNClassifier <- function(
 		colnames(res) <- paste0(".pred_", levels)
 		cls_ind <- apply(res, 1, which.max)
 		res <- tibble::as_tibble(res)
-		res$.pred_class <- levels[cls_ind]
+		res$.pred_class <- factor(levels[cls_ind], levels = levels)
 	}
 
 	res
