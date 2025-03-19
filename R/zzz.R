@@ -3,7 +3,7 @@ autotabpfn <- NULL
 
 .onLoad <- function(...) {
 
- reticulate::py_require(
+reticulate::py_require(
    packages = c(
      "tabpfn",
      paste0("tabpfn-extensions[post_hoc_ensembles,interpretability,hpo]",
