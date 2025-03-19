@@ -43,7 +43,7 @@
 #'   * `fit`: the python object containing the model.
 #'   * `levels`: a character string of class levels (or NULL for regression)
 #'   * `training`: a vector with the training set dimensions.
-#'   * `versions`: a list of python and pythoin package versions and information.
+#'   * `versions`: a list of python and python package versions and information.
 #'   * `logging`: any R or python messages produced by the computations.
 #'   * `blueprint`: am object produced by [hardhat::mold()] used to process
 #'      new data during prediction.
@@ -59,11 +59,11 @@
 #' # Formula interface
 #' mod2 <- TabPFN(mpg ~ ., mtcars)
 #'
-#' Recipes interface
+#' # Recipes interface
 #' if (!rlang::is_installed("recipes")) {
 #'  library(recipes)
 #'  rec <-
-#'   recipe(mpg ~ ., mtcars) |>
+#'   recipe(mpg ~ ., mtcars) %>%
 #'   step_log(disp)
 #'
 #'  mod3 <- TabPFN(rec, mtcars)
@@ -188,8 +188,7 @@ TabPFN_bridge <- function(processed, options, ...) {
 # Implementation
 
 TabPFN_impl <- function(x, y, opts) {
-	tabpfn <- reticulate::import("tabpfn")
-
+ # tabpfn is imported in zzz.R
 	if (is.factor(y)) {
 		mod_obj <- tabpfn$TabPFNClassifier(
 			ignore_pretraining_limits = opts$ignore_pretraining_limits,
@@ -218,7 +217,7 @@ TabPFN_impl <- function(x, y, opts) {
 		fit = model_fit,
 		lvls = levels(y),
 		train = dim(x),
-		versions = reticulate::py_config(), # will add package list back later
+		versions = reticulate::py_config(),
 		logging = c(r = msgs, py = py_msg)
 	)
 	class(res) <- c("tab_pfn")
