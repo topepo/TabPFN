@@ -27,6 +27,8 @@
 #' 500 officially supported by the TabPFN python api. Set
 #' `ignore_pretraining_limits` to `TRUE` to override.
 #'
+#' @device Either "cpu" (for fitting the models using CPU only) or "cuda" (the default, for fitting the models using GPU). "cuda" is currently not supported for systems using Apple silicon.
+#'
 #' @param ... Not currently used, but required for extensibility.
 #'
 #' @details
@@ -87,10 +89,12 @@ AutoTabPFN.data.frame <- function(
 	x,
 	y,
 	ignore_pretraining_limits = FALSE,
+	device = "cuda",
 	...
 ) {
 	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		device = device
 	)
 
 	processed <- hardhat::mold(x, y)
@@ -105,10 +109,12 @@ AutoTabPFN.matrix <- function(
 	x,
 	y,
 	ignore_pretraining_limits = FALSE,
+	device = "cuda",
 	...
 ) {
 	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		device = device
 	)
 
 	processed <- hardhat::mold(x, y)
@@ -123,10 +129,12 @@ AutoTabPFN.formula <- function(
 	formula,
 	data,
 	ignore_pretraining_limits = FALSE,
+	device = "cuda",
 	...
 ) {
 	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		device = device
 	)
 
 	# No not convert factors to indicators:
@@ -148,10 +156,12 @@ AutoTabPFN.recipe <- function(
 	x,
 	data,
 	ignore_pretraining_limits = FALSE,
+	device = "cuda",
 	...
 ) {
 	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits
+		ignore_pretraining_limits = ignore_pretraining_limits,
+		device = device
 	)
 
 	processed <- hardhat::mold(x, data)
@@ -186,12 +196,13 @@ AutoTabPFN_impl <- function(x, y, opts) {
 	# autotabpfn is imported in zzz.R
 	if (is.factor(y)) {
 		mod_obj <- autotabpfn$AutoTabPFNClassifier(
-			ignore_pretraining_limits = opts$ignore_pretraining_limits
+			ignore_pretraining_limits = opts$ignore_pretraining_limits,
+			device = opts$device
 		)
 	} else if (is.numeric(y)) {
 		mod_obj <- autotabpfn$AutoTabPFNRegressor(
 			ignore_pretraining_limits = opts$ignore_pretraining_limits,
-			device = "cuda"
+			device = opts$device
 		)
 	}
 
