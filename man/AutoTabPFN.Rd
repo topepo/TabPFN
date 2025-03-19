@@ -13,13 +13,19 @@ AutoTabPFN(x, ...)
 
 \method{AutoTabPFN}{default}(x, ...)
 
-\method{AutoTabPFN}{data.frame}(x, y, ignore_pretraining_limits = FALSE, ...)
+\method{AutoTabPFN}{data.frame}(x, y, ignore_pretraining_limits = FALSE, device = "cuda", ...)
 
-\method{AutoTabPFN}{matrix}(x, y, ignore_pretraining_limits = FALSE, ...)
+\method{AutoTabPFN}{matrix}(x, y, ignore_pretraining_limits = FALSE, device = "cuda", ...)
 
-\method{AutoTabPFN}{formula}(formula, data, ignore_pretraining_limits = FALSE, ...)
+\method{AutoTabPFN}{formula}(
+  formula,
+  data,
+  ignore_pretraining_limits = FALSE,
+  device = "cuda",
+  ...
+)
 
-\method{AutoTabPFN}{recipe}(x, data, ignore_pretraining_limits = FALSE, ...)
+\method{AutoTabPFN}{recipe}(x, data, ignore_pretraining_limits = FALSE, device = "cuda", ...)
 }
 \arguments{
 \item{x}{Depending on the context:
@@ -43,6 +49,8 @@ specified as:
 \item{ignore_pretraining_limits}{A logical. The maximum number of features
 500 officially supported by the TabPFN python api. Set
 \code{ignore_pretraining_limits} to \code{TRUE} to override.}
+
+\item{device}{Either "cpu" (for fitting the models using CPU only) or "cuda" (the default, for fitting the models using GPU). "cuda" is currently not supported for systems using Apple silicon.}
 
 \item{formula}{A formula specifying the outcome terms on the left-hand side,
 and the predictor terms on the right-hand side.}
@@ -72,14 +80,15 @@ Predictors do not require preprocessing; missing values and factor vectors
 are allowed.
 }
 \examples{
+\dontrun{
 predictors <- mtcars[, -1]
 outcome <- mtcars[, 1]
 
 # XY interface
-mod <- AutoTabPFN(predictors, outcome)
+mod <- AutoTabPFN(predictors, outcome, device = "cpu")
 
 # Formula interface
-mod2 <- AutoTabPFN(mpg ~ ., mtcars)
+mod2 <- AutoTabPFN(mpg ~ ., mtcars, device = "cpu")
 
 # Recipes interface
 if (!rlang::is_installed("recipes")) {
@@ -88,8 +97,9 @@ if (!rlang::is_installed("recipes")) {
   recipe(mpg ~ ., mtcars) |>
   step_log(disp)
 
- mod3 <- AutoTabPFN(rec, mtcars)
+ mod3 <- AutoTabPFN(rec, mtcars, device = "cpu")
  mod3
+}
 }
 
 }

@@ -27,7 +27,7 @@
 #' 500 officially supported by the TabPFN python api. Set
 #' `ignore_pretraining_limits` to `TRUE` to override.
 #'
-#' @device Either "cpu" (for fitting the models using CPU only) or "cuda" (the default, for fitting the models using GPU). "cuda" is currently not supported for systems using Apple silicon.
+#' @param device Either "cpu" (for fitting the models using CPU only) or "cuda" (the default, for fitting the models using GPU). "cuda" is currently not supported for systems using Apple silicon.
 #'
 #' @param ... Not currently used, but required for extensibility.
 #'
@@ -50,14 +50,15 @@
 #'
 #'
 #' @examples
+#' \dontrun{
 #' predictors <- mtcars[, -1]
 #' outcome <- mtcars[, 1]
 #'
 #' # XY interface
-#' mod <- AutoTabPFN(predictors, outcome)
+#' mod <- AutoTabPFN(predictors, outcome, device = "cpu")
 #'
 #' # Formula interface
-#' mod2 <- AutoTabPFN(mpg ~ ., mtcars)
+#' mod2 <- AutoTabPFN(mpg ~ ., mtcars, device = "cpu")
 #'
 #' # Recipes interface
 #' if (!rlang::is_installed("recipes")) {
@@ -66,8 +67,9 @@
 #'   recipe(mpg ~ ., mtcars) |>
 #'   step_log(disp)
 #'
-#'  mod3 <- AutoTabPFN(rec, mtcars)
+#'  mod3 <- AutoTabPFN(rec, mtcars, device = "cpu")
 #'  mod3
+#' }
 #' }
 #'
 #' @export
