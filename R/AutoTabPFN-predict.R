@@ -18,15 +18,17 @@
 #' `level` is the levels of the outcome factor vector.
 #'
 #' @examples
+#' \dontrun{
 #' car_train <- mtcars[ 1:20,   ]
 #' car_test  <- mtcars[21:32, -1]
 #'
 #' # Fit
-#' mod <- AutoTabPFN(mpg ~ cyl + log(drat), car_train)
+#' mod <- AutoTabPFN(mpg ~ cyl + log(drat), car_train, device = "cpu")
 #'
 #' # Predict, with preprocessing
 #' predict(mod, car_test)
 #' augment(mod, car_test)
+#' }
 #'
 #' @export
 predict.AutoTabPFN <- function(object, new_data, ...) {
