@@ -9,4 +9,3 @@ exp_cls <- c("TabPFN", "hardhat_model", "hardhat_scalar")
 
 predictors <- mtcars[, -1]
 outcome <- mtcars[, 1]
-

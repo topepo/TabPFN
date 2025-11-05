@@ -86,13 +86,13 @@
 #'
 #' @export
 tab_pfn <- function(x, ...) {
-	UseMethod("tab_pfn")
+  UseMethod("tab_pfn")
 }
 
 #' @export
 #' @rdname tab_pfn
 tab_pfn.default <- function(x, ...) {
-	cli::cli_abort("{.fn tab_pfn} is not defined for {obj_type_friendly(x)}.")
+  cli::cli_abort("{.fn tab_pfn} is not defined for {obj_type_friendly(x)}.")
 }
 
 # XY method - data frame
@@ -100,19 +100,19 @@ tab_pfn.default <- function(x, ...) {
 #' @export
 #' @rdname tab_pfn
 tab_pfn.data.frame <- function(
-	x,
-	y,
-	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
-	...
+  x,
+  y,
+  ignore_pretraining_limits = FALSE,
+  n_jobs = 1L,
+  ...
 ) {
-	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits,
-		n_jobs = n_jobs
-	)
+  options <- list(
+    ignore_pretraining_limits = ignore_pretraining_limits,
+    n_jobs = n_jobs
+  )
 
-	processed <- hardhat::mold(x, y)
-	tab_pfn_bridge(processed, options, ...)
+  processed <- hardhat::mold(x, y)
+  tab_pfn_bridge(processed, options, ...)
 }
 
 # XY method - matrix
@@ -120,19 +120,19 @@ tab_pfn.data.frame <- function(
 #' @export
 #' @rdname tab_pfn
 tab_pfn.matrix <- function(
-	x,
-	y,
-	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
-	...
+  x,
+  y,
+  ignore_pretraining_limits = FALSE,
+  n_jobs = 1L,
+  ...
 ) {
-	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits,
-		n_jobs = n_jobs
-	)
+  options <- list(
+    ignore_pretraining_limits = ignore_pretraining_limits,
+    n_jobs = n_jobs
+  )
 
-	processed <- hardhat::mold(x, y)
-	tab_pfn_bridge(processed, options, ...)
+  processed <- hardhat::mold(x, y)
+  tab_pfn_bridge(processed, options, ...)
 }
 
 # Formula method
@@ -140,26 +140,26 @@ tab_pfn.matrix <- function(
 #' @export
 #' @rdname tab_pfn
 tab_pfn.formula <- function(
-	formula,
-	data,
-	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
-	...
+  formula,
+  data,
+  ignore_pretraining_limits = FALSE,
+  n_jobs = 1L,
+  ...
 ) {
-	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits,
-		n_jobs = n_jobs
-	)
+  options <- list(
+    ignore_pretraining_limits = ignore_pretraining_limits,
+    n_jobs = n_jobs
+  )
 
-	# No not convert factors to indicators:
-	bp <- hardhat::default_formula_blueprint(
-		intercept = FALSE,
-		allow_novel_levels = FALSE,
-		indicators = "none",
-		composition = "tibble"
-	)
-	processed <- hardhat::mold(formula, data, blueprint = bp)
-	tab_pfn_bridge(processed, options, ...)
+  # No not convert factors to indicators:
+  bp <- hardhat::default_formula_blueprint(
+    intercept = FALSE,
+    allow_novel_levels = FALSE,
+    indicators = "none",
+    composition = "tibble"
+  )
+  processed <- hardhat::mold(formula, data, blueprint = bp)
+  tab_pfn_bridge(processed, options, ...)
 }
 
 # Recipe method
@@ -167,94 +167,94 @@ tab_pfn.formula <- function(
 #' @export
 #' @rdname tab_pfn
 tab_pfn.recipe <- function(
-	x,
-	data,
-	ignore_pretraining_limits = FALSE,
-	n_jobs = 1L,
-	...
+  x,
+  data,
+  ignore_pretraining_limits = FALSE,
+  n_jobs = 1L,
+  ...
 ) {
-	options <- list(
-		ignore_pretraining_limits = ignore_pretraining_limits,
-		n_jobs = n_jobs
-	)
+  options <- list(
+    ignore_pretraining_limits = ignore_pretraining_limits,
+    n_jobs = n_jobs
+  )
 
-	processed <- hardhat::mold(x, data)
-	tab_pfn_bridge(processed, options, ...)
+  processed <- hardhat::mold(x, data)
+  tab_pfn_bridge(processed, options, ...)
 }
 
 # ------------------------------------------------------------------------------
 # Bridge
 
 tab_pfn_bridge <- function(processed, options, ...) {
-	rlang::check_dots_empty()
+  rlang::check_dots_empty()
 
-	predictors <- processed$predictors
-	outcome <- processed$outcomes[[1]]
-	res <- tab_pfn_impl(predictors, outcome, options)
+  predictors <- processed$predictors
+  outcome <- processed$outcomes[[1]]
+  res <- tab_pfn_impl(predictors, outcome, options)
 
-	new_tab_pfn(
-		fit = res$fit,
-		levels = res$lvls,
-		training = res$train,
-		versions = res$versions,
-		logging = res$logging,
-		blueprint = processed$blueprint
-	)
+  new_tab_pfn(
+    fit = res$fit,
+    levels = res$lvls,
+    training = res$train,
+    versions = res$versions,
+    logging = res$logging,
+    blueprint = processed$blueprint
+  )
 }
 
 # ------------------------------------------------------------------------------
 # Implementation
 
 tab_pfn_impl <- function(x, y, opts) {
-	tabpfn <- reticulate::import("tabpfn")
+  tabpfn <- reticulate::import("tabpfn")
 
-	if (is.factor(y)) {
-		mod_obj <- tabpfn$TabPFNClassifier(
-			ignore_pretraining_limits = opts$ignore_pretraining_limits,
-			n_jobs = opts$n_jobs
-		)
-	} else if (is.numeric(y)) {
-		mod_obj <- tabpfn$TabPFNRegressor(
-			ignore_pretraining_limits = opts$ignore_pretraining_limits,
-			n_jobs = opts$n_jobs
-		)
-	}
+  if (is.factor(y)) {
+    mod_obj <- tabpfn$TabPFNClassifier(
+      ignore_pretraining_limits = opts$ignore_pretraining_limits,
+      n_jobs = opts$n_jobs
+    )
+  } else if (is.numeric(y)) {
+    mod_obj <- tabpfn$TabPFNRegressor(
+      ignore_pretraining_limits = opts$ignore_pretraining_limits,
+      n_jobs = opts$n_jobs
+    )
+  }
 
-	py_msg <- reticulate::py_capture_output(
-		model_fit <- try(mod_obj$fit(x, y), silent = TRUE)
-	)
+  py_msg <- reticulate::py_capture_output(
+    model_fit <- try(mod_obj$fit(x, y), silent = TRUE)
+  )
 
-	if (inherits(model_fit, "try-error")) {
-		msgs <- as.character(model_fit)
-		cli::cli_abort("Model failed: {msgs}")
-	} else {
-		msgs <- character(0)
-	}
+  if (inherits(model_fit, "try-error")) {
+    msgs <- as.character(model_fit)
+    cli::cli_abort("Model failed: {msgs}")
+  } else {
+    msgs <- character(0)
+  }
 
-	# check for failures
-	res <- list(
-		fit = model_fit,
-		lvls = levels(y),
-		train = dim(x),
-		versions = reticulate::py_config(), # will add package list back later
-		logging = c(r = msgs, py = py_msg)
-	)
-	class(res) <- c("tab_pfn")
-	res
+  # check for failures
+  res <- list(
+    fit = model_fit,
+    lvls = levels(y),
+    train = dim(x),
+    versions = reticulate::py_config(), # will add package list back later
+    logging = c(r = msgs, py = py_msg)
+  )
+  class(res) <- c("tab_pfn")
+  res
 }
 
 #' @export
 print.tab_pfn <- function(x, ...) {
-	type <- ifelse(is.null(x$levels), "Regression", "Classification")
-	cli::cli_inform("tab_pfn {type} Model")
-	cat("\n")
-	cli::cli_inform("Training set\n\n")
-	cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))
-	cli::cli_inform(c(i = "{x$training[2]} predictor{?s}"))
+  type <- ifelse(is.null(x$levels), "Regression", "Classification")
+  cli::cli_inform("tab_pfn {type} Model")
+  cat("\n")
+  cli::cli_inform("Training set\n\n")
+  cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))
+  cli::cli_inform(c(i = "{x$training[2]} predictor{?s}"))
 
-	if (!is.null(x$levels)) {
-		cli::cli_inform(c(i = "class levels: {.val {x$levels}}"))
-	}
+  if (!is.null(x$levels)) {
+    cli::cli_inform(c(i = "class levels: {.val {x$levels}}"))
+  }
 
-	invisible(x)
+  invisible(x)
 }

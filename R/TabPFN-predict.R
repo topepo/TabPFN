@@ -30,10 +30,10 @@
 #'
 #' @export
 predict.tab_pfn <- function(object, new_data, ...) {
-	rlang::check_dots_empty()
-	forged <- hardhat::forge(new_data, object$blueprint)$predictors
-	res <- predict(object$fit, forged, object$levels)
-	res
+  rlang::check_dots_empty()
+  forged <- hardhat::forge(new_data, object$blueprint)$predictors
+  res <- predict(object$fit, forged, object$levels)
+  res
 }
 
 # ------------------------------------------------------------------------------
@@ -41,56 +41,56 @@ predict.tab_pfn <- function(object, new_data, ...) {
 
 #' @export
 predict.tabpfn.regressor.TabPFNRegressor <- function(
-	object,
-	new_data,
-	levels,
-	...
+  object,
+  new_data,
+  levels,
+  ...
 ) {
-	py_msg <- reticulate::py_capture_output(
-		res <- try(object$predict(new_data), silent = TRUE)
-	)
+  py_msg <- reticulate::py_capture_output(
+    res <- try(object$predict(new_data), silent = TRUE)
+  )
 
-	if (inherits(res, "try-error")) {
-		msgs <- as.character(res)
-		cli::cli_abort("Prediction failed: {msgs}")
-	} else {
-		res <- tibble::tibble(.pred = as.vector(res))
-	}
+  if (inherits(res, "try-error")) {
+    msgs <- as.character(res)
+    cli::cli_abort("Prediction failed: {msgs}")
+  } else {
+    res <- tibble::tibble(.pred = as.vector(res))
+  }
 
-	res
+  res
 }
 
 #' @export
 predict.tabpfn.classifier.TabPFNClassifier <- function(
-	object,
-	new_data,
-	levels,
-	...
+  object,
+  new_data,
+  levels,
+  ...
 ) {
-	py_msg <- reticulate::py_capture_output(
-		res <- try(object$predict_proba(new_data), silent = TRUE)
-	)
+  py_msg <- reticulate::py_capture_output(
+    res <- try(object$predict_proba(new_data), silent = TRUE)
+  )
 
-	if (inherits(res, "try-error")) {
-		msgs <- as.character(res)
-		cli::cli_abort("Prediction failed: {msgs}")
-	} else {
-		colnames(res) <- paste0(".pred_", object$classes_)
-		cls_ind <- apply(res, 1, which.max)
-		res <- tibble::as_tibble(res)
-		# TabPFN will reorder the class levels; if the original factor has levels "b"
-		# and "a", object$classes_ will have c("a", "b)
-		res$.pred_class <- factor(object$classes_[cls_ind], levels = levels)
-	}
+  if (inherits(res, "try-error")) {
+    msgs <- as.character(res)
+    cli::cli_abort("Prediction failed: {msgs}")
+  } else {
+    colnames(res) <- paste0(".pred_", object$classes_)
+    cls_ind <- apply(res, 1, which.max)
+    res <- tibble::as_tibble(res)
+    # TabPFN will reorder the class levels; if the original factor has levels "b"
+    # and "a", object$classes_ will have c("a", "b)
+    res$.pred_class <- factor(object$classes_[cls_ind], levels = levels)
+  }
 
-	res
+  res
 }
 
 #' @export
 #' @rdname predict.tab_pfn
 augment.tab_pfn <- function(x, new_data, ...) {
-	new_data <- tibble::new_tibble(new_data)
-	res <- predict(x, new_data)
-	res <- cbind(res, new_data)
-	tibble::new_tibble(res)
+  new_data <- tibble::new_tibble(new_data)
+  res <- predict(x, new_data)
+  res <- cbind(res, new_data)
+  tibble::new_tibble(res)
 }
