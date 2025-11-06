@@ -20,6 +20,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -31,6 +32,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -42,6 +44,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -53,6 +56,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -89,6 +93,10 @@ only.}
 \code{num_estimators > 1}, should the average be done before using the softmax
 function or after? Default is \code{FALSE}.}
 
+\item{training_set_limit}{An integer greater than 2L (and possibly \code{Inf})
+that can be used to keep the training data within the limits of the
+data constraints imposed by the Python library.}
+
 \item{control}{A list of options produced by \code{\link[=control_tab_pfn]{control_tab_pfn()}}.}
 
 \item{formula}{A formula specifying the outcome terms on the left-hand side,
@@ -120,9 +128,20 @@ regression and classification models.
 important that you load your virtual Python environment prior to loading any
 R package that also uses OpenMP. If not, a segmentation fault can occur.
 See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
+\subsection{Data}{
+
+Be default, there are limits to the training data dimensions:
+\itemize{
+\item Version 2: number of training set samples (10,000) and, the number of
+predictors (500). There is an unchangeable limit to the number of classes
+(10).
+}
 
 Predictors do not require preprocessing; missing values and factor vectors
 are allowed.
+}
+
+\subsection{Calculations}{
 
 For the \code{softmax_temperature} value, the softmax terms are:
 
@@ -131,6 +150,7 @@ exp(value / softmax_temperature)
 }
 
 A value of \code{softmax_temperature = 1} results in a plain softmax value.
+}
 }
 \examples{
 predictors <- mtcars[, -1]
@@ -143,7 +163,7 @@ mod <- tab_pfn(predictors, outcome)
 mod2 <- tab_pfn(mpg ~ ., mtcars)
 
 # Recipes interface
-if (!rlang::is_installed("recipes")) {
+if (rlang::is_installed("recipes")) {
  library(recipes)
  rec <-
   recipe(mpg ~ ., mtcars) \%>\%

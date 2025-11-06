@@ -38,6 +38,10 @@
 #' `num_estimators > 1`, should the average be done before using the softmax
 #' function or after? Default is `FALSE`.
 #'
+#' @param training_set_limit An integer greater than 2L (and possibly `Inf`)
+#' that can be used to keep the training data within the limits of the
+#' data constraints imposed by the Python library.
+#'
 #' @param control A list of options produced by [control_tab_pfn()].
 #'
 #' @param ... Not currently used, but required for extensibility.
@@ -49,8 +53,18 @@
 #' R package that also uses OpenMP. If not, a segmentation fault can occur.
 #' See [this GitHub issue](https://github.com/topepo/TabPFN/issues/3).
 #'
+#' ## Data
+#'
+#' Be default, there are limits to the training data dimensions:
+#'
+#'   * Version 2: number of training set samples (10,000) and, the number of
+#'   predictors (500). There is an unchangeable limit to the number of classes
+#'   (10).
+#'
 #' Predictors do not require preprocessing; missing values and factor vectors
 #' are allowed.
+#'
+#' ## Calculations
 #'
 #' For the `softmax_temperature` value, the softmax terms are:
 #'
@@ -97,7 +111,7 @@
 #' mod2 <- tab_pfn(mpg ~ ., mtcars)
 #'
 #' # Recipes interface
-#' if (!rlang::is_installed("recipes")) {
+#' if (rlang::is_installed("recipes")) {
 #'  library(recipes)
 #'  rec <-
 #'   recipe(mpg ~ ., mtcars) %>%
@@ -129,6 +143,7 @@ tab_pfn.data.frame <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -138,8 +153,15 @@ tab_pfn.data.frame <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
   processed <- hardhat::mold(x, y)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -154,6 +176,7 @@ tab_pfn.matrix <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -163,8 +186,15 @@ tab_pfn.matrix <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
   processed <- hardhat::mold(x, y)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -179,6 +209,7 @@ tab_pfn.formula <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -188,6 +219,7 @@ tab_pfn.formula <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
   # No not convert factors to indicators:
   bp <- hardhat::default_formula_blueprint(
@@ -197,6 +229,12 @@ tab_pfn.formula <- function(
     composition = "tibble"
   )
   processed <- hardhat::mold(formula, data, blueprint = bp)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -211,6 +249,7 @@ tab_pfn.recipe <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -220,8 +259,15 @@ tab_pfn.recipe <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
   processed <- hardhat::mold(x, data)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -233,6 +279,9 @@ tab_pfn_bridge <- function(processed, options, ...) {
 
   predictors <- processed$predictors
   outcome <- processed$outcomes[[1]]
+
+  check_data_constraints(predictors, outcome, options)
+
   res <- tab_pfn_impl(predictors, outcome, options)
 
   new_tab_pfn(
