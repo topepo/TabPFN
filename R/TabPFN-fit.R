@@ -101,7 +101,7 @@
 #' mod2 <- tab_pfn(mpg ~ ., mtcars)
 #'
 #' # Recipes interface
-#' if (!rlang::is_installed("recipes")) {
+#' if (rlang::is_installed("recipes")) {
 #'  library(recipes)
 #'  rec <-
 #'   recipe(mpg ~ ., mtcars) %>%
