@@ -129,6 +129,7 @@ tab_pfn.data.frame <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -139,6 +140,11 @@ tab_pfn.data.frame <- function(
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
 
+  tr_ind <- sample_indicies(x)
+  if (length(tr_ind) > 0) {
+    x <- x[tr_ind, , drop = FALSE]
+    y <- y[tr_ind]
+  }
   processed <- hardhat::mold(x, y)
   tab_pfn_bridge(processed, options, ...)
 }
@@ -154,6 +160,7 @@ tab_pfn.matrix <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -164,6 +171,11 @@ tab_pfn.matrix <- function(
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
 
+  tr_ind <- sample_indicies(x)
+  if (length(tr_ind) > 0) {
+    x <- x[tr_ind, , drop = FALSE]
+    y <- y[tr_ind]
+  }
   processed <- hardhat::mold(x, y)
   tab_pfn_bridge(processed, options, ...)
 }
@@ -179,6 +191,7 @@ tab_pfn.formula <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -188,6 +201,11 @@ tab_pfn.formula <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+
+  tr_ind <- sample_indicies(data)
+  if (length(tr_ind) > 0) {
+    data <- data[tr_ind, , drop = FALSE]
+  }
 
   # No not convert factors to indicators:
   bp <- hardhat::default_formula_blueprint(
@@ -211,6 +229,7 @@ tab_pfn.recipe <- function(
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 ) {
@@ -220,6 +239,11 @@ tab_pfn.recipe <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+
+  tr_ind <- sample_indicies(data)
+  if (length(tr_ind) > 0) {
+    data <- data[tr_ind, , drop = FALSE]
+  }
 
   processed <- hardhat::mold(x, data)
   tab_pfn_bridge(processed, options, ...)
@@ -233,6 +257,9 @@ tab_pfn_bridge <- function(processed, options, ...) {
 
   predictors <- processed$predictors
   outcome <- processed$outcomes[[1]]
+
+  check_data_constraints(predictors, outcome)
+
   res <- tab_pfn_impl(predictors, outcome, options)
 
   new_tab_pfn(
