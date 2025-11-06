@@ -53,8 +53,18 @@
 #' R package that also uses OpenMP. If not, a segmentation fault can occur.
 #' See [this GitHub issue](https://github.com/topepo/TabPFN/issues/3).
 #'
+#' ## Data
+#'
+#' Be default, there are limits to the training data dimensions:
+#'
+#'   * Version 2: number of training set samples (10,000) and, the number of
+#'   predictors (500). There is an unchangeable limit to the number of classes
+#'   (10).
+#'
 #' Predictors do not require preprocessing; missing values and factor vectors
 #' are allowed.
+#'
+#' ## Calculations
 #'
 #' For the `softmax_temperature` value, the softmax terms are:
 #'

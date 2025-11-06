@@ -128,9 +128,20 @@ regression and classification models.
 important that you load your virtual Python environment prior to loading any
 R package that also uses OpenMP. If not, a segmentation fault can occur.
 See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
+\subsection{Data}{
+
+Be default, there are limits to the training data dimensions:
+\itemize{
+\item Version 2: number of training set samples (10,000) and, the number of
+predictors (500). There is an unchangeable limit to the number of classes
+(10).
+}
 
 Predictors do not require preprocessing; missing values and factor vectors
 are allowed.
+}
+
+\subsection{Calculations}{
 
 For the \code{softmax_temperature} value, the softmax terms are:
 
@@ -139,6 +150,7 @@ exp(value / softmax_temperature)
 }
 
 A value of \code{softmax_temperature = 1} results in a plain softmax value.
+}
 }
 \examples{
 predictors <- mtcars[, -1]
