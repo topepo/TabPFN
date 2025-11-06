@@ -1,6 +1,8 @@
-#' Fit a `TabPFN` model.
+#' Fit a TabPFN model.
 #'
-#' `tab_pfn()` fits a model.
+#' `tab_pfn()` applies data to a pre-estimated deep learning model defined by
+#' Hollmann _et al_ (2025). This model emulates Bayesian inference for
+#' regression and classification models.
 #'
 #' @param x Depending on the context:
 #'
@@ -23,18 +25,40 @@
 #' @param formula A formula specifying the outcome terms on the left-hand side,
 #' and the predictor terms on the right-hand side.
 #'
-#' @param ignore_pretraining_limits A logical. The maximum number of features
-#' 500 officially supported by the TabPFN python api. Set
-#' `ignore_pretraining_limits` to `TRUE` to override.
+#' @param num_estimators An integer for the ensemble size. Default is `8L`.
 #'
-#' @param n_jobs The number of parallel process workers.
+#' @param softmax_temperature An adjustment factor that is a divisor in the
+#' exponents of the softmax function (see Details below). Defaults to 0.9.
+#'
+#' @param balance_probabilities A logical to adjust the prior probabilities in
+#' cases where there is a class imbalance. Default is `FALSE`. Classification
+#' only.
+#'
+#' @param average_before_softmax A logical. For cases where
+#' `num_estimators > 1`, should the average be done before using the softmax
+#' function or after? Default is `FALSE`.
+#'
+#' @param control A list of options produced by [control_tab_pfn()].
 #'
 #' @param ... Not currently used, but required for extensibility.
 #'
 #' @details
 #'
+#' **Important Note**. Due to how Python uses the OpenMP library, it is
+#' important that you load your virtual Python environment prior to loading any
+#' R package that also uses OpenMP. If not, a segmentation fault can occur.
+#' See [this GitHub issue](https://github.com/topepo/TabPFN/issues/3).
+#'
 #' Predictors do not require preprocessing; missing values and factor vectors
 #' are allowed.
+#'
+#' For the `softmax_temperature` value, the softmax terms are:
+#'
+#' \preformatted{
+#' exp(value / softmax_temperature)
+#' }
+#'
+#' A value of `softmax_temperature = 1` results in a plain softmax value.
 #'
 #' @return
 #'
@@ -43,7 +67,6 @@
 #'   * `fit`: the python object containing the model.
 #'   * `levels`: a character string of class levels (or NULL for regression)
 #'   * `training`: a vector with the training set dimensions.
-#'   * `versions`: a list of python and python package versions and information.
 #'   * `logging`: any R or python messages produced by the computations.
 #'   * `blueprint`: am object produced by [hardhat::mold()] used to process
 #'      new data during prediction.
@@ -60,7 +83,7 @@
 #' a second." _arXiv preprint_ arXiv:2207.01848 (2022).
 #'
 #' Müller, Samuel, Noah Hollmann, Sebastian Pineda Arango, Josif Grabocka, and
-#' Frank Hutter. "Transformers can do bayesian inference." _arXiv preprint_
+#' Frank Hutter. "Transformers can do Bayesian inference." _arXiv preprint_
 #' arXiv:2112.10510 (2021).
 #'
 #' @examples
@@ -102,14 +125,19 @@ tab_pfn.default <- function(x, ...) {
 tab_pfn.data.frame <- function(
   x,
   y,
-  ignore_pretraining_limits = FALSE,
-  n_jobs = 1L,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
   ...
 ) {
-  options <- list(
-    ignore_pretraining_limits = ignore_pretraining_limits,
-    n_jobs = n_jobs
-  )
+  options <- control
+  options$n_estimators <- num_estimators
+  options$softmax_temperature <- softmax_temperature
+  options$balance_probabilities <- balance_probabilities
+  options$average_before_softmax <- average_before_softmax
+  options <- check_fit_args(options)
 
   processed <- hardhat::mold(x, y)
   tab_pfn_bridge(processed, options, ...)
@@ -122,14 +150,19 @@ tab_pfn.data.frame <- function(
 tab_pfn.matrix <- function(
   x,
   y,
-  ignore_pretraining_limits = FALSE,
-  n_jobs = 1L,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
   ...
 ) {
-  options <- list(
-    ignore_pretraining_limits = ignore_pretraining_limits,
-    n_jobs = n_jobs
-  )
+  options <- control
+  options$n_estimators <- num_estimators
+  options$softmax_temperature <- softmax_temperature
+  options$balance_probabilities <- balance_probabilities
+  options$average_before_softmax <- average_before_softmax
+  options <- check_fit_args(options)
 
   processed <- hardhat::mold(x, y)
   tab_pfn_bridge(processed, options, ...)
@@ -142,14 +175,19 @@ tab_pfn.matrix <- function(
 tab_pfn.formula <- function(
   formula,
   data,
-  ignore_pretraining_limits = FALSE,
-  n_jobs = 1L,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
   ...
 ) {
-  options <- list(
-    ignore_pretraining_limits = ignore_pretraining_limits,
-    n_jobs = n_jobs
-  )
+  options <- control
+  options$n_estimators <- num_estimators
+  options$softmax_temperature <- softmax_temperature
+  options$balance_probabilities <- balance_probabilities
+  options$average_before_softmax <- average_before_softmax
+  options <- check_fit_args(options)
 
   # No not convert factors to indicators:
   bp <- hardhat::default_formula_blueprint(
@@ -169,14 +207,19 @@ tab_pfn.formula <- function(
 tab_pfn.recipe <- function(
   x,
   data,
-  ignore_pretraining_limits = FALSE,
-  n_jobs = 1L,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
   ...
 ) {
-  options <- list(
-    ignore_pretraining_limits = ignore_pretraining_limits,
-    n_jobs = n_jobs
-  )
+  options <- control
+  options$n_estimators <- num_estimators
+  options$softmax_temperature <- softmax_temperature
+  options$balance_probabilities <- balance_probabilities
+  options$average_before_softmax <- average_before_softmax
+  options <- check_fit_args(options)
 
   processed <- hardhat::mold(x, data)
   tab_pfn_bridge(processed, options, ...)
@@ -196,7 +239,6 @@ tab_pfn_bridge <- function(processed, options, ...) {
     fit = res$fit,
     levels = res$lvls,
     training = res$train,
-    versions = res$versions,
     logging = res$logging,
     blueprint = processed$blueprint
   )
@@ -207,17 +249,20 @@ tab_pfn_bridge <- function(processed, options, ...) {
 
 tab_pfn_impl <- function(x, y, opts) {
   tabpfn <- reticulate::import("tabpfn")
+  cls_wrapper <- function(...) {
+    tabpfn$TabPFNClassifier(...)
+  }
+  reg_wrapper <- function(...) {
+    tabpfn$TabPFNRegressor(...)
+  }
 
   if (is.factor(y)) {
-    mod_obj <- tabpfn$TabPFNClassifier(
-      ignore_pretraining_limits = opts$ignore_pretraining_limits,
-      n_jobs = opts$n_jobs
-    )
+    cls_cl <- rlang::call2("cls_wrapper", !!!opts)
+    mod_obj <- rlang::eval_bare(cls_cl)
   } else if (is.numeric(y)) {
-    mod_obj <- tabpfn$TabPFNRegressor(
-      ignore_pretraining_limits = opts$ignore_pretraining_limits,
-      n_jobs = opts$n_jobs
-    )
+    opts <- opts[names(opts) != "balance_probabilities"]
+    cls_cl <- rlang::call2("reg_wrapper", !!!opts)
+    mod_obj <- rlang::eval_bare(cls_cl)
   }
 
   py_msg <- reticulate::py_capture_output(
@@ -236,7 +281,6 @@ tab_pfn_impl <- function(x, y, opts) {
     fit = model_fit,
     lvls = levels(y),
     train = dim(x),
-    versions = reticulate::py_config(), # will add package list back later
     logging = c(r = msgs, py = py_msg)
   )
   class(res) <- c("tab_pfn")
@@ -246,7 +290,7 @@ tab_pfn_impl <- function(x, y, opts) {
 #' @export
 print.tab_pfn <- function(x, ...) {
   type <- ifelse(is.null(x$levels), "Regression", "Classification")
-  cli::cli_inform("tab_pfn {type} Model")
+  cli::cli_inform("TabPFN {type} Model")
   cat("\n")
   cli::cli_inform("Training set\n\n")
   cli::cli_inform(c(i = "{x$training[1]} data point{?s}"))
@@ -257,4 +301,48 @@ print.tab_pfn <- function(x, ...) {
   }
 
   invisible(x)
+}
+
+check_fit_args <- function(opts, call = rlang::caller_env()) {
+  check_number_whole(
+    # These arg names are deliberately different
+    opts$n_estimators,
+    arg = "num_estimators",
+    min = 1,
+    call = call
+  )
+  opts$n_estimators <- as.integer(opts$n_estimators)
+
+  check_number_decimal(
+    opts$softmax_temperature,
+    arg = "softmax_temperature",
+    min = .Machine$double.eps,
+    call = call
+  )
+
+  check_logical(
+    opts$balance_probabilities,
+    arg = "balance_probabilities",
+    call = call
+  )
+
+  check_logical(
+    opts$average_before_softmax,
+    arg = "average_before_softmax",
+    call = call
+  )
+
+  # ------------------------------------------------------------------------------
+  # There have been some argument name differences in the python package versions
+
+  arg_names <- names(opts)
+  py_lib <- reticulate::import("tabpfn")
+  py_arg_names <- names(formals(py_lib$TabPFNClassifier))
+  if (any(py_arg_names == "n_jobs")) {
+    names(opts) <- gsub("^n_preprocessing_jobs$", "n_jobs", names(opts))
+  }
+
+  # ------------------------------------------------------------------------------
+
+  opts
 }

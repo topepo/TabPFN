@@ -2,7 +2,6 @@ new_tab_pfn <- function(
   fit,
   levels,
   training,
-  versions,
   logging,
   blueprint,
   call = NULL
@@ -26,7 +25,6 @@ new_tab_pfn <- function(
     fit = fit,
     levels = levels,
     training = training,
-    versions = versions,
     logging = logging,
     blueprint = blueprint,
     class = "tab_pfn"

@@ -5,6 +5,7 @@ test_that('regression models', {
 
   #-----------------------------------------------------------------------------
 
+  set.seed(166)
   mod_df <- try(tab_pfn(predictors, outcome), silent = TRUE)
   expect_s3_class(mod_df, exp_cls)
   expect_snapshot(mod_df)
@@ -20,6 +21,7 @@ test_that('regression models', {
 
   #-----------------------------------------------------------------------------
 
+  set.seed(166)
   mod_f <- try(tab_pfn(mpg ~ ., data = mtcars), silent = TRUE)
   expect_s3_class(mod_f, exp_cls)
   expect_snapshot(mod_f)
@@ -35,6 +37,7 @@ test_that('regression models', {
 
   #-----------------------------------------------------------------------------
 
+  set.seed(166)
   mod_mat <- try(tab_pfn(as.matrix(predictors), outcome), silent = TRUE)
   expect_s3_class(mod_mat, exp_cls)
   expect_snapshot(mod_mat)
@@ -54,6 +57,33 @@ test_that('regression models', {
     tab_pfn(1, 2)
   )
 })
+
+test_that('reproducible results', {
+  skip_if(!run_tests())
+
+  set.seed(166)
+  mod_1 <- try(tab_pfn(predictors, outcome), silent = TRUE)
+  pred_1 <- predict(mod_1, mtcars[1:3, -1])
+
+  set.seed(166)
+  mod_2 <- try(tab_pfn(predictors, outcome), silent = TRUE)
+  pred_2 <- predict(mod_2, mtcars[1:3, -1])
+
+  expect_equal(pred_1, pred_2)
+
+  set.seed(774)
+  mod_3 <- try(tab_pfn(predictors, outcome), silent = TRUE)
+  pred_3 <- predict(mod_3, mtcars[1:3, -1])
+
+  expect_false(all(pred_1$.pred == pred_3$.pred))
+
+  set.seed(166)
+  mod_4 <- try(tab_pfn(predictors, outcome, num_estimators = 1), silent = TRUE)
+  pred_4 <- predict(mod_4, mtcars[1:3, -1])
+
+  expect_false(all(pred_1$.pred == pred_4$.pred))
+})
+
 
 test_that('regression models - recipes', {
   skip_if(!run_tests())
@@ -75,6 +105,7 @@ test_that('regression models - recipes', {
     step_date(date) |>
     step_rm(date)
 
+  set.seed(166)
   mod_rec <- try(tab_pfn(rec, Chicago[1:20, ]), silent = TRUE)
   expect_s3_class(mod_rec, exp_cls)
   expect_snapshot(mod_rec)

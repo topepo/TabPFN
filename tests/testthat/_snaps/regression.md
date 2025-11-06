@@ -3,7 +3,7 @@
     Code
       mod_df
     Message
-      tab_pfn Regression Model
+      TabPFN Regression Model
     Output
       
     Message
@@ -16,7 +16,7 @@
     Code
       mod_f
     Message
-      tab_pfn Regression Model
+      TabPFN Regression Model
     Output
       
     Message
@@ -29,7 +29,7 @@
     Code
       mod_mat
     Message
-      tab_pfn Regression Model
+      TabPFN Regression Model
     Output
       
     Message
@@ -46,7 +46,7 @@
     Code
       mod_rec
     Message
-      tab_pfn Regression Model
+      TabPFN Regression Model
     Output
       
     Message

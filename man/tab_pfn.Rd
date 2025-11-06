@@ -7,19 +7,55 @@
 \alias{tab_pfn.matrix}
 \alias{tab_pfn.formula}
 \alias{tab_pfn.recipe}
-\title{Fit a \code{TabPFN} model.}
+\title{Fit a TabPFN model.}
 \usage{
 tab_pfn(x, ...)
 
 \method{tab_pfn}{default}(x, ...)
 
-\method{tab_pfn}{data.frame}(x, y, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
+\method{tab_pfn}{data.frame}(
+  x,
+  y,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
+  ...
+)
 
-\method{tab_pfn}{matrix}(x, y, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
+\method{tab_pfn}{matrix}(
+  x,
+  y,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
+  ...
+)
 
-\method{tab_pfn}{formula}(formula, data, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
+\method{tab_pfn}{formula}(
+  formula,
+  data,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
+  ...
+)
 
-\method{tab_pfn}{recipe}(x, data, ignore_pretraining_limits = FALSE, n_jobs = 1L, ...)
+\method{tab_pfn}{recipe}(
+  x,
+  data,
+  num_estimators = 8L,
+  softmax_temperature = 0.9,
+  balance_probabilities = FALSE,
+  average_before_softmax = FALSE,
+  control = control_tab_pfn(),
+  ...
+)
 }
 \arguments{
 \item{x}{Depending on the context:
@@ -40,11 +76,20 @@ specified as:
 \item A numeric \strong{vector} for regression or a \strong{factor} for classification.
 }}
 
-\item{ignore_pretraining_limits}{A logical. The maximum number of features
-500 officially supported by the TabPFN python api. Set
-\code{ignore_pretraining_limits} to \code{TRUE} to override.}
+\item{num_estimators}{An integer for the ensemble size. Default is \code{8L}.}
 
-\item{n_jobs}{The number of parallel process workers.}
+\item{softmax_temperature}{An adjustment factor that is a divisor in the
+exponents of the softmax function (see Details below). Defaults to 0.9.}
+
+\item{balance_probabilities}{A logical to adjust the prior probabilities in
+cases where there is a class imbalance. Default is \code{FALSE}. Classification
+only.}
+
+\item{average_before_softmax}{A logical. For cases where
+\code{num_estimators > 1}, should the average be done before using the softmax
+function or after? Default is \code{FALSE}.}
+
+\item{control}{A list of options produced by \code{\link[=control_tab_pfn]{control_tab_pfn()}}.}
 
 \item{formula}{A formula specifying the outcome terms on the left-hand side,
 and the predictor terms on the right-hand side.}
@@ -60,18 +105,32 @@ A \code{tab_pfn} object with elements:
 \item \code{fit}: the python object containing the model.
 \item \code{levels}: a character string of class levels (or NULL for regression)
 \item \code{training}: a vector with the training set dimensions.
-\item \code{versions}: a list of python and python package versions and information.
 \item \code{logging}: any R or python messages produced by the computations.
 \item \code{blueprint}: am object produced by \code{\link[hardhat:mold]{hardhat::mold()}} used to process
 new data during prediction.
 }
 }
 \description{
-\code{tab_pfn()} fits a model.
+\code{tab_pfn()} applies data to a pre-estimated deep learning model defined by
+Hollmann \emph{et al} (2025). This model emulates Bayesian inference for
+regression and classification models.
 }
 \details{
+\strong{Important Note}. Due to how Python uses the OpenMP library, it is
+important that you load your virtual Python environment prior to loading any
+R package that also uses OpenMP. If not, a segmentation fault can occur.
+See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
+
 Predictors do not require preprocessing; missing values and factor vectors
 are allowed.
+
+For the \code{softmax_temperature} value, the softmax terms are:
+
+\preformatted{
+exp(value / softmax_temperature)
+}
+
+A value of \code{softmax_temperature = 1} results in a plain softmax value.
 }
 \examples{
 predictors <- mtcars[, -1]
@@ -106,6 +165,6 @@ Hollmann, Noah, Samuel Müller, Katharina Eggensperger, and Frank Hutter.
 a second." \emph{arXiv preprint} arXiv:2207.01848 (2022).
 
 Müller, Samuel, Noah Hollmann, Sebastian Pineda Arango, Josif Grabocka, and
-Frank Hutter. "Transformers can do bayesian inference." \emph{arXiv preprint}
+Frank Hutter. "Transformers can do Bayesian inference." \emph{arXiv preprint}
 arXiv:2112.10510 (2021).
 }
