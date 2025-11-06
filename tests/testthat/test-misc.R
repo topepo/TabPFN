@@ -18,6 +18,7 @@ test_that('data constraints', {
     Class ~ .,
     data = modeldata::two_class_dat[reps, ],
     num_estimators = 1,
+    control = control_tab_pfn(ignore_pretraining_limits = TRUE)
   )
 
   expect_equal(smaller_data$training[1], 10000L)
