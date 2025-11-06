@@ -38,6 +38,10 @@
 #' `num_estimators > 1`, should the average be done before using the softmax
 #' function or after? Default is `FALSE`.
 #'
+#' @param training_set_limit An integer greater than 2L (and possibly `Inf`)
+#' that can be used to keep the training data within the limits of the
+#' data constraints imposed by the Python library.
+#'
 #' @param control A list of options produced by [control_tab_pfn()].
 #'
 #' @param ... Not currently used, but required for extensibility.
@@ -139,13 +143,15 @@ tab_pfn.data.frame <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
-  tr_ind <- sample_indicies(x)
-  if (length(tr_ind) > 0) {
-    x <- x[tr_ind, , drop = FALSE]
-    y <- y[tr_ind]
-  }
   processed <- hardhat::mold(x, y)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -170,13 +176,15 @@ tab_pfn.matrix <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
-  tr_ind <- sample_indicies(x)
-  if (length(tr_ind) > 0) {
-    x <- x[tr_ind, , drop = FALSE]
-    y <- y[tr_ind]
-  }
   processed <- hardhat::mold(x, y)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -201,11 +209,7 @@ tab_pfn.formula <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
-
-  tr_ind <- sample_indicies(data)
-  if (length(tr_ind) > 0) {
-    data <- data[tr_ind, , drop = FALSE]
-  }
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
   # No not convert factors to indicators:
   bp <- hardhat::default_formula_blueprint(
@@ -215,6 +219,12 @@ tab_pfn.formula <- function(
     composition = "tibble"
   )
   processed <- hardhat::mold(formula, data, blueprint = bp)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -239,13 +249,15 @@ tab_pfn.recipe <- function(
   options$balance_probabilities <- balance_probabilities
   options$average_before_softmax <- average_before_softmax
   options <- check_fit_args(options)
-
-  tr_ind <- sample_indicies(data)
-  if (length(tr_ind) > 0) {
-    data <- data[tr_ind, , drop = FALSE]
-  }
+  check_number_whole(training_set_limit, min = 2, allow_infinite = TRUE)
 
   processed <- hardhat::mold(x, data)
+  tr_ind <- sample_indicies(processed, size_limit = training_set_limit)
+  if (length(tr_ind) > 0) {
+    processed$predictors <- processed$predictors[tr_ind, , drop = FALSE]
+    processed$outcomes <- processed$outcomes[tr_ind, , drop = FALSE]
+  }
+
   tab_pfn_bridge(processed, options, ...)
 }
 
@@ -258,7 +270,7 @@ tab_pfn_bridge <- function(processed, options, ...) {
   predictors <- processed$predictors
   outcome <- processed$outcomes[[1]]
 
-  check_data_constraints(predictors, outcome)
+  check_data_constraints(predictors, outcome, options)
 
   res <- tab_pfn_impl(predictors, outcome, options)
 

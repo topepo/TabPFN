@@ -20,6 +20,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -31,6 +32,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -42,6 +44,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -53,6 +56,7 @@ tab_pfn(x, ...)
   softmax_temperature = 0.9,
   balance_probabilities = FALSE,
   average_before_softmax = FALSE,
+  training_set_limit = 10000,
   control = control_tab_pfn(),
   ...
 )
@@ -88,6 +92,10 @@ only.}
 \item{average_before_softmax}{A logical. For cases where
 \code{num_estimators > 1}, should the average be done before using the softmax
 function or after? Default is \code{FALSE}.}
+
+\item{training_set_limit}{An integer greater than 2L (and possibly \code{Inf})
+that can be used to keep the training data within the limits of the
+data constraints imposed by the Python library.}
 
 \item{control}{A list of options produced by \code{\link[=control_tab_pfn]{control_tab_pfn()}}.}
 

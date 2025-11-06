@@ -10,6 +10,7 @@ Description: R functions are used via 'python' to train and predict
 License: Apache License (>= 2)
 Imports: 
     cli,
+    dplyr,
     generics,
     hardhat,
     purrr, 

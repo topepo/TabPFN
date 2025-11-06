@@ -11,3 +11,15 @@ generics::augment
 
 ## usethis namespace: end
 NULL
+
+utils::globalVariables(
+  c(
+    ".row_order",
+    "data",
+    "outcome",
+    "quantile",
+    "sample_num",
+    "sample_prop",
+    "size"
+  )
+)
