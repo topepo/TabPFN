@@ -171,6 +171,7 @@ You will need a working Python virtual environment with the correct packages
 to use these modeling functions.
 
 There are at least two ways to proceed.
+\subsection{Ephemeral \code{uv} Install}{
 
 The first approach, which we \emph{strongly suggest}, is to simply load this
 package and attempt to run a model. This will prompt \pkg{reticulate} to
@@ -208,6 +209,12 @@ packages. That process would look like this:
 The location of the environment can be found at
 \code{tools::R_user_dir("reticulate", "cache")}.
 
+See the documentation for \code{\link[reticulate:py_require]{reticulate::py_require()}} to learn more about this
+method.
+}
+
+\subsection{Manually created \code{venv} Virtual Environment}{
+
 Alternatively, you can use the functions in the \pkg{reticulate} package to
 create a virtual environment and install the required Python packages there.
 An example pattern is:
@@ -228,19 +235,22 @@ An example pattern is:
   virtualenv_create(env_name, python = py_inst)
 }
 
-Once you have that virtual environment installed, you can load it before
+Once you have that virtual environment installed, you can load it \emph{before}
 starting \pkg{TabPFN}:
 
 \preformatted{
   reticulate::use_virtualenv("r-tabpfn")
 }
 
-Please see the important note below.
+\strong{Important Note} for this method,. Due to how Python uses the OpenMP
+library, it is important that you load your virtual Python environment prior
+to loading any R package that also uses OpenMP. If not, a segmentation fault
+can occur. See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
 
-\strong{Important Note}. Due to how Python uses the OpenMP library, it is
-important that you load your virtual Python environment prior to loading any
-R package that also uses OpenMP. If not, a segmentation fault can occur.
-See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
+This does not appear to be the case when the first installation method (via
+\code{uv}) is used.
+}
+
 }
 
 \subsection{Data}{
