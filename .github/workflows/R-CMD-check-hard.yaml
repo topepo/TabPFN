@@ -54,6 +54,21 @@ jobs:
             any::rmarkdown
           needs: check
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.13.1'
+
+      - name: setup r-reticulate venv
+        shell: Rscript {0}
+        run: |
+          remotes::install_local()
+          library(reticulate)
+          virtualenv_create("r-reticulate", Sys.which("python"),
+            packages = c(
+              "tabpfn"
+          ))
+          python <- reticulate::virtualenv_python("r-reticulate")
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
