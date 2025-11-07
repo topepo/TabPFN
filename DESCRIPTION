@@ -9,6 +9,8 @@ Description: R functions are used via 'python' to train and predict
     small data with a tabular foundation model," Nature, 637(8045)
     <doi:10.1038/s41586-024-08328-6>.
 License: Apache License (>= 2)
+URL: https://topepo.github.io/TabPFN/, https://github.com/topepo/TabPFN
+BugReports: https://github.com/topepo/TabPFN/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
