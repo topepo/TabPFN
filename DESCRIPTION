@@ -1,19 +1,22 @@
 Package: TabPFN
 Title: TabPFN - Foundation Model for Tabular Data
 Version: 0.1.0
-Authors@R: c(
+Authors@R: 
     person("Max", "Kuhn", , "mxkuhn@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-136X"))
-  )
 Description: R functions are used via 'python' to train and predict
-    'TabPFN' models.
+    'TabPFN' models of Hollmann et al (2025) "Accurate predictions on
+    small data with a tabular foundation model," Nature, 637(8045)
+    <doi:10.1038/s41586-024-08328-6>.
 License: Apache License (>= 2)
+Depends: 
+    R (>= 4.1.0)
 Imports: 
     cli,
     dplyr,
     generics,
     hardhat,
-    purrr, 
+    purrr,
     reticulate (>= 1.41.0.1),
     rlang (>= 1.1.0),
     tibble

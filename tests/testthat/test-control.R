@@ -1,6 +1,4 @@
 test_that('control values', {
-  skip_if(!run_tests())
-
   set.seed(822)
   ctrl <- control_tab_pfn(
     n_preprocessing_jobs = 2L,

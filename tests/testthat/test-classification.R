@@ -111,6 +111,7 @@ test_that('classification models - recipes', {
 })
 
 test_that('main options', {
+  skip_if(!run_tests())
   set.seed(956)
   expect_snapshot_error(
     tab_pfn(Class ~ ., data = two_class_dat, num_estimators = "YES")
