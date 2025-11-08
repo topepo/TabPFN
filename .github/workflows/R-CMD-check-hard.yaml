@@ -52,7 +52,7 @@ jobs:
             any::testthat
             any::knitr
             any::rmarkdown
-            amy::remotes
+            any::remotes
           needs: check
 
       - uses: actions/setup-python@v4
