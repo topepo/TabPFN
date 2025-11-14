@@ -221,22 +221,22 @@ An example pattern is:
 
 \preformatted{
   library(reticulate)
-  env_name <- "r-tabpfn"      # exact name can be different
-  py_version <- "3.13:latest" # or your version of choice
 
-  virtualenv_list()
-  py_inst <- install_python(py_version)
+  venv_name <- "r-tabpfn"    # exact name can be different
+  venv_seed_python <-
+    virtualenv_starter(">=3.11,<3.14") %||% install_python()
 
-  # Save py_inst value
-  <restart R>
-
-  library(reticulate)
-  use_python_version(py_version)
-  virtualenv_create(env_name, python = py_inst)
+  virtualenv_create(
+    envname = venv_name,
+    python = venv_seed_python,
+    packages = c("numpy", "tabpfn")
+  )
 }
 
-Once you have that virtual environment installed, you can load it \emph{before}
-starting \pkg{TabPFN}:
+Once you have that virtual environment installed, you can declare it as your
+preferred Python installation with \code{use_virtualenv()}. (You must do this
+before reticulate has initialized Python, i.e., before attempting to use
+TabPFN):
 
 \preformatted{
   reticulate::use_virtualenv("r-tabpfn")
@@ -246,6 +246,8 @@ starting \pkg{TabPFN}:
 library, it is important that you load your virtual Python environment prior
 to loading any R package that also uses OpenMP. If not, a segmentation fault
 can occur. See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
+(You can force reticulate to load python by calling
+\code{reticulate::py_config()}).
 
 This does not appear to be the case when the first installation method (via
 \code{uv}) is used.
