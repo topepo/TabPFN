@@ -6,7 +6,16 @@
 \alias{TabPFN-package}
 \title{TabPFN: TabPFN - Foundation Model for Tabular Data}
 \description{
-R functions are used via 'python' to train and predict 'TabPFN' models.
+R functions are used via 'python' to train and predict 'TabPFN' models of Hollmann et al (2025) "Accurate predictions on small data with a tabular foundation model," Nature, 637(8045) \doi{10.1038/s41586-024-08328-6}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://topepo.github.io/TabPFN/}
+  \item \url{https://github.com/topepo/TabPFN}
+  \item Report bugs at \url{https://github.com/topepo/TabPFN/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Max Kuhn \email{mxkuhn@gmail.com} (\href{https://orcid.org/0000-0003-2402-136X}{ORCID})
