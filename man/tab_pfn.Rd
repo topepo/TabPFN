@@ -276,21 +276,23 @@ A value of \code{softmax_temperature = 1} results in a plain softmax value.
 predictors <- mtcars[, -1]
 outcome <- mtcars[, 1]
 
-# XY interface
-mod <- tab_pfn(predictors, outcome)
+if (is_tab_pfn_installed()) {
+ # XY interface
+ mod <- tab_pfn(predictors, outcome)
 
-# Formula interface
-mod2 <- tab_pfn(mpg ~ ., mtcars)
+ # Formula interface
+ mod2 <- tab_pfn(mpg ~ ., mtcars)
 
-# Recipes interface
-if (rlang::is_installed("recipes")) {
- library(recipes)
- rec <-
-  recipe(mpg ~ ., mtcars) \%>\%
-  step_log(disp)
+ # Recipes interface
+ if (rlang::is_installed("recipes")) {
+  library(recipes)
+  rec <-
+   recipe(mpg ~ ., mtcars) \%>\%
+   step_log(disp)
 
- mod3 <- tab_pfn(rec, mtcars)
- mod3
+  mod3 <- tab_pfn(rec, mtcars)
+  mod3
+ }
 }
 
 }

@@ -34,10 +34,12 @@ car_train <- mtcars[ 1:20,   ]
 car_test  <- mtcars[21:32, -1]
 
 # Fit
-mod <- tab_pfn(mpg ~ cyl + log(drat), car_train)
+if (is_tab_pfn_installed()) {
+ mod <- tab_pfn(mpg ~ cyl + log(drat), car_train)
 
-# Predict, with preprocessing
-predict(mod, car_test)
-augment(mod, car_test)
+ # Predict
+ predict(mod, car_test)
+ augment(mod, car_test)
+}
 
 }

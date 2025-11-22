@@ -123,3 +123,15 @@ sample_indicies <- function(molded, size_limit = 10000) {
     dplyr::slice(1:size_limit) |>
     purrr::pluck(".row_order")
 }
+
+#' Check the Python package installation
+#'
+#' Attempts to import the Python package
+#' @return A single logical
+#' @examples
+#' is_tab_pfn_installed()
+#' @export
+is_tab_pfn_installed <- function() {
+ res <- try(reticulate::import("tabpfn"), silent = TRUE)
+ !inherits(res, "try-error")
+}
