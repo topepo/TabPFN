@@ -1,4 +1,6 @@
-# TabPFN (development version)
+# TabPFN 0.1.0
 
 - Initial version
+
+
 

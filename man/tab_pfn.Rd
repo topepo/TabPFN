@@ -241,16 +241,6 @@ TabPFN):
 \preformatted{
   reticulate::use_virtualenv("r-tabpfn")
 }
-
-\strong{Important Note} for this method,. Due to how Python uses the OpenMP
-library, it is important that you load your virtual Python environment prior
-to loading any R package that also uses OpenMP. If not, a segmentation fault
-can occur. See \href{https://github.com/topepo/TabPFN/issues/3}{this GitHub issue}.
-(You can force reticulate to load python by calling
-\code{reticulate::py_config()}).
-
-This does not appear to be the case when the first installation method (via
-\code{uv}) is used.
 }
 
 }

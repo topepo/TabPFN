@@ -40,23 +40,34 @@ require(pak)
 pak(c("topepo/TabPFN"), ask = FALSE)
 ```
 
-You'll need a Python virtual environment to access the underlying library. After installing the R package, you could use this code to create an appropriate environment: 
+You'll need a Python virtual environment to access the underlying library. After installing the R package, TabPFN will install the required Python bits when you first fit a model: 
 
-```{r}
-#| eval: false
-library(reticulate)
+```
+> library(TabPFN)
+>
+> predictors <- mtcars[, -1]
+> outcome <- mtcars[, 1]
+>
+> # XY interface
+> mod <- tab_pfn(predictors, outcome)
+Downloading uv...Done!
+Downloading cpython-3.12.12 (download) (15.9MiB)
+ Downloading cpython-3.12.12 (download)
+Downloading setuptools (1.1MiB)
+Downloading scikit-learn (8.2MiB)
+Downloading numpy (4.9MiB)
 
-python <-install_python()
+<downloading and installing more packages>
 
-virtualenv_install(
-	"r-tabpfn",
-	packages = c("numpy", "tabpfn"),
-	python = python
-)
+ Downloading llvmlite
+ Downloading torch
+Installed 58 packages in 350ms
+> mod
+TabPFN Regression Model
 
-# check the install:
-py_config()
-py_list_packages(envname = "r-tabpfn", type = "virtualenv")
+Training set
+ℹ 32 data points
+ℹ 10 predictors
 ```
 
 
@@ -64,17 +75,7 @@ py_list_packages(envname = "r-tabpfn", type = "virtualenv")
 
 
 ```{r}
-
-```
-
-On starting the TabPFN, it will see if the python packages are installed. 
-
-```{r}
 #| label: tab-start-up
-
-# Perhaps start by setting your virt env: 
-# reticulate::use_virtualenv("~/.virtualenvs/your-envir-name")
-
 library(TabPFN)
 ```
 

@@ -164,16 +164,6 @@
 #'   reticulate::use_virtualenv("r-tabpfn")
 #' }
 #'
-#' **Important Note** for this method,. Due to how Python uses the OpenMP
-#' library, it is important that you load your virtual Python environment prior
-#' to loading any R package that also uses OpenMP. If not, a segmentation fault
-#' can occur. See [this GitHub issue](https://github.com/topepo/TabPFN/issues/3).
-#' (You can force reticulate to load python by calling
-#' `reticulate::py_config()`).
-#'
-#' This does not appear to be the case when the first installation method (via
-#' `uv`) is used.
-#'
 #' ## Data
 #'
 #' Be default, there are limits to the training data dimensions:
