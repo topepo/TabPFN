@@ -4,68 +4,49 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TabPFN - Foundation Model for Tabular Data • TabPFN</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="TabPFN - Foundation Model for Tabular Data">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Prior-Data Fitted Network Foundational Model for Tabular Data • TabPFN</title>
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Prior-Data Fitted Network Foundational Model for Tabular Data">
+<meta name="description" content='R functions are used via python to train and predict TabPFN models of Hollmann et al (2025) "Accurate predictions on small data with a tabular foundation model," Nature, 637(8045) &lt;doi:10.1038/s41586-024-08328-6&gt;.'>
 <meta property="og:description" content='R functions are used via python to train and predict TabPFN models of Hollmann et al (2025) "Accurate predictions on small data with a tabular foundation model," Nature, 637(8045) &lt;doi:10.1038/s41586-024-08328-6&gt;.'>
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">TabPFN</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
-</li>
+    <a class="navbar-brand me-2" href="index.html">TabPFN</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/topepo/TabPFN/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/topepo/TabPFN/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div class="section level1">
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="tabpfn">TabPFN<a class="anchor" aria-label="anchor" href="#tabpfn"></a>
 </h1></div>
 <!-- badges: start -->
@@ -87,39 +68,46 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://pak.r-lib.org/" class="external-link">pak</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"topepo/TabPFN"</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>You’ll need a Python virtual environment to access the underlying library. After installing the R package, you could use this code to create an appropriate environment:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">python</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/install_python.html" class="external-link">install_python</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/virtualenv-tools.html" class="external-link">virtualenv_install</a></span><span class="op">(</span></span>
-<span>    <span class="st">"r-tabpfn"</span>,</span>
-<span>    packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"numpy"</span>, <span class="st">"tabpfn"</span><span class="op">)</span>,</span>
-<span>    python <span class="op">=</span> <span class="va">python</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># check the install:</span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_config.html" class="external-link">py_config</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_list_packages.html" class="external-link">py_list_packages</a></span><span class="op">(</span>envname <span class="op">=</span> <span class="st">"r-tabpfn"</span>, type <span class="op">=</span> <span class="st">"virtualenv"</span><span class="op">)</span></span></code></pre></div>
+<p>You’ll need a Python virtual environment to access the underlying library. After installing the R package, TabPFN will install the required Python bits when you first fit a model:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(TabPFN)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="sc">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="er">&gt;</span> predictors <span class="ot">&lt;-</span> mtcars[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="sc">&gt;</span> outcome <span class="ot">&lt;-</span> mtcars[, <span class="dv">1</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="sc">&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="er">&gt;</span> <span class="co"># XY interface</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="er">&gt;</span> mod <span class="ot">&lt;-</span> <span class="fu">tab_pfn</span>(predictors, outcome)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>Downloading uv...Done<span class="sc">!</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>Downloading cpython<span class="dv">-3</span>.<span class="fl">12.12</span> (download) (<span class="fl">15.9</span>MiB)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a> Downloading cpython<span class="dv">-3</span>.<span class="fl">12.12</span> (download)</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>Downloading <span class="fu">setuptools</span> (<span class="fl">1.1</span>MiB)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>Downloading scikit<span class="sc">-</span><span class="fu">learn</span> (<span class="fl">8.2</span>MiB)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>Downloading <span class="fu">numpy</span> (<span class="fl">4.9</span>MiB)</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="sc">&lt;</span>downloading and installing more packages<span class="sc">&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a> Downloading llvmlite</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a> Downloading torch</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>Installed <span class="dv">58</span> packages <span class="cf">in</span> <span class="dv">350</span>ms</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="sc">&gt;</span> mod</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>TabPFN Regression Model</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>Training set</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>i <span class="dv">32</span> data points</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>i <span class="dv">10</span> predictors</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>On starting the TabPFN, it will see if the python packages are installed.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Perhaps start by setting your virt env: </span></span>
-<span><span class="co"># reticulate::use_virtualenv("~/.virtualenvs/your-envir-name")</span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://topepo.github.io/TabPFN/" class="external-link">TabPFN</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://topepo.github.io/TabPFN/">TabPFN</a></span><span class="op">)</span></span></code></pre></div>
 <p>To fit a model:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">reg_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tab_pfn.html">tab_pfn</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">reg_mod</span></span>
-<span><span class="co">#&gt; tab_pfn Regression Model</span></span>
+<span><span class="co">#&gt; TabPFN Regression Model</span></span>
 <span><span class="co">#&gt; Training set</span></span>
-<span><span class="co">#&gt; ℹ 25 data points</span></span>
-<span><span class="co">#&gt; ℹ 10 predictors</span></span></code></pre></div>
+<span><span class="co">#&gt; i 25 data points</span></span>
+<span><span class="co">#&gt; i 10 predictors</span></span></code></pre></div>
 <p>In addition to the x/y interface shown above, there are also formula and recipes interfaces.</p>
 <p>Prediction follows the usual S3 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -127,17 +115,22 @@
 <span><span class="co">#&gt; # A tibble: 7 × 1</span></span>
 <span><span class="co">#&gt;   .pred</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1  31.2</span></span>
-<span><span class="co">#&gt; 2  23.7</span></span>
-<span><span class="co">#&gt; 3  25.5</span></span>
-<span><span class="co">#&gt; 4  14.9</span></span>
-<span><span class="co">#&gt; 5  19.3</span></span>
-<span><span class="co">#&gt; 6  13.9</span></span>
-<span><span class="co">#&gt; 7  22.6</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  29.9</span></span>
+<span><span class="co">#&gt; 2  25.2</span></span>
+<span><span class="co">#&gt; 3  25.3</span></span>
+<span><span class="co">#&gt; 4  16.0</span></span>
+<span><span class="co">#&gt; 5  19.1</span></span>
+<span><span class="co">#&gt; 6  14.9</span></span>
+<span><span class="co">#&gt; 7  23.5</span></span></code></pre></div>
 <p>While TabPFN isn’t a tidymodels package, it follows their prediction convention: a data frame is always returned with a standard set of column names.</p>
 <p>For a classification model, the outcome should always be a factor vector. For example, using these data from the modeldata package:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeldata.tidymodels.org" class="external-link">modeldata</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'modeldata'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:datasets':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     penguins</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">two_cls_train</span> <span class="op">&lt;-</span> <span class="va">parabolic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">400</span>,  <span class="op">]</span></span>
@@ -152,17 +145,17 @@
 <span><span class="co">#&gt; # A tibble: 625 × 3</span></span>
 <span><span class="co">#&gt;    .pred_Class1 .pred_Class2 .pred_class</span></span>
 <span><span class="co">#&gt;           &lt;dbl&gt;        &lt;dbl&gt; &lt;fct&gt;      </span></span>
-<span><span class="co">#&gt;  1        0.988      0.0119  Class1     </span></span>
-<span><span class="co">#&gt;  2        0.991      0.00870 Class1     </span></span>
-<span><span class="co">#&gt;  3        0.993      0.00660 Class1     </span></span>
-<span><span class="co">#&gt;  4        0.994      0.00580 Class1     </span></span>
-<span><span class="co">#&gt;  5        0.993      0.00682 Class1     </span></span>
-<span><span class="co">#&gt;  6        0.989      0.0108  Class1     </span></span>
-<span><span class="co">#&gt;  7        0.976      0.0244  Class1     </span></span>
-<span><span class="co">#&gt;  8        0.929      0.0710  Class1     </span></span>
-<span><span class="co">#&gt;  9        0.832      0.168   Class1     </span></span>
-<span><span class="co">#&gt; 10        0.631      0.369   Class1     </span></span>
-<span><span class="co">#&gt; # ℹ 615 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt;  1        0.987      0.0133  Class1     </span></span>
+<span><span class="co">#&gt;  2        0.990      0.00961 Class1     </span></span>
+<span><span class="co">#&gt;  3        0.993      0.00684 Class1     </span></span>
+<span><span class="co">#&gt;  4        0.993      0.00669 Class1     </span></span>
+<span><span class="co">#&gt;  5        0.992      0.00799 Class1     </span></span>
+<span><span class="co">#&gt;  6        0.986      0.0136  Class1     </span></span>
+<span><span class="co">#&gt;  7        0.969      0.0311  Class1     </span></span>
+<span><span class="co">#&gt;  8        0.930      0.0703  Class1     </span></span>
+<span><span class="co">#&gt;  9        0.851      0.149   Class1     </span></span>
+<span><span class="co">#&gt; 10        0.589      0.411   Class1     </span></span>
+<span><span class="co">#&gt; # i 615 more rows</span></span></code></pre></div>
 <p>The fit looks fairly good when shown with out-of-sample data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">grid</span>, <span class="va">grid_pred</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -179,10 +172,7 @@
 <p>Please note that the TabPFN project is released with a <a href="https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/topepo/TabPFN/" class="external-link">Browse source code</a></li>
@@ -229,23 +219,20 @@
 </ul>
 </div>
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Max Kuhn.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Max Kuhn.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
-
 
 
 

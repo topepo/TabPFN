@@ -1,15 +1,16 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/CODE_OF_CONDUCT.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/news/index.html</loc></url>
-<url><loc>/reference/TabPFN-package.html</loc></url>
-<url><loc>/reference/control_tab_pfn.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/predict.tab_pfn.html</loc></url>
-<url><loc>/reference/reexports.html</loc></url>
-<url><loc>/reference/tab_pfn.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/404.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/LICENSE.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/authors.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/index.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/news/index.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/TabPFN-package.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/control_tab_pfn.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/index.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/is_tab_pfn_installed.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/predict.tab_pfn.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/reexports.html</loc></url>
+<url><loc>https://topepo.github.io/TabPFN/reference/tab_pfn.html</loc></url>
 </urlset>
 
