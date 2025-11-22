@@ -39,34 +39,38 @@ pak(c("topepo/TabPFN"), ask = FALSE)
 ```
 
 You’ll need a Python virtual environment to access the underlying
-library. After installing the R package, you could use this code to
-create an appropriate environment:
+library. After installing the R package, TabPFN will install the
+required Python bits when you first fit a model:
 
-``` r
-library(reticulate)
+    > library(TabPFN)
+    >
+    > predictors <- mtcars[, -1]
+    > outcome <- mtcars[, 1]
+    >
+    > # XY interface
+    > mod <- tab_pfn(predictors, outcome)
+    Downloading uv...Done!
+    Downloading cpython-3.12.12 (download) (15.9MiB)
+     Downloading cpython-3.12.12 (download)
+    Downloading setuptools (1.1MiB)
+    Downloading scikit-learn (8.2MiB)
+    Downloading numpy (4.9MiB)
 
-python <-install_python()
+    <downloading and installing more packages>
 
-virtualenv_install(
-    "r-tabpfn",
-    packages = c("numpy", "tabpfn"),
-    python = python
-)
+     Downloading llvmlite
+     Downloading torch
+    Installed 58 packages in 350ms
+    > mod
+    TabPFN Regression Model
 
-# check the install:
-py_config()
-py_list_packages(envname = "r-tabpfn", type = "virtualenv")
-```
+    Training set
+    i 32 data points
+    i 10 predictors
 
 ## Example
 
-On starting the TabPFN, it will see if the python packages are
-installed.
-
 ``` r
-# Perhaps start by setting your virt env: 
-# reticulate::use_virtualenv("~/.virtualenvs/your-envir-name")
-
 library(TabPFN)
 ```
 
@@ -75,10 +79,10 @@ To fit a model:
 ``` r
 reg_mod <- tab_pfn(mtcars[1:25, -1], mtcars$mpg[1:25])
 reg_mod
-#> tab_pfn Regression Model
+#> TabPFN Regression Model
 #> Training set
-#> ℹ 25 data points
-#> ℹ 10 predictors
+#> i 25 data points
+#> i 10 predictors
 ```
 
 In addition to the x/y interface shown above, there are also formula and
@@ -91,13 +95,13 @@ predict(reg_mod, mtcars[26:32, -1])
 #> # A tibble: 7 × 1
 #>   .pred
 #>   <dbl>
-#> 1  31.2
-#> 2  23.7
-#> 3  25.5
-#> 4  14.9
-#> 5  19.3
-#> 6  13.9
-#> 7  22.6
+#> 1  29.9
+#> 2  25.2
+#> 3  25.3
+#> 4  16.0
+#> 5  19.1
+#> 6  14.9
+#> 7  23.5
 ```
 
 While TabPFN isn’t a tidymodels package, it follows their prediction
@@ -109,6 +113,11 @@ vector. For example, using these data from the modeldata package:
 
 ``` r
 library(modeldata)
+#> 
+#> Attaching package: 'modeldata'
+#> The following object is masked from 'package:datasets':
+#> 
+#>     penguins
 library(ggplot2)
 
 two_cls_train <- parabolic[1:400,  ]
@@ -123,17 +132,17 @@ grid_pred
 #> # A tibble: 625 × 3
 #>    .pred_Class1 .pred_Class2 .pred_class
 #>           <dbl>        <dbl> <fct>      
-#>  1        0.988      0.0119  Class1     
-#>  2        0.991      0.00870 Class1     
-#>  3        0.993      0.00660 Class1     
-#>  4        0.994      0.00580 Class1     
-#>  5        0.993      0.00682 Class1     
-#>  6        0.989      0.0108  Class1     
-#>  7        0.976      0.0244  Class1     
-#>  8        0.929      0.0710  Class1     
-#>  9        0.832      0.168   Class1     
-#> 10        0.631      0.369   Class1     
-#> # ℹ 615 more rows
+#>  1        0.987      0.0133  Class1     
+#>  2        0.990      0.00961 Class1     
+#>  3        0.993      0.00684 Class1     
+#>  4        0.993      0.00669 Class1     
+#>  5        0.992      0.00799 Class1     
+#>  6        0.986      0.0136  Class1     
+#>  7        0.969      0.0311  Class1     
+#>  8        0.930      0.0703  Class1     
+#>  9        0.851      0.149   Class1     
+#> 10        0.589      0.411   Class1     
+#> # i 615 more rows
 ```
 
 The fit looks fairly good when shown with out-of-sample data:

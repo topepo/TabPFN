@@ -1,5 +1,6 @@
 test_that('data constraints', {
   skip_if(!run_tests())
+  skip_on_cran()
   skip_if_not_installed("modeldata")
 
   set.seed(418)

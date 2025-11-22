@@ -1,5 +1,5 @@
 Package: TabPFN
-Title: TabPFN - Foundation Model for Tabular Data
+Title: Prior-Data Fitted Network Foundational Model for Tabular Data 
 Version: 0.1.0
 Authors@R: 
     person("Max", "Kuhn", , "mxkuhn@gmail.com", role = c("aut", "cre"),

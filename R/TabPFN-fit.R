@@ -48,17 +48,132 @@
 #'
 #' @details
 #'
-#' **Important Note**. Due to how Python uses the OpenMP library, it is
-#' important that you load your virtual Python environment prior to loading any
-#' R package that also uses OpenMP. If not, a segmentation fault can occur.
-#' See [this GitHub issue](https://github.com/topepo/TabPFN/issues/3).
+#' ## Computing Requirements
+#'
+#' This model can be used with or without a graphics processing unit (GPU).
+#' However, it is fairly limited when used with a CPU (and no GPU). There might
+#' be additional data size limitation warnings with CPU computations, and,
+#' understandably, the execution time is much longer. CPU computations can also
+#' consume a significant amount of system memory, depending on the size of your
+#' data.
+#'
+#' GPUs using CUDA (Compute Unified Device Architecture) are most effective.
+#' Limited testing with others has shown that GPUs with Metal Performance
+#' Shaders (MPS) instructions (e.g., Apple GPUs) have limited utility for these
+#' specific computations and might be slower than the CPU for some data sets.
+#'
+#' ## License Requirements
+#'
+#' On November 6, 2025, PriorLabs released version 2.5 of the model, which
+#' contained several improvements. One other change is that accessing the model
+#' parameters required an API key. Without one, an error occurs:
+#'
+#' "This model is gated and requires you to accept its terms.  Please
+#' follow these steps: 1. Visit https://huggingface.co/Prior-Labs/tabpfn_2_5
+#' in your browser and accept the terms of use. 2. Log in to your Hugging Face
+#' account via the command line by running: hf auth login (Alternatively, you
+#' can set the HF_TOKEN environment variable with a read token)."
+#'
+#' The license contains provisions for "Non-Commercial Use Only" usage if that
+#' is relevant for you.
+#'
+#' To get an API key, use the `huggingface` link above, create an account, and
+#' then get an API key. Once you have that, put it in your `.Renviron` file in
+#' the form of:
+#'
+#' \preformatted{
+#' HF_TOKEN=your_api_key_value
+#' }
+#'
+#' The \pkg{usethis} function `edit_r_environ()` can be very helpful here.
+#'
+#' ## Python Installation
+#'
+#' You will need a working Python virtual environment with the correct packages
+#' to use these modeling functions.
+#'
+#' There are at least two ways to proceed.
+#'
+#' ### Ephemeral `uv` Install
+#'
+#' The first approach, which we *strongly suggest*, is to simply load this
+#' package and attempt to run a model. This will prompt \pkg{reticulate} to
+#' create an ephemeral environment and automatically install the required
+#' packages. That process would look like this:
+#'
+#' \preformatted{
+#'   > library(TabPFN)
+#'   >
+#'   > predictors <- mtcars[, -1]
+#'   > outcome <- mtcars[, 1]
+#'   >
+#'   > # XY interface
+#'   > mod <- tab_pfn(predictors, outcome)
+#'   Downloading uv...Done!
+#'   Downloading cpython-3.12.12 (download) (15.9MiB)
+#'    Downloading cpython-3.12.12 (download)
+#'   Downloading setuptools (1.1MiB)
+#'   Downloading scikit-learn (8.2MiB)
+#'   Downloading numpy (4.9MiB)
+#'
+#'   <downloading and installing more packages>
+#'
+#'    Downloading llvmlite
+#'    Downloading torch
+#'   Installed 58 packages in 350ms
+#'   > mod
+#'   TabPFN Regression Model
+#'
+#'   Training set
+#'   i 32 data points
+#'   i 10 predictors
+#' }
+#'
+#' The location of the environment can be found at
+#' `tools::R_user_dir("reticulate", "cache")`.
+#'
+#' See the documentation for [reticulate::py_require()] to learn more about this
+#' method.
+#'
+#' ### Manually created `venv` Virtual Environment
+#'
+#' Alternatively, you can use the functions in the \pkg{reticulate} package to
+#' create a virtual environment and install the required Python packages there.
+#' An example pattern is:
+#'
+#' \preformatted{
+#'   library(reticulate)
+#'
+#'   venv_name <- "r-tabpfn"    # exact name can be different
+#'   venv_seed_python <-
+#'     virtualenv_starter(">=3.11,<3.14") %||% install_python()
+#'
+#'   virtualenv_create(
+#'     envname = venv_name,
+#'     python = venv_seed_python,
+#'     packages = c("numpy", "tabpfn")
+#'   )
+#' }
+#'
+#' Once you have that virtual environment installed, you can declare it as your
+#' preferred Python installation with `use_virtualenv()`. (You must do this
+#' before reticulate has initialized Python, i.e., before attempting to use
+#' TabPFN):
+#'
+#' \preformatted{
+#'   reticulate::use_virtualenv("r-tabpfn")
+#' }
 #'
 #' ## Data
 #'
 #' Be default, there are limits to the training data dimensions:
 #'
-#'   * Version 2: number of training set samples (10,000) and, the number of
+#'   * Version 2.0: number of training set samples (10,000) and, the number of
 #'   predictors (500). There is an unchangeable limit to the number of classes
+#'   (10).
+#'
+#'   * Version 2.5: number of training set samples (50,000) and, the number of
+#'   predictors (2,000). There is an unchangeable limit to the number of classes
 #'   (10).
 #'
 #' Predictors do not require preprocessing; missing values and factor vectors
@@ -104,21 +219,23 @@
 #' predictors <- mtcars[, -1]
 #' outcome <- mtcars[, 1]
 #'
-#' # XY interface
-#' mod <- tab_pfn(predictors, outcome)
+#' if (is_tab_pfn_installed()) {
+#'  # XY interface
+#'  mod <- tab_pfn(predictors, outcome)
 #'
-#' # Formula interface
-#' mod2 <- tab_pfn(mpg ~ ., mtcars)
+#'  # Formula interface
+#'  mod2 <- tab_pfn(mpg ~ ., mtcars)
 #'
-#' # Recipes interface
-#' if (rlang::is_installed("recipes")) {
-#'  library(recipes)
-#'  rec <-
-#'   recipe(mpg ~ ., mtcars) %>%
-#'   step_log(disp)
+#'  # Recipes interface
+#'  if (rlang::is_installed("recipes")) {
+#'   library(recipes)
+#'   rec <-
+#'    recipe(mpg ~ ., mtcars) %>%
+#'    step_log(disp)
 #'
-#'  mod3 <- tab_pfn(rec, mtcars)
-#'  mod3
+#'   mod3 <- tab_pfn(rec, mtcars)
+#'   mod3
+#'  }
 #' }
 #'
 #' @export
