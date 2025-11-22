@@ -202,8 +202,8 @@ packages. That process would look like this:
   TabPFN Regression Model
 
   Training set
-  ℹ 32 data points
-  ℹ 10 predictors
+  i 32 data points
+  i 10 predictors
 }
 
 The location of the environment can be found at

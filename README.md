@@ -65,8 +65,8 @@ required Python bits when you first fit a model:
     TabPFN Regression Model
 
     Training set
-    ℹ 32 data points
-    ℹ 10 predictors
+    i 32 data points
+    i 10 predictors
 
 ## Example
 
@@ -81,8 +81,8 @@ reg_mod <- tab_pfn(mtcars[1:25, -1], mtcars$mpg[1:25])
 reg_mod
 #> TabPFN Regression Model
 #> Training set
-#> ℹ 25 data points
-#> ℹ 10 predictors
+#> i 25 data points
+#> i 10 predictors
 ```
 
 In addition to the x/y interface shown above, there are also formula and
@@ -142,7 +142,7 @@ grid_pred
 #>  8        0.930      0.0703  Class1     
 #>  9        0.851      0.149   Class1     
 #> 10        0.589      0.411   Class1     
-#> # ℹ 615 more rows
+#> # i 615 more rows
 ```
 
 The fit looks fairly good when shown with out-of-sample data:
