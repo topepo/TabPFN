@@ -1,4 +1,4 @@
-# TabPFN 0.1.0
+# tabpfn 0.1.0
 
 - Initial version
 

@@ -1,5 +1,5 @@
 run_tests <- function() {
-  pkg <- asNamespace("TabPFN")
+  pkg <- asNamespace("tabpfn")
   src_pkg <- ls(envir = pkg, pattern = "^tabpfn$")
   tabpfn_avail <- identical(src_pkg, "tabpfn")
 
@@ -15,7 +15,7 @@ run_tests <- function() {
   correct_venv
 }
 
-exp_cls <- c("TabPFN", "hardhat_model", "hardhat_scalar")
+exp_cls <- c("tabpfn", "hardhat_model", "hardhat_scalar")
 
 predictors <- mtcars[, -1]
 outcome <- mtcars[, 1]

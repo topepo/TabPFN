@@ -1,20 +1,16 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# TabPFN
+# tabpfn
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/TabPFN)](https://CRAN.R-project.org/package=TabPFN)
-[![R-CMD-check](https://github.com/topepo/TabPFN/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/topepo/TabPFN/actions/workflows/R-CMD-check.yaml)
+status](https://www.r-pkg.org/badges/version/tabpfn)](https://CRAN.R-project.org/package=tabpfn)
+[![R-CMD-check](https://github.com/tidymodels/tabpfn/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tabpfn/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/topepo/TabPFN/branch/main/graph/badge.svg)](https://app.codecov.io/gh/topepo/TabPFN?branch=main)
+coverage](https://codecov.io/gh/tidymodels/tabpfn/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tabpfn?branch=main)
 <!-- badges: end -->
 
-TabPFN, meaning prior fitted networks for tabular data, is a
+tabpfn, meaning prior fitted networks for tabular data, is a
 deep-learning model. See:
 
 - [*Transformers Can Do Bayesian
@@ -26,23 +22,23 @@ deep-learning model. See:
   (Nature, 2025)
 
 This R package is a wrapper of the [Python
-library](https://github.com/PriorLabs/TabPFN) via reticulate. It has an
+library](https://github.com/PriorLabs/tabpfn) via reticulate. It has an
 idiomatic R syntax using standard S3 methods.
 
 ## Installation
 
-You can install the development version of TabPFN like so:
+You can install the development version of tabpfn like so:
 
 ``` r
 require(pak)
-pak(c("topepo/TabPFN"), ask = FALSE)
+pak(c("tidymodels/tabpfn"), ask = FALSE)
 ```
 
 You’ll need a Python virtual environment to access the underlying
-library. After installing the R package, TabPFN will install the
+library. After installing the R package, tabpfn will install the
 required Python bits when you first fit a model:
 
-    > library(TabPFN)
+    > library(tabpfn)
     >
     > predictors <- mtcars[, -1]
     > outcome <- mtcars[, 1]
@@ -62,7 +58,7 @@ required Python bits when you first fit a model:
      Downloading torch
     Installed 58 packages in 350ms
     > mod
-    TabPFN Regression Model
+    tabpfn Regression Model
 
     Training set
     i 32 data points
@@ -71,7 +67,7 @@ required Python bits when you first fit a model:
 ## Example
 
 ``` r
-library(TabPFN)
+library(tabpfn)
 ```
 
 To fit a model:
@@ -81,8 +77,8 @@ reg_mod <- tab_pfn(mtcars[1:25, -1], mtcars$mpg[1:25])
 reg_mod
 #> TabPFN Regression Model
 #> Training set
-#> i 25 data points
-#> i 10 predictors
+#> ℹ 25 data points
+#> ℹ 10 predictors
 ```
 
 In addition to the x/y interface shown above, there are also formula and
@@ -96,17 +92,16 @@ predict(reg_mod, mtcars[26:32, -1])
 #>   .pred
 #>   <dbl>
 #> 1  29.9
-#> 2  25.2
-#> 3  25.3
-#> 4  16.0
-#> 5  19.1
-#> 6  14.9
-#> 7  23.5
+#> 2  25.5
+#> 3  25.2
+#> 4  15.8
+#> 5  18.8
+#> 6  14.5
+#> 7  23.7
 ```
 
-While TabPFN isn’t a tidymodels package, it follows their prediction
-convention: a data frame is always returned with a standard set of
-column names.
+tabpfn follows the tidymodels prediction convention: a data frame is
+always returned with a standard set of column names.
 
 For a classification model, the outcome should always be a factor
 vector. For example, using these data from the modeldata package:
@@ -132,17 +127,17 @@ grid_pred
 #> # A tibble: 625 × 3
 #>    .pred_Class1 .pred_Class2 .pred_class
 #>           <dbl>        <dbl> <fct>      
-#>  1        0.987      0.0133  Class1     
-#>  2        0.990      0.00961 Class1     
-#>  3        0.993      0.00684 Class1     
-#>  4        0.993      0.00669 Class1     
-#>  5        0.992      0.00799 Class1     
-#>  6        0.986      0.0136  Class1     
-#>  7        0.969      0.0311  Class1     
-#>  8        0.930      0.0703  Class1     
-#>  9        0.851      0.149   Class1     
-#> 10        0.589      0.411   Class1     
-#> # i 615 more rows
+#>  1        0.987      0.0129  Class1     
+#>  2        0.991      0.00920 Class1     
+#>  3        0.994      0.00633 Class1     
+#>  4        0.994      0.00609 Class1     
+#>  5        0.991      0.00879 Class1     
+#>  6        0.986      0.0144  Class1     
+#>  7        0.970      0.0304  Class1     
+#>  8        0.927      0.0733  Class1     
+#>  9        0.813      0.187   Class1     
+#> 10        0.538      0.462   Class1     
+#> # ℹ 615 more rows
 ```
 
 The fit looks fairly good when shown with out-of-sample data:
@@ -160,7 +155,7 @@ cbind(grid, grid_pred) |>
 
 ## Code of Conduct
 
-Please note that the TabPFN project is released with a [Contributor Code
+Please note that the tabpfn project is released with a [Contributor Code
 of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

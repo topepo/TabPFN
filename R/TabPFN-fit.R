@@ -102,7 +102,7 @@
 #' packages. That process would look like this:
 #'
 #' \preformatted{
-#'   > library(TabPFN)
+#'   > library(tabpfn)
 #'   >
 #'   > predictors <- mtcars[, -1]
 #'   > outcome <- mtcars[, 1]
@@ -158,7 +158,7 @@
 #' Once you have that virtual environment installed, you can declare it as your
 #' preferred Python installation with `use_virtualenv()`. (You must do this
 #' before reticulate has initialized Python, i.e., before attempting to use
-#' TabPFN):
+#' \pkg{tabpfn}):
 #'
 #' \preformatted{
 #'   reticulate::use_virtualenv("r-tabpfn")

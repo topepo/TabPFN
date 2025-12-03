@@ -77,7 +77,7 @@ test_that('classification models - recipes', {
 
   reticulate::import("torch")
 
-  library(TabPFN)
+  library(tabpfn)
   suppressPackageStartupMessages(library(recipes))
 
   #-----------------------------------------------------------------------------

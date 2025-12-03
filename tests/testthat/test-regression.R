@@ -95,7 +95,7 @@ test_that('regression models - recipes', {
 
   reticulate::import("torch")
 
-  library(TabPFN)
+  library(tabpfn)
   library(recipes)
   data(Chicago, package = "modeldata")
 
