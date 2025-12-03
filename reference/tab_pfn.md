@@ -122,7 +122,7 @@ tab_pfn(
 - control:
 
   A list of options produced by
-  [`control_tab_pfn()`](https://topepo.github.io/TabPFN/reference/control_tab_pfn.md).
+  [`control_tab_pfn()`](https://tabpfn.tidymodels.org/reference/control_tab_pfn.md).
 
 - formula:
 
@@ -205,7 +205,7 @@ package and attempt to run a model. This will prompt reticulate to
 create an ephemeral environment and automatically install the required
 packages. That process would look like this:
 
-      > library(TabPFN)
+      > library(tabpfn)
       >
       > predictors <- mtcars[, -1]
       > outcome <- mtcars[, 1]
@@ -259,7 +259,7 @@ there. An example pattern is:
 Once you have that virtual environment installed, you can declare it as
 your preferred Python installation with `use_virtualenv()`. (You must do
 this before reticulate has initialized Python, i.e., before attempting
-to use TabPFN):
+to use tabpfn):
 
       reticulate::use_virtualenv("r-tabpfn")
 

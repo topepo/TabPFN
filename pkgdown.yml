@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-12-03T13:19Z
+last_built: 2025-12-03T16:15Z
 urls:
-  reference: https://topepo.github.io/TabPFN/reference
-  article: https://topepo.github.io/TabPFN/articles
+  reference: https://tabpfn.tidymodels.org/reference
+  article: https://tabpfn.tidymodels.org/articles

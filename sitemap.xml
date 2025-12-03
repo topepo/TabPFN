@@ -1,16 +1,16 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://topepo.github.io/TabPFN/404.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/CODE_OF_CONDUCT.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/LICENSE.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/authors.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/index.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/news/index.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/TabPFN-package.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/control_tab_pfn.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/index.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/is_tab_pfn_installed.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/predict.tab_pfn.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/reexports.html</loc></url>
-<url><loc>https://topepo.github.io/TabPFN/reference/tab_pfn.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/404.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/LICENSE.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/authors.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/index.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/news/index.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/TabPFN-package.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/control_tab_pfn.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/index.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/is_tab_pfn_installed.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/predict.tab_pfn.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/reexports.html</loc></url>
+<url><loc>https://tabpfn.tidymodels.org/reference/tab_pfn.html</loc></url>
 </urlset>
 

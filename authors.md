@@ -2,22 +2,25 @@
 
 ## Authors
 
-- **Max Kuhn**. Author, maintainer.
+- **[Max Kuhn](https://github.com/topepo)**. Author, maintainer.
   [](https://orcid.org/0000-0003-2402-136X)
+
+- **[![Posit](https://www.tidyverse.org/posit-logo.svg)](https://www.posit.co)**.
+  Copyright holder, funder.
+  [![ROR](https://raw.githubusercontent.com/ror-community/ror-logos/main/ror-icon-rgb.svg)](https://ror.org/03wc8by49)
 
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/topepo/TabPFN/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tidymodels/tabpfn/blob/main/DESCRIPTION)
 
-Kuhn M (2025). *TabPFN: Prior-Data Fitted Network Foundational Model for
-Tabular Data*. R package version 0.1.0,
-<https://topepo.github.io/TabPFN/>.
+Kuhn M (2025). *tabpfn: Prior-Data Fitted Network Foundational Model for
+Tabular Data*. R package version 0.1.0, <https://tabpfn.tidymodels.org>.
 
     @Manual{,
-      title = {TabPFN: Prior-Data Fitted Network Foundational Model for Tabular Data},
+      title = {tabpfn: Prior-Data Fitted Network Foundational Model for Tabular Data},
       author = {Max Kuhn},
       year = {2025},
       note = {R package version 0.1.0},
-      url = {https://topepo.github.io/TabPFN/},
+      url = {https://tabpfn.tidymodels.org},
     }

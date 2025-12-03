@@ -1,6 +1,6 @@
-# TabPFN: TabPFN - Foundation Model for Tabular Data
+# tabpfn: Prior-Data Fitted Network Foundational Model for Tabular Data
 
-R functions are used via 'python' to train and predict 'TabPFN' models
+R functions are used via 'Python' to train and predict 'TabPFN' models
 of Hollmann et al (2025) "Accurate predictions on small data with a
 tabular foundation model," Nature, 637(8045)
 [doi:10.1038/s41586-024-08328-6](https://doi.org/10.1038/s41586-024-08328-6)
@@ -10,11 +10,11 @@ tabular foundation model," Nature, 637(8045)
 
 Useful links:
 
-- <https://topepo.github.io/TabPFN/>
+- <https://tabpfn.tidymodels.org>
 
-- <https://github.com/topepo/TabPFN>
+- <https://github.com/tidymodels/tabpfn>
 
-- Report bugs at <https://github.com/topepo/TabPFN/issues>
+- Report bugs at <https://github.com/tidymodels/tabpfn/issues>
 
 ## Author
 
