@@ -23,7 +23,7 @@ check_libomp <- function() {
       c(
         i = "We believe that an existing package has loaded {.pkg OpenMP}.",
         x = "{.pkg PyTorch} was about to do the same and would cause a segmentation fault.",
-        i = "See {.url https://github.com/topepo/TabPFN/issues/3}.",
+        i = "See {.url https://github.com/tidymodels/tabpfn/issues/3}.",
         "!" = "Try running {.code reticulate::import('torch')} in a new R session prior to loading other packages.",
         call = NULL
       )
@@ -132,6 +132,6 @@ sample_indicies <- function(molded, size_limit = 10000) {
 #' is_tab_pfn_installed()
 #' @export
 is_tab_pfn_installed <- function() {
- res <- try(reticulate::import("tabpfn"), silent = TRUE)
- !inherits(res, "try-error")
+  res <- try(reticulate::import("tabpfn"), silent = TRUE)
+  !inherits(res, "try-error")
 }

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(TabPFN)
+library(tabpfn)
 
-test_check("TabPFN")
+test_check("tabpfn")
