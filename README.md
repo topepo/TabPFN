@@ -7,7 +7,7 @@
 status](https://www.r-pkg.org/badges/version/tabpfn)](https://CRAN.R-project.org/package=tabpfn)
 [![R-CMD-check](https://github.com/tidymodels/tabpfn/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tabpfn/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidymodels/tabpfn/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tabpfn?branch=main)
+coverage](https://codecov.io/gh/tidymodels/tabpfn/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tabpfn)
 <!-- badges: end -->
 
 tabpfn, meaning prior fitted networks for tabular data, is a
@@ -91,13 +91,13 @@ predict(reg_mod, mtcars[26:32, -1])
 #> # A tibble: 7 × 1
 #>   .pred
 #>   <dbl>
-#> 1  29.9
-#> 2  25.5
-#> 3  25.2
-#> 4  15.8
-#> 5  18.8
-#> 6  14.5
-#> 7  23.7
+#> 1  30.0
+#> 2  25.7
+#> 3  25.6
+#> 4  16.0
+#> 5  19.1
+#> 6  14.7
+#> 7  23.4
 ```
 
 tabpfn follows the tidymodels prediction convention: a data frame is
@@ -127,16 +127,16 @@ grid_pred
 #> # A tibble: 625 × 3
 #>    .pred_Class1 .pred_Class2 .pred_class
 #>           <dbl>        <dbl> <fct>      
-#>  1        0.987      0.0129  Class1     
-#>  2        0.991      0.00920 Class1     
-#>  3        0.994      0.00633 Class1     
-#>  4        0.994      0.00609 Class1     
-#>  5        0.991      0.00879 Class1     
-#>  6        0.986      0.0144  Class1     
-#>  7        0.970      0.0304  Class1     
-#>  8        0.927      0.0733  Class1     
-#>  9        0.813      0.187   Class1     
-#> 10        0.538      0.462   Class1     
+#>  1        0.987      0.0133  Class1     
+#>  2        0.990      0.00969 Class1     
+#>  3        0.992      0.00753 Class1     
+#>  4        0.993      0.00681 Class1     
+#>  5        0.991      0.00885 Class1     
+#>  6        0.983      0.0169  Class1     
+#>  7        0.963      0.0369  Class1     
+#>  8        0.913      0.0872  Class1     
+#>  9        0.816      0.184   Class1     
+#> 10        0.566      0.434   Class1     
 #> # ℹ 615 more rows
 ```
 

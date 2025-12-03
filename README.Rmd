@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/tabpfn)](https://CRAN.R-project.org/package=tabpfn)
 [![R-CMD-check](https://github.com/tidymodels/tabpfn/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tabpfn/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/tidymodels/tabpfn/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tabpfn?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/tidymodels/tabpfn/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tabpfn)
 <!-- badges: end -->
 
 tabpfn, meaning prior fitted networks for tabular data, is a deep-learning model. See:
