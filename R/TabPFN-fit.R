@@ -518,7 +518,10 @@ check_fit_args <- function(opts, call = rlang::caller_env()) {
         i = "{.code VIRTUAL_ENV}: {show_env_var('VIRTUAL_ENV')}"
       )
     )
-    cli::cli_abort("Stopping...", call = NULL)
+    cli::cli_abort(
+      "The {.code tabpfn} Python library could not be imported.",
+      call = NULL
+    )
   }
 
   py_arg_names <- names(formals(py_lib$TabPFNClassifier))
