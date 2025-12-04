@@ -42,8 +42,9 @@ where `level` is the levels of the outcome factor vector.
 ## Examples
 
 ``` r
-car_train <- mtcars[ 1:20,   ]
-car_test  <- mtcars[21:32, -1]
+# Minimal example for quick execution
+car_train <- mtcars[ 1:5,   ]
+car_test  <- mtcars[10:15, -1]
 
 # Fit
 if (is_tab_pfn_installed() & interactive()) {
