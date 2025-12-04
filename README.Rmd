@@ -80,6 +80,7 @@ To fit a model:
 
 ```{r}
 #| label: mtcars
+set.seed(364)
 reg_mod <- tab_pfn(mtcars[1:25, -1], mtcars$mpg[1:25])
 reg_mod
 ```
@@ -108,6 +109,7 @@ two_cls_val   <- parabolic[401:500,]
 grid <- expand.grid(X1 = seq(-5.1, 5.0, length.out = 25), 
                     X2 = seq(-5.5, 4.0, length.out = 25))
 
+set.seed(3824)
 cls_mod <- tab_pfn(class ~ ., data = two_cls_train)
 
 grid_pred <- predict(cls_mod, grid)

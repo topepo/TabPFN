@@ -129,7 +129,10 @@ sample_indicies <- function(molded, size_limit = 10000) {
 #' Attempts to import the Python package
 #' @return A single logical
 #' @examples
-#' is_tab_pfn_installed()
+#' if (interactive()) {
+#'  # This may take a minute
+#'  is_tab_pfn_installed()
+#' }
 #' @export
 is_tab_pfn_installed <- function() {
   res <- try(reticulate::import("tabpfn"), silent = TRUE)

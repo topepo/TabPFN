@@ -69,7 +69,7 @@
 #' parameters required an API key. Without one, an error occurs:
 #'
 #' "This model is gated and requires you to accept its terms.  Please
-#' follow these steps: 1. Visit https://huggingface.co/Prior-Labs/tabpfn_2_5
+#' follow these steps: 1. Visit [https://huggingface.co/Prior-Labs/tabpfn_2_5](https://huggingface.co/Prior-Labs/tabpfn_2_5)
 #' in your browser and accept the terms of use. 2. Log in to your Hugging Face
 #' account via the command line by running: hf auth login (Alternatively, you
 #' can set the HF_TOKEN environment variable with a read token)."
@@ -228,7 +228,7 @@
 #'
 #'  # Recipes interface
 #'  if (rlang::is_installed("recipes")) {
-#'   library(recipes)
+#'   suppressPackageStartupMessages(library(recipes))
 #'   rec <-
 #'    recipe(mpg ~ ., mtcars) %>%
 #'    step_log(disp)

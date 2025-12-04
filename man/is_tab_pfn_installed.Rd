@@ -13,5 +13,8 @@ A single logical
 Attempts to import the Python package
 }
 \examples{
-is_tab_pfn_installed()
+if (interactive()) {
+ # This may take a minute
+ is_tab_pfn_installed()
+}
 }
