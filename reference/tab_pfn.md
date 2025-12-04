@@ -301,6 +301,11 @@ Müller, Samuel, Noah Hollmann, Sebastian Pineda Arango, Josif Grabocka,
 and Frank Hutter. "Transformers can do Bayesian inference." *arXiv
 preprint* arXiv:2112.10510 (2021).
 
+## See also
+
+[`control_tab_pfn()`](https://tabpfn.tidymodels.org/reference/control_tab_pfn.md),
+[`predict.tab_pfn()`](https://tabpfn.tidymodels.org/reference/predict.tab_pfn.md)
+
 ## Examples
 
 ``` r
