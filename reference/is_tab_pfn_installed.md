@@ -15,6 +15,8 @@ A single logical
 ## Examples
 
 ``` r
-is_tab_pfn_installed()
-#> [1] TRUE
+if (interactive()) {
+ # This may take a minute
+ is_tab_pfn_installed()
+}
 ```

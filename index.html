@@ -105,7 +105,8 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tabpfn.tidymodels.org">tabpfn</a></span><span class="op">)</span></span></code></pre></div>
 <p>To fit a model:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reg_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tab_pfn.html">tab_pfn</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">364</span><span class="op">)</span></span>
+<span><span class="va">reg_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tab_pfn.html">tab_pfn</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">reg_mod</span></span>
 <span><span class="co">#&gt; TabPFN Regression Model</span></span>
 <span><span class="co">#&gt; Training set</span></span>
@@ -118,13 +119,13 @@
 <span><span class="co">#&gt; # A tibble: 7 × 1</span></span>
 <span><span class="co">#&gt;   .pred</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1  29.9</span></span>
-<span><span class="co">#&gt; 2  25.5</span></span>
-<span><span class="co">#&gt; 3  25.2</span></span>
-<span><span class="co">#&gt; 4  15.8</span></span>
-<span><span class="co">#&gt; 5  18.8</span></span>
-<span><span class="co">#&gt; 6  14.5</span></span>
-<span><span class="co">#&gt; 7  23.7</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  29.8</span></span>
+<span><span class="co">#&gt; 2  25.6</span></span>
+<span><span class="co">#&gt; 3  26.2</span></span>
+<span><span class="co">#&gt; 4  16.5</span></span>
+<span><span class="co">#&gt; 5  19.4</span></span>
+<span><span class="co">#&gt; 6  14.7</span></span>
+<span><span class="co">#&gt; 7  23.6</span></span></code></pre></div>
 <p>tabpfn follows the tidymodels prediction convention: a data frame is always returned with a standard set of column names.</p>
 <p>For a classification model, the outcome should always be a factor vector. For example, using these data from the modeldata package:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -141,6 +142,7 @@
 <span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>X1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5.1</span>, <span class="fl">5.0</span>, length.out <span class="op">=</span> <span class="fl">25</span><span class="op">)</span>, </span>
 <span>                    X2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5.5</span>, <span class="fl">4.0</span>, length.out <span class="op">=</span> <span class="fl">25</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">3824</span><span class="op">)</span></span>
 <span><span class="va">cls_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tab_pfn.html">tab_pfn</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_cls_train</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">grid_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">cls_mod</span>, <span class="va">grid</span><span class="op">)</span></span>
@@ -148,16 +150,16 @@
 <span><span class="co">#&gt; # A tibble: 625 × 3</span></span>
 <span><span class="co">#&gt;    .pred_Class1 .pred_Class2 .pred_class</span></span>
 <span><span class="co">#&gt;           &lt;dbl&gt;        &lt;dbl&gt; &lt;fct&gt;      </span></span>
-<span><span class="co">#&gt;  1        0.987      0.0129  Class1     </span></span>
-<span><span class="co">#&gt;  2        0.991      0.00920 Class1     </span></span>
-<span><span class="co">#&gt;  3        0.994      0.00633 Class1     </span></span>
-<span><span class="co">#&gt;  4        0.994      0.00609 Class1     </span></span>
-<span><span class="co">#&gt;  5        0.991      0.00879 Class1     </span></span>
-<span><span class="co">#&gt;  6        0.986      0.0144  Class1     </span></span>
-<span><span class="co">#&gt;  7        0.970      0.0304  Class1     </span></span>
-<span><span class="co">#&gt;  8        0.927      0.0733  Class1     </span></span>
-<span><span class="co">#&gt;  9        0.813      0.187   Class1     </span></span>
-<span><span class="co">#&gt; 10        0.538      0.462   Class1     </span></span>
+<span><span class="co">#&gt;  1        0.988      0.0122  Class1     </span></span>
+<span><span class="co">#&gt;  2        0.992      0.00823 Class1     </span></span>
+<span><span class="co">#&gt;  3        0.993      0.00721 Class1     </span></span>
+<span><span class="co">#&gt;  4        0.993      0.00714 Class1     </span></span>
+<span><span class="co">#&gt;  5        0.991      0.00944 Class1     </span></span>
+<span><span class="co">#&gt;  6        0.982      0.0175  Class1     </span></span>
+<span><span class="co">#&gt;  7        0.965      0.0347  Class1     </span></span>
+<span><span class="co">#&gt;  8        0.922      0.0775  Class1     </span></span>
+<span><span class="co">#&gt;  9        0.799      0.201   Class1     </span></span>
+<span><span class="co">#&gt; 10        0.554      0.446   Class1     </span></span>
 <span><span class="co">#&gt; # ℹ 615 more rows</span></span></code></pre></div>
 <p>The fit looks fairly good when shown with out-of-sample data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">

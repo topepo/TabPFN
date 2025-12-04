@@ -175,7 +175,7 @@ contained several improvements. One other change is that accessing the
 model parameters required an API key. Without one, an error occurs:
 
 "This model is gated and requires you to accept its terms. Please follow
-these steps: 1. Visit https://huggingface.co/Prior-Labs/tabpfn_2_5 in
+these steps: 1. Visit <https://huggingface.co/Prior-Labs/tabpfn_2_5> in
 your browser and accept the terms of use. 2. Log in to your Hugging Face
 account via the command line by running: hf auth login (Alternatively,
 you can set the HF_TOKEN environment variable with a read token)."
@@ -316,7 +316,7 @@ if (is_tab_pfn_installed()) {
 
  # Recipes interface
  if (rlang::is_installed("recipes")) {
-  library(recipes)
+  suppressPackageStartupMessages(library(recipes))
   rec <-
    recipe(mpg ~ ., mtcars) %>%
    step_log(disp)
@@ -325,20 +325,6 @@ if (is_tab_pfn_installed()) {
   mod3
  }
 }
-#> Loading required package: dplyr
-#> 
-#> Attaching package: ‘dplyr’
-#> The following objects are masked from ‘package:stats’:
-#> 
-#>     filter, lag
-#> The following objects are masked from ‘package:base’:
-#> 
-#>     intersect, setdiff, setequal, union
-#> 
-#> Attaching package: ‘recipes’
-#> The following object is masked from ‘package:stats’:
-#> 
-#>     step
 #> TabPFN Regression Model
 #> 
 #> Training set

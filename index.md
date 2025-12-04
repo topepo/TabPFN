@@ -65,6 +65,7 @@ library(tabpfn)
 To fit a model:
 
 ``` r
+set.seed(364)
 reg_mod <- tab_pfn(mtcars[1:25, -1], mtcars$mpg[1:25])
 reg_mod
 #> TabPFN Regression Model
@@ -84,13 +85,13 @@ predict(reg_mod, mtcars[26:32, -1])
 #> # A tibble: 7 × 1
 #>   .pred
 #>   <dbl>
-#> 1  29.9
-#> 2  25.5
-#> 3  25.2
-#> 4  15.8
-#> 5  18.8
-#> 6  14.5
-#> 7  23.7
+#> 1  29.8
+#> 2  25.6
+#> 3  26.2
+#> 4  16.5
+#> 5  19.4
+#> 6  14.7
+#> 7  23.6
 ```
 
 tabpfn follows the tidymodels prediction convention: a data frame is
@@ -113,6 +114,7 @@ two_cls_val   <- parabolic[401:500,]
 grid <- expand.grid(X1 = seq(-5.1, 5.0, length.out = 25), 
                     X2 = seq(-5.5, 4.0, length.out = 25))
 
+set.seed(3824)
 cls_mod <- tab_pfn(class ~ ., data = two_cls_train)
 
 grid_pred <- predict(cls_mod, grid)
@@ -120,16 +122,16 @@ grid_pred
 #> # A tibble: 625 × 3
 #>    .pred_Class1 .pred_Class2 .pred_class
 #>           <dbl>        <dbl> <fct>      
-#>  1        0.987      0.0129  Class1     
-#>  2        0.991      0.00920 Class1     
-#>  3        0.994      0.00633 Class1     
-#>  4        0.994      0.00609 Class1     
-#>  5        0.991      0.00879 Class1     
-#>  6        0.986      0.0144  Class1     
-#>  7        0.970      0.0304  Class1     
-#>  8        0.927      0.0733  Class1     
-#>  9        0.813      0.187   Class1     
-#> 10        0.538      0.462   Class1     
+#>  1        0.988      0.0122  Class1     
+#>  2        0.992      0.00823 Class1     
+#>  3        0.993      0.00721 Class1     
+#>  4        0.993      0.00714 Class1     
+#>  5        0.991      0.00944 Class1     
+#>  6        0.982      0.0175  Class1     
+#>  7        0.965      0.0347  Class1     
+#>  8        0.922      0.0775  Class1     
+#>  9        0.799      0.201   Class1     
+#> 10        0.554      0.446   Class1     
 #> # ℹ 615 more rows
 ```
 

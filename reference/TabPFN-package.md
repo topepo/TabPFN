@@ -18,5 +18,10 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Max Kuhn <mxkuhn@gmail.com>
+**Maintainer**: Max Kuhn <max@posit.co>
 ([ORCID](https://orcid.org/0000-0003-2402-136X))
+
+Other contributors:
+
+- Posit Software, PBC ([ROR](https://ror.org/03wc8by49)) \[copyright
+  holder, funder\]
