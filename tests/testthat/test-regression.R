@@ -1,5 +1,5 @@
 test_that('regression models', {
-  skip_if(!run_tests())
+  skip_if(!is_tab_pfn_installed())
   skip_on_cran()
 
   pred_ptype <- tibble::tibble(.pred = numeric(0))
@@ -60,7 +60,7 @@ test_that('regression models', {
 })
 
 test_that('reproducible results', {
-  skip_if(!run_tests())
+  skip_if(!is_tab_pfn_installed())
   skip_on_cran()
 
   set.seed(166)
@@ -88,7 +88,7 @@ test_that('reproducible results', {
 
 
 test_that('regression models - recipes', {
-  skip_if(!run_tests())
+  skip_if(!is_tab_pfn_installed())
   skip_on_cran()
   skip_if_not_installed("modeldata")
   skip_if_not_installed("recipes")

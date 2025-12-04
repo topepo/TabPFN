@@ -220,7 +220,7 @@
 #' predictors <- mtcars[, -1]
 #' outcome <- mtcars[, 1]
 #'
-#' if (is_tab_pfn_installed()) {
+#' if (is_tab_pfn_installed() & interactive()) {
 #'  # XY interface
 #'  mod <- tab_pfn(predictors, outcome)
 #'

@@ -1,5 +1,5 @@
 test_that('classification models', {
-  skip_if(!run_tests())
+  skip_if(!is_tab_pfn_installed())
   skip_on_cran()
   skip_if_not_installed("modeldata")
 
@@ -70,7 +70,7 @@ test_that('classification models', {
 })
 
 test_that('classification models - recipes', {
-  skip_if(!run_tests())
+  skip_if(!is_tab_pfn_installed())
   skip_on_cran()
   skip_if_not_installed("modeldata")
   skip_if_not_installed("recipes")
@@ -113,7 +113,7 @@ test_that('classification models - recipes', {
 })
 
 test_that('main options', {
-  skip_if(!run_tests())
+  skip_if(!is_tab_pfn_installed())
   skip_on_cran()
   set.seed(956)
   expect_snapshot_error(
