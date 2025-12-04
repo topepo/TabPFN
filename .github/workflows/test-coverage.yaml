@@ -43,6 +43,17 @@ jobs:
           ))
           python <- reticulate::virtualenv_python("r-reticulate")
 
+      - name: Test coverage
+        run: |
+          cov <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          print(cov)
+          covr::to_cobertura(cov)
+        shell: Rscript {0}
+
       - uses: codecov/codecov-action@v4
         with:
           # Fail if error if not on PR, or if on PR and token is given
