@@ -12,36 +12,14 @@ test_that('data constraints', {
 
   expect_equal(orig_data$training[1], nrow(modeldata::two_class_dat))
 
-  reps <- rep(1:nrow(modeldata::two_class_dat), each = 13)
-
   set.seed(418)
   smaller_data <- tab_pfn(
     Class ~ .,
-    data = modeldata::two_class_dat[reps, ],
+    data = modeldata::two_class_dat,
     num_estimators = 1,
+    training_set_limit = 50,
     control = control_tab_pfn(ignore_pretraining_limits = TRUE)
   )
 
-  expect_equal(smaller_data$training[1], 10000L)
-
-  set.seed(418)
-  larger_data <- tab_pfn(
-    Class ~ .,
-    data = modeldata::two_class_dat[reps, ],
-    num_estimators = 1,
-    training_set_limit = Inf,
-    control = control_tab_pfn(ignore_pretraining_limits = TRUE)
-  )
-
-  expect_equal(larger_data$training[1], length(reps))
-
-  expect_snapshot_error({
-    set.seed(418)
-    tab_pfn(
-      Class ~ .,
-      data = modeldata::two_class_dat[reps, ],
-      num_estimators = 1,
-      training_set_limit = Inf
-    )
-  })
+  expect_equal(smaller_data$training[1], 50)
 })

@@ -32,11 +32,13 @@ check_libomp <- function() {
   invisible(NULL)
 }
 
-check_data_constraints <- function(x, y, control) {
-  row_limits <- 10000
-  col_limits <- 500
-  cls_limits <- 10
+# ------------------------------------------------------------------------------
 
+row_limits <- 50000
+col_limits <- 2000
+cls_limits <- 10
+
+check_data_constraints <- function(x, y, control) {
   lvls <- levels(y)
 
   x_dims <- dim(x)
@@ -79,7 +81,7 @@ check_data_constraints <- function(x, y, control) {
 
 # Sampling down the data for data constraints
 
-sample_indicies <- function(molded, size_limit = 10000) {
+sample_indicies <- function(molded, size_limit = row_limits) {
   num_rows <- nrow(molded$outcomes)
   if (num_rows <= size_limit) {
     return(integer(0))

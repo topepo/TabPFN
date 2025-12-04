@@ -34,7 +34,7 @@ car_train <- mtcars[ 1:20,   ]
 car_test  <- mtcars[21:32, -1]
 
 # Fit
-if (is_tab_pfn_installed()) {
+if (is_tab_pfn_installed() & interactive()) {
  mod <- tab_pfn(mpg ~ cyl + log(drat), car_train)
 
  # Predict

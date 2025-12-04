@@ -215,6 +215,7 @@
 #' Frank Hutter. "Transformers can do Bayesian inference." _arXiv preprint_
 #' arXiv:2112.10510 (2021).
 #'
+#' @seealso [control_tab_pfn()], [predict.tab_pfn()]
 #' @examples
 #' predictors <- mtcars[, -1]
 #' outcome <- mtcars[, 1]
