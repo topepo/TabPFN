@@ -312,7 +312,7 @@ preprint* arXiv:2112.10510 (2021).
 predictors <- mtcars[, -1]
 outcome <- mtcars[, 1]
 
-if (is_tab_pfn_installed()) {
+if (is_tab_pfn_installed() & interactive()) {
  # XY interface
  mod <- tab_pfn(predictors, outcome)
 
@@ -330,9 +330,4 @@ if (is_tab_pfn_installed()) {
   mod3
  }
 }
-#> TabPFN Regression Model
-#> 
-#> Training set
-#> ℹ 32 data points
-#> ℹ 10 predictors
 ```
